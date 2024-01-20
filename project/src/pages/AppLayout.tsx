@@ -19,6 +19,9 @@ import Home from './Home';
 import AllFriends from './AllFriends';
 import Config from './Config';
 import { useNavigate, Link } from 'react-router-dom';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import PeopleIcon from '@mui/icons-material/People';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 const drawerWidth = 240;
 
@@ -50,29 +53,32 @@ export default function AppLayout(props: Props) {
       name: 'My Timetable',
       component: <MyTimetable />,
       path: '/timetable',
+      icon: <CalendarTodayIcon />
     },
     {
       name: 'Friends\' timetables',
       component: <AllFriends />,
       path: '/friends',
+      icon: <PeopleIcon />
     },
     {
       name: 'Configurations',
       component: <Config />,
       path: '/config',
+      icon: <SettingsIcon />
     }
   ]
 
   const drawer = (
-    <div>
-      <Toolbar />
+    <>
       <Divider />
-      <List>
+      <List sx={{marginY: 10}}>
         {pages.map((page) => (
-            <ListItem key={page.name} disablePadding>
+            <ListItem key={page.name} disablePadding sx={{marginY: 3}}>
               <Link to={page.path} style={{ textDecoration: 'none', color: 'inherit' }}>
               <ListItemButton>
                 <ListItemIcon>
+                    {page.icon}
                 </ListItemIcon>
               <ListItemText primary={page.name} />
             </ListItemButton>
@@ -80,9 +86,7 @@ export default function AppLayout(props: Props) {
           </ListItem>
         ))}
       </List>
-      <Divider />
-      
-    </div>
+    </>
   );
 
   // Remove this const when copying and pasting into your project.
@@ -91,7 +95,7 @@ export default function AppLayout(props: Props) {
   return (
     <Box >
       <Header />
-      <Box sx={{ display: 'flex' }}>
+      <Box sx={{ display: 'flex' }} marginTop={10}>
         <Box
           component="nav"
           sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 }, height: '90vh', overflow: 'auto', zIndex:0 }}
@@ -119,7 +123,7 @@ export default function AppLayout(props: Props) {
             variant="permanent"
             sx={{
               display: { xs: 'none', sm: 'block' },
-              '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+              '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, border: 'none' },
             }}
             open
           >

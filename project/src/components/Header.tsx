@@ -8,15 +8,11 @@ import logoModMatch from '../assets/modmatch-logo.png';
 
 export default function Header() {
   return (
-    <AppBar position="static" sx={{ flexDirection: 'row', alignItems: 'flex-start', background: "#fff", width: '100%' }}>
-      <Toolbar sx={{ zIndex: 2 }}>
-        <Box
-          component="img"
-          sx={{ height: 50, width: "100%" }}
-          mb={2}
-          alt="ModMatch logo"
-          src={logoModMatch}
-        />
+    <AppBar sx={{ flexDirection: 'row', alignItems: 'center', background: "#fff", width: '100%', }}>
+      <Toolbar sx={{ zIndex: 2, justifyContent: 'center', alignItems: 'center'}}>
+        <Box sx={{display: 'flex', alignItems: 'auto'}}>
+          <img src={logoModMatch} alt="ModMatch logo" style={{ height: 50, width: 'auto' }}/>
+        </Box>
       </Toolbar>
     </AppBar>
   );
