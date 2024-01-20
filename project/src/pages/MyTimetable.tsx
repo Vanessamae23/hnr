@@ -18,6 +18,8 @@ import { formatISODateToAMPM } from "../utils/utils";
 import { linkToClasses } from "../utils/utils";
 import TimeTable from "../components/Timetable";
 import {Class} from "../types/types";
+import { getClassesDatabase, getCurrentUser, writeClass } from "../backend/commands";
+import { User } from "firebase/auth";
 
 const MyTimetable = () => {
   const [person, setPerson] = useLocalStorage<LocalStorage_Me>(
@@ -29,8 +31,35 @@ const MyTimetable = () => {
     setPerson(updatedPerson);
   }
 
+  const [user, setUser] = React.useState<User | null>(null)
   const [linkForm, setLinkForm] = React.useState(person.link)
   const [link, setLink] = React.useState(person.link)
+  
+  React.useEffect(() => {
+    getCurrentUser().then((res) => {
+      setUser(res)
+      retrieve()
+    })
+    
+  }, [person])
+
+
+  const save = () => {
+    writeClass(person.classes).then((res) => {
+      alert(res)
+    })
+  }
+
+  const retrieve = () => {
+    getClassesDatabase().then((res) => {
+      if(res) {
+        setLinkForm("")
+        person.classes = res
+        setPerson(person)
+      }
+      
+    })
+  }
 
   const find = (linkForm) => {
     setLink(linkForm);
@@ -38,6 +67,8 @@ const MyTimetable = () => {
     person.classes = linkToClasses(linkForm);
     setPerson(person);
   };
+
+  
 
   const handleAddBlockOut = (blockOut: {
     day: string;
@@ -82,7 +113,17 @@ const MyTimetable = () => {
           <CustomButton
             label="Import"
             onClick={() => find(linkForm)}
-            disabled={linkForm === link}
+            //disabled={linkForm === link}
+          />
+          <CustomButton
+            label="Save"
+            onClick={() => save()}
+            disabled={user === null || link === null}
+          />
+          <CustomButton
+            label="Retrieve"
+            onClick={() => retrieve()}
+            disabled={user === null }
           />
         </Box>
         <TimeTable classes={person.classes} setClasses={setClasses} name={""}/>
@@ -96,8 +137,8 @@ const MyTimetable = () => {
                   secondary={
                     blockout.startTime && blockout.endTime
                       ? formatISODateToAMPM(blockout.startTime) +
-                        " - " +
-                        formatISODateToAMPM(blockout.endTime)
+                      " - " +
+                      formatISODateToAMPM(blockout.endTime)
                       : ""
                   }
                 />
