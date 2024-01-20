@@ -174,10 +174,44 @@ function collectAllBlockouts(
   const blockouts = {};
 
   friendsLoc.forEach((person) => {
-    blockouts[person.name] = person.blockout;
+    blockouts[person.name] = person.blockout.map((blockout) => ({
+      ...blockout,
+      startTime: new Date(blockout.startTime)
+        .toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        })
+        .replace(/\s|:/g, ""),
+      endTime: new Date(blockout.endTime)
+        .toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        })
+        .replace(/\s|:/g, ""),
+    }));
   });
 
-  blockouts["me"] = meLoc.blockout;
+  blockouts["me"] = meLoc.blockout.map((blockout) => ({
+    ...blockout,
+    startTime: new Date(blockout.startTime)
+      .toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      })
+      .replace(/\s|:/g, ""),
+    endTime: new Date(blockout.endTime)
+      .toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      })
+      .replace(/\s|:/g, ""),
+  }));
+
+  console.log(blockouts);
   return blockouts;
 }
 
@@ -205,7 +239,6 @@ export const localStorageToModels = (
   generatedTimetable: GeneratedTimetable,
   setGeneratedTimetable: (GeneratedTimetable) => void
 ) => {
-  console.log(generatedTimetable);
   const nameTitleMapping = convertToNameTitleMapping(friendsLoc, meLoc);
   const classesWithFriends = collectClassesWithFriends(classes);
   const combinedBlockouts = collectAllBlockouts(meLoc, friendsLoc);
