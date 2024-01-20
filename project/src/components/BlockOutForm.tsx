@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import {
-  TextField,
-  Button,
   Box,
   Select,
   MenuItem,
@@ -22,18 +20,18 @@ const BlockOutForm: React.FC<{
 }> = ({ onBlockOut }) => {
   const [day, setDay] = useState("");
   const [startTime, setStartTime] = React.useState<Dayjs | null>(
-    dayjs("2022-04-17T15:30")
+    null
   );
   const [endTime, setEndTime] = React.useState<Dayjs | null>(
-    dayjs("2022-04-17T15:30")
+    null
   );
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     onBlockOut({
       day,
-      startTime: startTime ? startTime.toISOString() : "",
-      endTime: endTime ? endTime.toISOString() : "",
+      startTime: startTime!.toISOString(),
+      endTime: endTime!.toISOString()
     });
     setDay("");
     setStartTime(null);
@@ -89,7 +87,7 @@ const BlockOutForm: React.FC<{
           />
         </LocalizationProvider>
 
-        <CustomButton onClick={undefined} label="Add" />
+        <CustomButton onClick={undefined} label="Add" disabled={day === "" || startTime === null || endTime === null} />
       </Box>
     </Box>
   );
