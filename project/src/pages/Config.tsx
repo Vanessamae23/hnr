@@ -1,7 +1,7 @@
 import React from "react";
 import ClassForm from "../components/ClassForm";
 import ClassList from "../components/ClassList";
-import { Button } from "@mui/material";
+import { Button, Box } from "@mui/material";
 import useLocalStorage from "../helpers/useLocalStorage";
 
 interface ClassItem {
@@ -11,13 +11,9 @@ interface ClassItem {
 }
 
 function Config() {
-  const [classes, setClasses] = useLocalStorage<ClassItem[]>("classes", []); // Using the custom hook
+  const [classes, setClasses] = useLocalStorage<ClassItem[]>("classes", []);
 
-  const handleAddClass = (newClass: {
-    id: string;
-    moduleName: string;
-    classType: string;
-  }) => {
+  const handleAddClass = (newClass: ClassItem) => {
     setClasses([...classes, newClass]);
   };
 
@@ -26,32 +22,41 @@ function Config() {
   };
 
   return (
-    <div>
-      <div className="flex space-x-2 mb-4">
-        <span className="text-2xl font-bold mb-4">Classes to Match</span>
-
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
+    <Box sx={{ width: "100%", maxWidth: 1200, mx: "auto", my: 4 }}>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", md: "row" },
+            justifyContent: "space-between",
+            alignItems: "start",
+            gap: 2,
+          }}
+        >
+          <Box sx={{ typography: "h4", fontWeight: "bold" }}>
+            Classes to Match
+          </Box>
           <ClassForm onAddClass={handleAddClass} />
-        </div>
+        </Box>
 
         <ClassList classes={classes} onDelete={handleDeleteClass} />
 
-        <div className="flex justify-end space-x-2">
+        <Box sx={{ display: "flex", justifyContent: "end", gap: 2, mt: 4 }}>
           <Button
             variant="outlined"
-            className="text-black border border-gray-300 hover:bg-gray-100"
+            sx={{ borderColor: "grey.300", "&:hover": { bgcolor: "grey.100" } }}
           >
             Back
           </Button>
           <Button
             variant="contained"
-            className="bg-orange-500 hover:bg-orange-700 text-white"
+            sx={{ bgcolor: "orange.500", "&:hover": { bgcolor: "orange.700" } }}
           >
             Match!
           </Button>
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   );
 }
 
