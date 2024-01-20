@@ -1,8 +1,9 @@
 import { N_DAYS, N_TIME_BLOCKS } from "../constants/constants";
 import { Availabilities, Availability, Blockouts, CandidateLessons, CandidateModules, CandidateTimetables, Grouping, Lessons, Modules, TimetableInputs, Timetables, UnlockedModules, UnlockedTimetables } from "../types/types";
 import { getAllClassNos, getAllClasses, getClasses, getLessonTypes } from "../utils/data";
+import { parseLink } from "../utils/links";
 
-export const findValidTimetables = (timetableInputs: TimetableInputs, groupings: Grouping[], blockouts: Blockouts, iteration: number = 0) => {
+export const findValidTimetables = (timetableInputs: TimetableInputs, groupings: Grouping[], blockouts: Blockouts, iterations: number = 0) => {
   // Step 1: Separate locked and unlocked classes
   const [lockedTimetables, unlockedTimetables] = processData(timetableInputs, groupings);
 
@@ -16,7 +17,9 @@ export const findValidTimetables = (timetableInputs: TimetableInputs, groupings:
   filterCandidateTimetables(candidateTimetables, groupings);
 
   // Step 5: Depth-first search on all possible candidate class combinations
-  const timetables = searchCandidateTimetables(candidateTimetables, availabilities, groupings, {}, Object.keys(candidateTimetables), 0, 0, 0, iteration);
+  const persons = Object.keys(candidateTimetables).sort((a, b) => a.localeCompare(b));
+
+  const timetables = searchCandidateTimetables(candidateTimetables, availabilities, groupings, {}, persons, 0, iterations);
   if (timetables === null) {
     return {};
   }
@@ -182,9 +185,8 @@ const filterCandidateTimetables = (candidateTimetables: CandidateTimetables, gro
   }
 }
 
-// TODO: optimise by using only one instance of modules array and lesson types array
 // TODO: prune when reaching a grouping-related class
-const searchCandidateTimetables = (candidateTimetables: CandidateTimetables, availabilities: Availabilities, groupings: Grouping[], timetables: Timetables, persons: string[], personIndex: number, moduleCodeIndex: number, lessonTypeIndex: number, iteration: number, count: number[] = [0]): Timetables | null => {
+function searchCandidateTimetables(candidateTimetables: CandidateTimetables, availabilities: Availabilities, groupings: Grouping[], timetables: Timetables, persons: string[], personIndex: number = 0, iteration = 0, count = [0]): Timetables | null {
   if (personIndex >= persons.length) {
     if (validateTimetables(timetables, availabilities, groupings)) {
       if (count[0] < iteration) {
@@ -192,40 +194,33 @@ const searchCandidateTimetables = (candidateTimetables: CandidateTimetables, ava
         return null;
       }
       return timetables;
+    } else {
+      return null;
     }
-    return null;
   }
   const person = persons[personIndex];
-  const candidateTimetable = candidateTimetables[person]
-  const moduleCodes = Object.keys(candidateTimetable).sort((a, b) => a.localeCompare(b));
+  const candidateModules = candidateTimetables[person];
   if (!Object.keys(timetables).includes(person)) {
     timetables[person] = {};
   }
   const modules: Modules = timetables[person];
-  if (moduleCodeIndex >= moduleCodes.length) {
-    return searchCandidateTimetables(candidateTimetables, availabilities, groupings, timetables, persons, personIndex + 1, 0, 0, iteration, count);
-  }
-  const moduleCode = moduleCodes[moduleCodeIndex];
-  const candidateLessons = candidateTimetable[moduleCode];
-  if (!Object.keys(modules).includes(moduleCode)) {
-    modules[moduleCode] = {};
-  }
-  const lessons = modules[moduleCode];
-  const lessonTypes = Object.keys(candidateLessons).sort((a, b) => a.localeCompare(b));
-  if (lessonTypeIndex >= lessonTypes.length) {
-    return searchCandidateTimetables(candidateTimetables, availabilities, groupings, timetables, persons, personIndex, moduleCodeIndex + 1, 0, iteration, count);
-  }
-  for (const [lessonType, candidateClasses] of Object.entries(candidateLessons)) {
-    for (const candidateClass of candidateClasses) {
-      lessons[lessonType] = candidateClass;
-      const result = searchCandidateTimetables(candidateTimetables, availabilities, groupings, timetables, persons, personIndex, moduleCodeIndex, lessonTypeIndex + 1, iteration, count);
-      if (result !== null) {
-        return result;
+  for (const [moduleCode, candidateLessons] of Object.entries(candidateModules)) {
+    if (!Object.keys(modules).includes(moduleCode)) {
+      modules[moduleCode] = {};
+    }
+    const lessons: Lessons = modules[moduleCode];
+    for (const [lessonType, candidateClasses] of Object.entries(candidateLessons)) {
+      for (const candidateClass of candidateClasses) {
+        lessons[lessonType] = candidateClass;
+        const result = searchCandidateTimetables(candidateTimetables, availabilities, groupings, timetables, persons, personIndex + 1, iteration, count);
+        if (result !== null) {
+          return result;
+        }
+        delete lessons[lessonType];
       }
-      delete lessons[lessonType];
     }
   }
-  return timetables;
+  return null;
 }
 
 const validateTimetables = (timetables: Timetables, availabilities: Availabilities, groupings: Grouping[]): boolean => {
