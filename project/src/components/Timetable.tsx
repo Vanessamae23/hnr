@@ -15,7 +15,8 @@ const epg = [
     title: "CS3223",
     channelUuid: "0",
     locked: false,
-    description: "Database Implementation"
+    description: "Database Implementation",
+    image: "https://via.placeholder.com/150"
   },
   {
     id: "1",
@@ -24,7 +25,8 @@ const epg = [
     title: "CS3223",
     channelUuid: "1",
     locked: false,
-    description: "Database Implementation"
+    description: "Database Implementation",
+    image: "https://via.placeholder.com/150"
   },
   {
     id: "2",
@@ -33,7 +35,8 @@ const epg = [
     title: "CS3223",
     channelUuid: "2",
     locked: false,
-    description: "Database Implementation"
+    description: "Database Implementation",
+    image: "https://via.placeholder.com/150"
   },
   {
     id: "3",
@@ -41,6 +44,7 @@ const epg = [
     till: "2024-01-20T11:00:00",
     title: "CS3233",
     channelUuid: "2",
+  image: "https://via.placeholder.com/150",
     locked: false,
     description: "Hard module"
   },

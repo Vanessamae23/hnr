@@ -8,13 +8,10 @@ import {
   FormControl,
   Box,
 } from "@mui/material";
+import { Group } from "../types/types";
 
 const ClassForm: React.FC<{
-  onAddClass: (newClass: {
-    id: string;
-    moduleName: string;
-    classType: string;
-  }) => void;
+  onAddClass: (newClass: Group) => void;
 }> = ({ onAddClass }) => {
   const [moduleCode, setModuleCode] = useState("");
   const [classType, setClassType] = useState("");
@@ -22,7 +19,7 @@ const ClassForm: React.FC<{
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const id = Date.now().toString();
-    onAddClass({ id, moduleName: moduleCode, classType });
+    onAddClass({ id, moduleCode: moduleCode, lessonType: classType, persons: []});
     setModuleCode("");
     setClassType("");
   };
@@ -40,12 +37,13 @@ const ClassForm: React.FC<{
         onChange={(e) => setModuleCode(e.target.value)}
         sx={{ flexGrow: 1 }}
       />
-      <FormControl sx={{ flexGrow: 1, width: 200 }} variant="outlined">
+      <FormControl sx={{ flexGrow: 1 }} variant="outlined">
         <InputLabel>Select Class Type</InputLabel>
         <Select
           value={classType}
           onChange={(e) => setClassType(e.target.value as string)}
           label="Select Class Type"
+          style={{ width: "200px" }} // Add this line to set a fixed width
         >
           <MenuItem value="Lecture">Lecture</MenuItem>
           <MenuItem value="Tutorial">Tutorial</MenuItem>

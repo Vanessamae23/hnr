@@ -1,25 +1,27 @@
 import React from "react";
 import ClassItem from "./ClassItem";
+import { Group } from "../types/types";
 
 interface ClassListProps {
-  classes: Array<{
-    id: string;
-    moduleName: string;
-    classType: string;
-  }>;
+  friendNames: string[];
+  classes: Array<Group>;
   onDelete: (id: string) => void;
+  handleEditFriends: (id: string, friends: string[]) => void;
 }
 
-const ClassList: React.FC<ClassListProps> = ({ classes, onDelete }) => {
+const ClassList: React.FC<ClassListProps> = ({ friendNames, classes, onDelete, handleEditFriends }) => {
   return (
     <div>
       {classes.map((classInfo) => (
         <ClassItem
           key={classInfo.id}
           id={classInfo.id}
-          moduleName={classInfo.moduleName}
-          classType={classInfo.classType}
+          moduleName={classInfo.moduleCode}
+          classType={classInfo.lessonType}
           onDelete={onDelete}
+          friendNames={friendNames}
+          handleEditFriends={handleEditFriends}
+          friends={classInfo.persons}
         />
       ))}
     </div>
