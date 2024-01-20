@@ -10,10 +10,12 @@ import { classesToPrograms, modulestoClasses } from "../utils/data";
 import { linkToClasses } from "../utils/utils";
 import { Person } from "../types/types";
 
-
-const FriendTimetable = ({link, name, person}) => {
-    console.log(classesToPrograms(person.classes))
-  const { isLoading, getEpgProps, getLayoutProps, toggleLock } = useFriendApp(classesToPrograms(person.classes), name);
+const FriendTimetable = ({ link, name, person }) => {
+  console.log(classesToPrograms(person.classes));
+  const { isLoading, getEpgProps, getLayoutProps, toggleLock } = useFriendApp(
+    classesToPrograms(person.classes),
+    name
+  );
   return (
     <div style={{ height: "80vh", width: "100%" }}>
       <Epg isLoading={isLoading} {...getEpgProps()}>
@@ -23,10 +25,9 @@ const FriendTimetable = ({link, name, person}) => {
           renderProgram={({ program, ...rest }) => {
             return (
               <div onClick={() => toggleLock(program.data.id)}>
-                <ModuleItem  key={program.data.id} program={program} {...rest} />
+                <ModuleItem key={program.data.id} program={program} {...rest} />
               </div>
-            )
-            
+            );
           }}
           renderChannel={({ channel }) => (
             <DayItem key={channel.uuid} channel={channel} />
@@ -34,7 +35,7 @@ const FriendTimetable = ({link, name, person}) => {
         />
       </Epg>
     </div>
-  )
-}
+  );
+};
 
-export default FriendTimetable
+export default FriendTimetable;
