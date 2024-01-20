@@ -72,16 +72,16 @@ export default function AppLayout(props: Props) {
   const drawer = (
     <>
       <Divider />
-      <List sx={{marginY: 10}}>
+      <List sx={{ marginY: 10 }}>
         {pages.map((page) => (
-            <ListItem key={page.name} disablePadding sx={{marginY: 3}}>
-              <Link to={page.path} style={{ textDecoration: 'none', color: 'inherit' }}>
+          <ListItem key={page.name} disablePadding sx={{ marginY: 3 }}>
+            <Link to={page.path} style={{ textDecoration: 'none', color: 'inherit' }}>
               <ListItemButton>
                 <ListItemIcon>
-                    {page.icon}
+                  {page.icon}
                 </ListItemIcon>
-              <ListItemText primary={page.name} />
-            </ListItemButton>
+                <ListItemText primary={page.name} />
+              </ListItemButton>
             </Link>
           </ListItem>
         ))}
@@ -98,7 +98,7 @@ export default function AppLayout(props: Props) {
       <Box sx={{ display: 'flex' }} marginTop={10}>
         <Box
           component="nav"
-          sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 }, height: '90vh', overflow: 'auto', zIndex:0 }}
+          sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 }, height: '90vh', overflow: 'auto', zIndex: 0 }}
           aria-label="mailbox folders"
         >
           {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
