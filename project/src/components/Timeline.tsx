@@ -34,7 +34,7 @@ import {
   
     const renderTime = (index: number) => (
       <TimelineBox key={index} width={hourWidth}>
-        <TimelineTime>
+        <TimelineTime style={{ fontSize: '0.6rem'}}>
           {formatTime(index + offsetStartHoursRange).toLowerCase()}
         </TimelineTime>
         <TimelineDividers>{renderDividers()}</TimelineDividers>

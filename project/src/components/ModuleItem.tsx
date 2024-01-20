@@ -26,15 +26,15 @@ import {
 
     return (
       <ProgramBox width={styles.width} style={styles.position}>
-        <ProgramContent width={styles.width} isLive={isLive}>
+        <ProgramContent style={{  padding: 6}} width={styles.width} isLive={isLive}>
           <ProgramFlex>
             <ProgramStack>
-              <ProgramTitle>{title}</ProgramTitle>
-              <ProgramText>
+              <ProgramTitle style={{ fontSize: '0.6rem'}}>{title}</ProgramTitle>
+              <ProgramText style={{ fontSize: '0.5rem'}}>
                 {sinceTime} - {tillTime}
               </ProgramText>
-              <p style={{ color: 'white'}}>
-                {locked ? "Click to unlock" : "Click to lock"}
+              <p style={{ color: 'white', fontSize: '0.6rem', marginTop: 5, marginBottom: 0}}>
+                {locked ? "Locked" : "Unlocked"}
               </p>
             </ProgramStack>
           </ProgramFlex>

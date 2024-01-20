@@ -23,9 +23,9 @@ export const DayItem = ({ channel }: ChannelItemProps) => {
       <ChannelLogo
         src={Icon}
         alt="Logo"
-        style={{ maxHeight: 52, maxWidth: 52 }}
+        style={{ maxHeight: 30, maxWidth: 30 }}
       />
-      <p style={{ fontSize: '0.8rem' }}>{numericToDayMap.get(channel.uuid)}</p>
+      <p style={{ fontSize: '0.6rem' }}>{numericToDayMap.get(channel.uuid)}</p>
     </ChannelBox>
   );
 };
