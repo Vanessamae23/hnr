@@ -17,9 +17,9 @@ import { LocalStorage_Me } from "../types/types";
 import { default_LocalStorage_Me } from "../defaults/default";
 
 
-const Timetable = ({person, link, peopleId}) => {
-  
-  const { isLoading, getEpgProps, getLayoutProps, toggleLock } = useApp(classesToPrograms(person.classes.length == 0 ? linkToClasses(link) : person.classes));
+const Timetable = ({ person, link, peopleId }) => {
+
+  const { isLoading, getEpgProps, getLayoutProps, toggleLock } = useApp(classesToPrograms(person.classes.length === 0 ? linkToClasses(link) : person.classes));
 
   return (
     <div style={{ height: "60vh", width: "100%" }}>
