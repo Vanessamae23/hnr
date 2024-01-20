@@ -10,20 +10,13 @@ import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import useLocalStorage from '../helpers/useLocalStorage';
-import { parseLink } from '../utils/links';
-import { LocalStorage_Me } from '../types/types';
 import { linkToClasses } from '../utils/utils';
+import { default_LocalStorage_Me } from '../defaults/default';
+import { LOCALSTORAGE_KEY_ME } from '../constants/constants';
 
 function Home() {
-  const initialData : LocalStorage_Me = {
-    name: "↑", // Some untypable character that hopefully nobody uses
-    link: "",
-    blockout: [],
-    classes: [],
-  }
-
   const [link, setLink] = useState("");
-  const [myData, setMyData] = useLocalStorage("myData", initialData);
+  const [myData, setMyData] = useLocalStorage(LOCALSTORAGE_KEY_ME, default_LocalStorage_Me);
   const navigate = useNavigate();
 
 //   Go straight to timetable if link is already stored
