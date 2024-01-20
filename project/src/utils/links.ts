@@ -5,7 +5,6 @@ import {
 } from "../constants/constants";
 import { Lessons, Modules } from "../types/types";
 
-// TODO: Add validation and error handling
 export const parseLink = (link: string): Modules => {
   const url = new URL(link);
   const searchParams = new URLSearchParams(url.search);
