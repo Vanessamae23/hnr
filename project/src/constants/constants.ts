@@ -1,5 +1,5 @@
 // Lesson Types ---------------------------------
-export const lessonTypeShorthandMap = {
+export const lessonTypeShorthandMap: { [lessonType: string]: string } = {
   "Design Lecture": "DLEC",
   "Laboratory": "LAB",
   "Lecture": "LEC",
@@ -13,7 +13,7 @@ export const lessonTypeShorthandMap = {
   "Workshop": "WS"
 }
 
-export const shorthandLessonTypeMap = {
+export const shorthandLessonTypeMap: { [lessonTypeShorthand: string]: string } = {
   "DLEC": "Design Lecture",
   "LAB": "Laboratory",
   "LEC": "Lecture",
