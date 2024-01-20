@@ -3,7 +3,6 @@ import { Class } from "../types/types";
 
 export function convertClassToProgram(classObj: Class): Program {
   const { id, since, till, title, channelUuid, description, locked, image } = classObj;
-    console.log(since)
   // Assuming you have a function to parse the date strings to Date objects
   const sinceDate = parseDateString(since);
   const tillDate = parseDateString(till);
@@ -43,8 +42,8 @@ export function convertProgramToClass(program: Program): Class {
     // Create a Class object
     const classObj: Class = {
       id,
-      since: `${formatTime(sinceDate.getHours())}:${formatTime(sinceDate.getMinutes())}`,
-      till: `${formatTime(tillDate.getHours())}:${formatTime(tillDate.getMinutes())}`,
+      since: `${formatTime(sinceDate.getHours())}${formatTime(sinceDate.getMinutes())}`,
+      till: `${formatTime(tillDate.getHours())}${formatTime(tillDate.getMinutes())}`,
       title,
       channelUuid,
       description,

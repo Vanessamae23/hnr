@@ -13,7 +13,6 @@ const MyTimetable = () => {
     LOCALSTORAGE_KEY_ME,
     default_LocalStorage_Me
   );
-    
   const [linkForm, setLinkForm] = React.useState(person.link)
   const [link, setLink] = React.useState(person.link)
 
@@ -23,10 +22,7 @@ const MyTimetable = () => {
     setPerson(person)
   }
 
-  React.useEffect(() => {
-    person.link = link
-    setPerson(person)
-  }, [link])
+  
 
   return (
     <Box sx={{ width: "100%", maxWidth: 1200, mx: "auto", my: 4 }}>
@@ -53,7 +49,7 @@ const MyTimetable = () => {
           <CustomButton label="Import" onClick={() => find(linkForm)} disabled={linkForm === link}/>
         </Box>
         {link.length > 0 ? (
-          <Timetable key={link} peopleId={0} link={link} />
+          <Timetable person={person} key={link} peopleId={0} link={link} />
         ) : (
           <></>
         )}

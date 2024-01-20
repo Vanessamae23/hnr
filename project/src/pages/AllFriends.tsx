@@ -90,7 +90,7 @@ function AllFriends() {
       >
         <DialogTitle>Friend timetable</DialogTitle>
         <DialogContent>
-          <FriendTimetable link={currentFriend.link} person={currentFriend} name={currentFriend.name} />
+          <FriendTimetable key={currentFriend.name} link={currentFriend.link} person={currentFriend} name={currentFriend.name} />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Close</Button>

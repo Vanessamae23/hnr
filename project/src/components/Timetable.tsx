@@ -56,10 +56,9 @@ const epg = [
 ];
 
 
-const Timetable = ({link, peopleId}) => {
-
+const Timetable = ({person, link, peopleId}) => {
   
-  const { isLoading, getEpgProps, getLayoutProps, toggleLock } = useApp(classesToPrograms(linkToClasses(link)));
+  const { isLoading, getEpgProps, getLayoutProps, toggleLock } = useApp(classesToPrograms(person.classes.length == 0 ? linkToClasses(link) : person.classes));
 
   return (
     <div style={{ height: "80vh", width: "100%" }}>
