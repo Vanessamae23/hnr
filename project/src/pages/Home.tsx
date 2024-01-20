@@ -60,7 +60,7 @@ function Home() {
               src={logoModMatch}
             />
             <Box>
-              <Typography fontWeight="bold" fontSize={56} letterSpacing={3}>od</Typography>
+              <Typography fontWeight="500" fontSize={56} letterSpacing={3}>od</Typography>
             </Box>
             <Box
               component="img"
@@ -69,7 +69,7 @@ function Home() {
               src={logoNusMods}
             />
             <Box>
-              <Typography fontWeight="bold" fontSize={56} letterSpacing={3}>atch</Typography>
+              <Typography fontWeight="500" fontSize={56} letterSpacing={3}>atch</Typography>
             </Box>
           </Box>
           <TextField
