@@ -1,5 +1,5 @@
 import React from "react";
-import { Epg, Layout } from "planby";
+import { Epg, Layout, Program, ProgramItem } from "planby";
 
 // Import hooks
 import { useApp } from "../useApp";
@@ -15,6 +15,7 @@ const epg = [
     title: "CS3223",
     channelUuid: "0",
     locked: false,
+    image: "",
     description: "Database Implementation"
   },
   {
@@ -23,6 +24,7 @@ const epg = [
     till: "2024-01-20T09:00:00",
     title: "CS3223",
     channelUuid: "1",
+    image: "",
     locked: false,
     description: "Database Implementation"
   },
@@ -33,6 +35,7 @@ const epg = [
     title: "CS3223",
     channelUuid: "2",
     locked: false,
+    image: "",
     description: "Database Implementation"
   },
   {
@@ -42,23 +45,32 @@ const epg = [
     title: "CS3233",
     channelUuid: "2",
     locked: false,
+    image: "",
     description: "Hard module"
   },
 ];
 
+// Add this type definition
+type ExtendedProgramItem = Program & { toggleLock: (programId: string) => void };
+
 
 const Timetable = () => {
 
-  const { isLoading, getEpgProps, getLayoutProps } = useApp(epg);
+  const { isLoading, getEpgProps, getLayoutProps, toggleLock } = useApp(epg);
   return (
     <div style={{ height: "80vh", width: "100%" }}>
       <Epg isLoading={isLoading} {...getEpgProps()}>
         <Layout
           {...getLayoutProps()}
           renderTimeline={(props) => <Timeline {...props} />}
-          renderProgram={({ program, ...rest }) => (
-            <ModuleItem key={program.data.id} program={program} {...rest} />
-          )}
+          renderProgram={({ program, ...rest }) => {
+            return (
+              <div onClick={() => toggleLock(program.data.id)}>
+                <ModuleItem  key={program.data.id} program={program} {...rest} />
+              </div>
+            )
+            
+          }}
           renderChannel={({ channel }) => (
             <DayItem key={channel.uuid} channel={channel} />
           )}

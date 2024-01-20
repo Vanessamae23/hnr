@@ -23,7 +23,7 @@ import {
   
     const sinceTime = formatTime(since, set12HoursTimeFormat()).toLowerCase();
     const tillTime = formatTime(till, set12HoursTimeFormat()).toLowerCase();
-  
+
     return (
       <ProgramBox width={styles.width} style={styles.position}>
         <ProgramContent width={styles.width} isLive={isLive}>
@@ -36,9 +36,9 @@ import {
               <ProgramText>
                 {sinceTime} - {tillTime}
               </ProgramText>
-              <button onClick={() => alert(title)}>
-                {locked ? "LOCKED" : "UNLOCKED"}
-              </button>
+              <p style={{ color: 'white'}}>
+                {locked ? "Click to unlock" : "Click to lock"}
+              </p>
             </ProgramStack>
           </ProgramFlex>
         </ProgramContent>

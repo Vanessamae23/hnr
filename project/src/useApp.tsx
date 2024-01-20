@@ -19,7 +19,7 @@ export function useApp(epgList: Program[]) {
     epg: epgData,
     dayWidth: 3000,
     sidebarWidth: 100,
-    itemHeight: 100,
+    itemHeight: 120,
     isSidebar: true,
     isTimeline: true,
     isLine: true,
@@ -28,6 +28,16 @@ export function useApp(epgList: Program[]) {
     isBaseTimeFormat: true,
     theme
   });
+
+  const toggleLock = (programId) => {
+    setEpg((prevEpg) =>
+      prevEpg.map((program) =>
+        program.id === programId
+          ? { ...program, locked: !program.locked }
+          : program
+      )
+    );
+  };
 
   const handleFetchResources = React.useCallback(async () => {
     setIsLoading(true);
@@ -40,5 +50,5 @@ export function useApp(epgList: Program[]) {
     handleFetchResources();
   }, [handleFetchResources]);
 
-  return { getEpgProps, getLayoutProps, isLoading };
+  return { getEpgProps, getLayoutProps, toggleLock, isLoading };
 }
