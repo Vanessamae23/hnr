@@ -54,7 +54,20 @@ export type UnlockedModules = {
   [moduleCode: string]: string[]; // list of lesson types
 }
 
-// Output / Candidates
+// Candidates
+export type CandidateTimetables = {
+  [person: string]: CandidateModules;
+}
+
+export type CandidateModules = {
+  [moduleCode: string]: CandidateLessons;
+}
+
+export type CandidateLessons = {
+  [lessonType: string]: string[]; // list of candidate class numbers
+}
+
+// Output
 export type Timetables = {
   [person: string]: Modules;
 }

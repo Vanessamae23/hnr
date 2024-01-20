@@ -1,6 +1,7 @@
+import Module from "module";
 import { N_DAYS, N_TIME_BLOCKS } from "../constants/constants";
-import { Availabilities, Availability, Grouping, ModuleDatas, Modules, TimetableInputs, Timetables, UnlockedModules, UnlockedTimetables } from "../types/types";
-import { getClasses, getLessonTypes } from "../utils/data";
+import { Availabilities, Availability, CandidateLessons, CandidateModules, CandidateTimetables, Grouping, ModuleDatas, Modules, TimetableInputs, Timetables, UnlockedModules, UnlockedTimetables } from "../types/types";
+import { getAllClassNos, getAllClasses, getClasses, getLessonTypes } from "../utils/data";
 import { parseLink } from "../utils/links";
 
 export const findValidTimetables = (timetableInputs: TimetableInputs, groupings: Grouping[]) => {
@@ -11,8 +12,10 @@ export const findValidTimetables = (timetableInputs: TimetableInputs, groupings:
   const availabilities = findAvailabilities(lockedTimetables);
 
   // Step 3: Find initial set of candidates classes based on individual availability
+  const candidateTimetables = findCandidateTimetables(unlockedTimetables, availabilities);
 
-  // Step 4: Filter candidate based on group-related availabilities
+  // Step 4: Filter candidate based on groupings in-place
+  filterCandidateTimetables(candidateTimetables, groupings);
 
   // Step 5: Depth-first search on all possible candidate class combinations
 }
@@ -99,6 +102,87 @@ const findAvailabilities = (lockedTimetables: Timetables) => {
   return availabilities;
 }
 
+const findCandidateTimetables = (unlockedTimetables: UnlockedTimetables, availabilities: Availabilities): CandidateTimetables => {
+  const candidateTimetables: CandidateTimetables = {};
+
+  for (const [person, unlockedLessons] of Object.entries(unlockedTimetables)) {
+    const availability = availabilities[person];
+
+    const candidateModules: CandidateModules = {}
+    candidateTimetables[person] = candidateModules;
+
+    for (const [moduleCode, lessonTypes] of Object.entries(unlockedLessons)) {
+      const candidateLessons: CandidateLessons = {};
+      candidateModules[moduleCode] = candidateLessons;
+
+      for (const lessonType of lessonTypes) {
+        const candidateClasses: string[] = [];
+        candidateLessons[lessonType] = candidateClasses;
+
+        const classDatas = getAllClasses(moduleCode, lessonType);
+        const classNos = getAllClassNos(moduleCode, lessonType);
+
+        for (const classNo of classNos) {
+          for (const classData of classDatas) {
+            if (classData.classNo != classNo) {
+              continue;
+            }
+
+            const { startTime, endTime, day } = classData;
+            const startIndex = timeToIndex(startTime);
+            const endIndex = timeToIndex(endTime);
+            const dayIndex = dayToIndex(day);
+            let isCandidateClass = true;
+
+            for (let i = startIndex; i < endIndex; i++) {
+              if (!availability[dayIndex][i]) {
+                isCandidateClass = false;
+                break;
+              }
+            }
+            if (isCandidateClass) {
+              candidateClasses.push(classNo);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  return candidateTimetables;
+}
+
+/**
+ * Filters the candidate timetables in place.
+ */
+const filterCandidateTimetables = (candidateTimetables: CandidateTimetables, groupings: Grouping[]) => {
+  for (const grouping of groupings) {
+    if (grouping.persons.length < 2) {
+      continue;
+    }
+    const candidateClassesSet = new Set<string>(candidateTimetables[grouping.persons[0]][grouping.moduleCode][grouping.lessonType]);
+    let hasNoCandidates = false;
+    for (let i = 1; i < grouping.persons.length; i++) {
+      const person = grouping.persons[i];
+      const candidateClasses = candidateTimetables[person][grouping.moduleCode][grouping.lessonType];
+      // handle the case where no candidates found for any person, which means there are no valid classes
+      if (candidateClasses.length == 0) {
+        hasNoCandidates = true;
+        break;
+      }
+      for (const candidateClass of candidateTimetables[person][grouping.moduleCode][grouping.lessonType]) {
+        if (!candidateClassesSet.has(candidateClass)) {
+          candidateClassesSet.delete(candidateClass);
+        }
+      }
+    }
+    const candidateClasses = hasNoCandidates ? [] : [...candidateClassesSet];
+
+    for (const person of grouping.persons) {
+      candidateTimetables[person][grouping.moduleCode][grouping.lessonType] = candidateClasses;
+    }
+  }
+}
 
 
 // Utils
