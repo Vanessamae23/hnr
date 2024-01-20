@@ -1,7 +1,6 @@
 import { N_DAYS, N_TIME_BLOCKS } from "../constants/constants";
 import { Availabilities, Availability, Blockouts, CandidateLessons, CandidateModules, CandidateTimetables, Grouping, Lessons, Modules, TimetableInputs, Timetables, UnlockedModules, UnlockedTimetables } from "../types/types";
 import { getAllClassNos, getAllClasses, getClasses, getLessonTypes } from "../utils/data";
-import { parseLink } from "../utils/links";
 
 export const findValidTimetables = (timetableInputs: TimetableInputs, groupings: Grouping[], blockouts: Blockouts, iterations: number = 0) => {
   // Step 1: Separate locked and unlocked classes
