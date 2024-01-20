@@ -17,14 +17,14 @@ export function useApp() {
   const { getEpgProps, getLayoutProps } = useEpg({
     channels: channelsData,
     epg: epgData,
-    dayWidth: 7200,
-    sidebarWidth: 100,
+    dayWidth: 1800,
+    sidebarWidth: 50,
     itemHeight: 80,
     isSidebar: true,
     isTimeline: true,
     isLine: true,
-    startDate: "2022-10-18T00:00:00",
-    endDate: "2022-10-18T24:00:00",
+    startDate: "2024-01-20T07:00:00",
+    endDate: "2024-01-20T21:00:00",
     isBaseTimeFormat: true,
     theme
   });

@@ -2,32 +2,32 @@ export const channels = [
   {
     uuid: "0",
     logo:
-      "https://raw.githubusercontent.com/karolkozer/planby-demo-resources/master/resources/channel-logos/png/r-channel.png",
+      "https://w7.pngwing.com/pngs/574/179/png-transparent-day-forecast-sun-sunny-weather-the-weather-is-nice-today-icon.png",
     
   },
   {
     uuid: "1",
     logo:
-      "https://raw.githubusercontent.com/karolkozer/planby-demo-resources/master/resources/channel-logos/png/b-channel.png",
+      "https://w7.pngwing.com/pngs/574/179/png-transparent-day-forecast-sun-sunny-weather-the-weather-is-nice-today-icon.png",
   },
   {
     uuid: "2",
     logo:
-      "https://raw.githubusercontent.com/karolkozer/planby-demo-resources/master/resources/channel-logos/png/five-channel.png",
+      "https://w7.pngwing.com/pngs/574/179/png-transparent-day-forecast-sun-sunny-weather-the-weather-is-nice-today-icon.png",
   },
   {
     uuid: "3",
     logo:
-      "https://raw.githubusercontent.com/karolkozer/planby-demo-resources/master/resources/channel-logos/png/c-channel.png",
+      "https://w7.pngwing.com/pngs/574/179/png-transparent-day-forecast-sun-sunny-weather-the-weather-is-nice-today-icon.png",
   },
   {
     uuid: "4",
     logo:
-      "https://raw.githubusercontent.com/karolkozer/planby-demo-resources/master/resources/channel-logos/png/tm-channel.png",
+      "https://w7.pngwing.com/pngs/574/179/png-transparent-day-forecast-sun-sunny-weather-the-weather-is-nice-today-icon.png",
   },
   {
     uuid: "5",
     logo:
-      "https://raw.githubusercontent.com/karolkozer/planby-demo-resources/master/resources/channel-logos/png/w-channel.png",
+      "https://w7.pngwing.com/pngs/574/179/png-transparent-day-forecast-sun-sunny-weather-the-weather-is-nice-today-icon.png",
   }
 ];
