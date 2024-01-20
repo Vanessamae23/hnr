@@ -1,9 +1,8 @@
 import { N_DAYS, N_TIME_BLOCKS } from "../constants/constants";
-import { Availabilities, Availability, Blockout, Blockouts, CandidateLessons, CandidateModules, CandidateTimetables, Grouping, Lessons, ModuleDatas, Modules, TimetableInputs, Timetables, UnlockedModules, UnlockedTimetables } from "../types/types";
+import { Availabilities, Availability, Blockouts, CandidateLessons, CandidateModules, CandidateTimetables, Grouping, Lessons, Modules, TimetableInputs, Timetables, UnlockedModules, UnlockedTimetables } from "../types/types";
 import { getAllClassNos, getAllClasses, getClasses, getLessonTypes } from "../utils/data";
-import { parseLink } from "../utils/links";
 
-export const findValidTimetables = (timetableInputs: TimetableInputs, groupings: Grouping[], blockouts: Blockouts) => {
+export const findValidTimetables = (timetableInputs: TimetableInputs, groupings: Grouping[], blockouts: Blockouts, iteration: number = 0) => {
   // Step 1: Separate locked and unlocked classes
   const [lockedTimetables, unlockedTimetables] = processData(timetableInputs, groupings);
 
@@ -17,7 +16,7 @@ export const findValidTimetables = (timetableInputs: TimetableInputs, groupings:
   filterCandidateTimetables(candidateTimetables, groupings);
 
   // Step 5: Depth-first search on all possible candidate class combinations
-  const timetables = searchCandidateTimetables(candidateTimetables, availabilities, groupings, {}, Object.keys(candidateTimetables), 0, 0, 0);
+  const timetables = searchCandidateTimetables(candidateTimetables, availabilities, groupings, {}, Object.keys(candidateTimetables), 0, 0, 0, iteration);
   if (timetables === null) {
     return {};
   }
@@ -175,24 +174,8 @@ const filterCandidateTimetables = (candidateTimetables: CandidateTimetables, gro
     if (grouping.persons.length < 2) {
       continue;
     }
-    const candidateClassesSet = new Set<string>(candidateTimetables[grouping.persons[0]][grouping.moduleCode][grouping.lessonType]);
-    let hasNoCandidates = false;
-    for (let i = 1; i < grouping.persons.length; i++) {
-      const person = grouping.persons[i];
-      const candidateClasses = candidateTimetables[person][grouping.moduleCode][grouping.lessonType];
-      // handle the case where no candidates found for any person, which means there are no valid classes
-      if (candidateClasses.length === 0) {
-        hasNoCandidates = true;
-        break;
-      }
-      for (const candidateClass of candidateTimetables[person][grouping.moduleCode][grouping.lessonType]) {
-        if (!candidateClassesSet.has(candidateClass)) {
-          candidateClassesSet.delete(candidateClass);
-        }
-      }
-    }
-    const candidateClasses = hasNoCandidates ? [] : [...candidateClassesSet];
-
+    const candidateClasses = candidateTimetables[grouping.persons[0]][grouping.moduleCode][grouping.lessonType]
+      .filter((classNo) => Object.values(candidateTimetables).every((modules) => modules[grouping.moduleCode][grouping.lessonType].includes(classNo)));
     for (const person of grouping.persons) {
       candidateTimetables[person][grouping.moduleCode][grouping.lessonType] = candidateClasses;
     }
@@ -201,9 +184,16 @@ const filterCandidateTimetables = (candidateTimetables: CandidateTimetables, gro
 
 // TODO: optimise by using only one instance of modules array and lesson types array
 // TODO: prune when reaching a grouping-related class
-const searchCandidateTimetables = (candidateTimetables: CandidateTimetables, availabilities: Availabilities, groupings: Grouping[], timetables: Timetables, persons: string[], personIndex: number, moduleCodeIndex: number, lessonTypeIndex: number): Timetables | null => {
+const searchCandidateTimetables = (candidateTimetables: CandidateTimetables, availabilities: Availabilities, groupings: Grouping[], timetables: Timetables, persons: string[], personIndex: number, moduleCodeIndex: number, lessonTypeIndex: number, iteration: number, count: number[] = [0]): Timetables | null => {
   if (personIndex >= persons.length) {
-    return validateTimetables(timetables, availabilities, groupings) ? timetables : null;
+    if (validateTimetables(timetables, availabilities, groupings)) {
+      if (count[0] < iteration) {
+        count[0] += 1;
+        return null;
+      }
+      return timetables;
+    }
+    return null;
   }
   const person = persons[personIndex];
   const candidateTimetable = candidateTimetables[person]
@@ -213,7 +203,7 @@ const searchCandidateTimetables = (candidateTimetables: CandidateTimetables, ava
   }
   const modules: Modules = timetables[person];
   if (moduleCodeIndex >= moduleCodes.length) {
-    return searchCandidateTimetables(candidateTimetables, availabilities, groupings, timetables, persons, personIndex + 1, 0, 0);
+    return searchCandidateTimetables(candidateTimetables, availabilities, groupings, timetables, persons, personIndex + 1, 0, 0, iteration, count);
   }
   const moduleCode = moduleCodes[moduleCodeIndex];
   const candidateLessons = candidateTimetable[moduleCode];
@@ -223,12 +213,12 @@ const searchCandidateTimetables = (candidateTimetables: CandidateTimetables, ava
   const lessons = modules[moduleCode];
   const lessonTypes = Object.keys(candidateLessons).sort((a, b) => a.localeCompare(b));
   if (lessonTypeIndex >= lessonTypes.length) {
-    return searchCandidateTimetables(candidateTimetables, availabilities, groupings, timetables, persons, personIndex, moduleCodeIndex + 1, 0);
+    return searchCandidateTimetables(candidateTimetables, availabilities, groupings, timetables, persons, personIndex, moduleCodeIndex + 1, 0, iteration, count);
   }
   for (const [lessonType, candidateClasses] of Object.entries(candidateLessons)) {
     for (const candidateClass of candidateClasses) {
       lessons[lessonType] = candidateClass;
-      const result = searchCandidateTimetables(candidateTimetables, availabilities, groupings, timetables, persons, personIndex, moduleCodeIndex, lessonTypeIndex + 1);
+      const result = searchCandidateTimetables(candidateTimetables, availabilities, groupings, timetables, persons, personIndex, moduleCodeIndex, lessonTypeIndex + 1, iteration, count);
       if (result !== null) {
         return result;
       }
