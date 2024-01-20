@@ -214,6 +214,7 @@ export const localStorageToModels = (
     generatedPeople: result,
     countGeneration: currentGeneation + 1,
   });
+
   // Navigate to the generation page
 };
 
