@@ -1,18 +1,25 @@
-import { Typography } from '@mui/material'
-import React from 'react'
+import { Box, TextField, Typography } from '@mui/material'
+import * as React from 'react';
+import CustomButton from '../components/CustomButton';
+import Timetable from '../components/Timetable';
+
+
 
 const MyTimetable = () => {
   return (
-    <div>
-      <Typography>JSIAJAS</Typography>
-      <Typography>JSIAJAS</Typography>
-      <Typography>JSIAJAS</Typography>
-
-      <Typography>JSIAJAS</Typography>
-
-      <Typography>JSIAJAS</Typography>
-      <Typography>JSIAJAS</Typography>
-    </div>
+    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', gap: (theme) => theme.spacing(2),p: (theme) => theme.spacing(2) }} > 
+        <Typography>NUSMods Link: </Typography>
+        <TextField
+          id="filled-search"
+          label="Search field"
+          type="search"
+          variant="filled"
+        />
+        <CustomButton onClick={undefined} />
+      </Box >
+      <Timetable />
+    </Box >
   )
 }
 

@@ -17,9 +17,9 @@ export function useApp() {
   const { getEpgProps, getLayoutProps } = useEpg({
     channels: channelsData,
     epg: epgData,
-    dayWidth: 1800,
-    sidebarWidth: 50,
-    itemHeight: 80,
+    dayWidth: 3000,
+    sidebarWidth: 100,
+    itemHeight: 100,
     isSidebar: true,
     isTimeline: true,
     isLine: true,

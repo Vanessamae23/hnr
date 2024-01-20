@@ -1,7 +1,7 @@
 export const theme = {
   primary: {
     600: "#1a202c",
-    900: "#171923"
+    900: "#d3d3d3"
   },
   grey: { 300: "#d1d1d1" },
   white: "#fff",
@@ -30,7 +30,7 @@ export const theme = {
 
   text: {
     grey: {
-      300: "#a0aec0",
+      300: "#000",
       500: "#718096"
     }
   },

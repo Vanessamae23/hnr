@@ -19,7 +19,7 @@ import {
       });
   
     const { data } = program;
-    const { image, title, since, till } = data;
+    const { image, title, since, till, description } = data;
   
     const sinceTime = formatTime(since, set12HoursTimeFormat()).toLowerCase();
     const tillTime = formatTime(till, set12HoursTimeFormat()).toLowerCase();
@@ -31,6 +31,9 @@ import {
             {isLive && isMinWidth && <ProgramImage src={image} alt="Preview" />}
             <ProgramStack>
               <ProgramTitle>{title}</ProgramTitle>
+              <ProgramText style={{ whiteSpace: 'normal' }}>
+                {description}
+              </ProgramText>
               <ProgramText>
                 {sinceTime} - {tillTime}
               </ProgramText>
