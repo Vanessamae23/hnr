@@ -38,6 +38,14 @@ function Config() {
   );
 
   const handleAddClass = (newClass: Group) => {
+    for (let i = 0; i < classes.length; i++) {
+        if (
+            classes[i].moduleCode === newClass.moduleCode &&
+            classes[i].lessonType === newClass.lessonType
+        ) {
+            return;
+        }
+    }
     setClasses([...classes, newClass]);
   };
 
