@@ -6,13 +6,13 @@ import useLocalStorage from "../helpers/useLocalStorage";
 import { LocalStorage_Me } from "../types/types";
 import { default_LocalStorage_Me } from "../defaults/default";
 import { programsToClasses } from "../utils/data";
+import { LOCALSTORAGE_KEY_ME } from "../constants/constants";
 
 const MyTimetable = () => {
   const [person, setPerson] = useLocalStorage<LocalStorage_Me>(
-    "me",
+    LOCALSTORAGE_KEY_ME,
     default_LocalStorage_Me
   );
-
     
   const [linkForm, setLinkForm] = React.useState(person.link)
   const [link, setLink] = React.useState(person.link)
@@ -44,13 +44,13 @@ const MyTimetable = () => {
           <Typography>NUSMods Link: </Typography>
           <TextField
             id="filled-search"
-            label="Search field"
             type="search"
             variant="filled"
             sx ={{ width: "60%"}}
+            value={linkForm}
             onChange={(e) => setLinkForm(e.target.value)}
           />
-          <CustomButton label="Add" onClick={() => find(linkForm)} />
+          <CustomButton label="Import" onClick={() => find(linkForm)} disabled={linkForm === link}/>
         </Box>
         {link.length > 0 ? (
           <Timetable key={link} peopleId={0} link={link} />
