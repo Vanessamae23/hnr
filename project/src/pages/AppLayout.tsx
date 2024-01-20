@@ -75,7 +75,7 @@ export default function AppLayout(props: Props) {
       <List sx={{ marginY: 10 }}>
         {pages.map((page) => (
           <ListItem key={page.name} disablePadding sx={{ marginY: 3 }}>
-            <Link to={page.path} style={{ textDecoration: 'none', color: 'inherit' }}>
+            <Link to={page.path} style={{ textDecoration: 'none', color: 'inherit', width: "100%" }}>
               <ListItemButton>
                 <ListItemIcon>
                   {page.icon}
