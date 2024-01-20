@@ -13,10 +13,8 @@ import Timetable from "../components/Timetable";
 import useLocalStorage from "../helpers/useLocalStorage";
 import { Blockout, LocalStorage_Me } from "../types/types";
 import { default_LocalStorage_Me } from "../defaults/default";
-import { programsToClasses } from "../utils/data";
 import { LOCALSTORAGE_KEY_ME } from "../constants/constants";
 import BlockOutForm from "../components/BlockOutForm";
-import dayjs, { Dayjs } from "dayjs";
 
 const MyTimetable = () => {
   const [person, setPerson] = useLocalStorage<LocalStorage_Me>(
