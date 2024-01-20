@@ -52,7 +52,11 @@ const MyTimetable = () => {
           />
           <CustomButton label="Add" onClick={() => find(linkForm)} />
         </Box>
-        {link.length > 0 ? <Timetable peopleId={0} link={link}/> : <></>}
+        {link.length > 0 ? (
+          <Timetable key={link} peopleId={0} link={link} />
+        ) : (
+          <></>
+        )}
         
       </Box>
     </Box>
