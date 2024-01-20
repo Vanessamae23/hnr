@@ -14,7 +14,7 @@ const TimeTable = ({ classes, setClasses, name }) => {
     name
   );
   return (
-    <div style={{ height: "80vh", width: "100%" }}>
+    <Box style={{ width: "100%" }}>
       <Epg isLoading={isLoading} {...getEpgProps()}>
         <Layout
           {...getLayoutProps()}
@@ -31,7 +31,7 @@ const TimeTable = ({ classes, setClasses, name }) => {
           )}
         />
       </Epg>
-    </div>
+    </Box>
   );
 };
 

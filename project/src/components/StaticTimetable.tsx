@@ -11,7 +11,6 @@ import {
 } from "../utils/data";
 
 const StaticTimetable = ({ classes }) => {
-  
   const { isLoading, getEpgProps, getLayoutProps } = useStaticApp(classesToPrograms(classes));
 
   return (
@@ -22,8 +21,8 @@ const StaticTimetable = ({ classes }) => {
           renderTimeline={(props) => <Timeline {...props} />}
           renderProgram={({ program, ...rest }) => {
             return (
-              
-                <ModuleItem key={program.data.id} program={program} {...rest} />
+
+              <ModuleItem key={program.data.id} program={program} {...rest} />
             );
           }}
           renderChannel={({ channel }) => (
