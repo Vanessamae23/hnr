@@ -15,7 +15,7 @@ export const parseLink = (link: string): Modules => {
     const [moduleCode, moduleDataString] = searchParam;
     const lessons: Lessons = {};
 
-    if (moduleDataString.length == 0) {
+    if (moduleDataString.length === 0) {
       modules[moduleCode] = lessons;
       continue;
     }
@@ -32,7 +32,7 @@ export const parseLink = (link: string): Modules => {
 export const encodeLink = (modules: Modules): string => {
   const searchParams: { [key: string]: string | "" } = {};
   for (const [moduleCode, lessons] of Object.entries(modules)) {
-    if (Object.keys(lessons).length == 0) {
+    if (Object.keys(lessons).length === 0) {
       searchParams[moduleCode] = "";
       continue;
     }

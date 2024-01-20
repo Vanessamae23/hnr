@@ -11,11 +11,6 @@ import {
   LocalStorage_Me,
   LocalStorage_Groups,
 } from "../types/types";
-import {
-  LOCALSTORAGE_KEY_FRIENDS,
-  LOCALSTORAGE_KEY_ME,
-  LOCALSTORAGE_KEY_GROUPS,
-} from "../constants/constants";
 
 const dayToUuid = {
   Monday: "0",
@@ -58,7 +53,7 @@ export const getClasses = (
 ): ClassData[] => {
   const modulesData: ModuleDatas = json;
   return modulesData[moduleCode][lessonType].filter(
-    (classData) => classData.classNo == classNo
+    (classData) => classData.classNo === classNo
   );
 };
 

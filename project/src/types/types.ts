@@ -1,5 +1,3 @@
-import dayjs, { Dayjs } from "dayjs";
-
 // FORM INPUT ------------------------------------
 export type AddFriendInput = {
   name: string;
