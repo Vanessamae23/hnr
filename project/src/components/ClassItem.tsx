@@ -16,6 +16,9 @@ interface ClassItemProps {
   moduleName: string;
   classType: string;
   onDelete: (id: string) => void;
+  friendNames: string[];
+  handleEditFriends: (id: string, friends: string[]) => void;
+  friends: string[];
 }
 
 const ITEM_HEIGHT = 48;
@@ -29,19 +32,6 @@ const MenuProps = {
   },
 };
 
-const names = [
-  "Oliver Hansen",
-  "Van Henry",
-  "April Tucker",
-  "Ralph Hubbard",
-  "Omar Alexander",
-  "Carlos Abbott",
-  "Miriam Wagner",
-  "Bradley Wilkerson",
-  "Virginia Andrews",
-  "Kelly Snyder",
-];
-
 function getStyles(name: string, personName: string[]) {
   return {
     fontWeight: personName.indexOf(name) === -1 ? "normal" : "bold",
@@ -53,17 +43,15 @@ const ClassItem: React.FC<ClassItemProps> = ({
   moduleName,
   classType,
   onDelete,
+  friendNames,
+  handleEditFriends,
+  friends,
 }) => {
-  const [personName, setPersonName] = React.useState<string[]>([]);
-
-  const handleChange = (event: SelectChangeEvent<typeof personName>) => {
+  const handleChange = (event: SelectChangeEvent) => {
     const {
       target: { value },
     } = event;
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
-    );
+    handleEditFriends(id, typeof value === "string" ? value.split(",") : value);
   };
   return (
     <Box
@@ -87,17 +75,13 @@ const ClassItem: React.FC<ClassItemProps> = ({
           labelId="demo-multiple-name-label"
           id="demo-multiple-name"
           multiple
-          value={personName}
+          value={friends as any}
           onChange={handleChange}
           input={<OutlinedInput label="Match with" />}
           MenuProps={MenuProps}
         >
-          {names.map((name) => (
-            <MenuItem
-              key={name}
-              value={name}
-              style={getStyles(name, personName)}
-            >
+          {friendNames.map((name) => (
+            <MenuItem key={name} value={name} style={getStyles(name, friends)}>
               {name}
             </MenuItem>
           ))}
