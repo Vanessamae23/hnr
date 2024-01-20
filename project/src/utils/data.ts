@@ -38,6 +38,7 @@ export const modulestoClasses = (modules: Modules): Class[] => {
       for (const classData of classDatas) {
         classes.push({
           id: classes.length.toString(),
+          image: "", // Blank, Required for Vanessa's use
           since: classData.startTime,
           till: classData.endTime,
           title: moduleCode,
