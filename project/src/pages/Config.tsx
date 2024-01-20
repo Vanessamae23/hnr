@@ -21,7 +21,7 @@ import {
   default_LocalStorage_Groups,
   default_LocalStorage_Friends,
 } from "../defaults/default";
-import { getAllModuleCodes } from "../utils/data";
+import { getAllModuleCodes, localStorageToModels } from "../utils/data";
 
 function Config() {
   const [classes, setClasses] = useLocalStorage<LocalStorage_Groups>(
@@ -72,9 +72,7 @@ function Config() {
   const friendNames = getFriendNames();
 
   const handleSubmit = () => {
-    console.log(meLoc);
-    console.log(friendsLoc);
-    console.log(classes);
+    localStorageToModels(meLoc, friendsLoc, classes);
   };
 
   return (
@@ -109,7 +107,11 @@ function Config() {
           >
             Back
           </Button>
-          <CustomButton label="Match" onClick={handleSubmit} disabled={classes.length == 0} />
+          <CustomButton
+            label="Match"
+            onClick={handleSubmit}
+            disabled={classes.length == 0}
+          />
         </Box>
       </Box>
     </Box>

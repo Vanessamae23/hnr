@@ -15,6 +15,7 @@ import { Blockout, LocalStorage_Me } from "../types/types";
 import { default_LocalStorage_Me } from "../defaults/default";
 import { LOCALSTORAGE_KEY_ME } from "../constants/constants";
 import BlockOutForm from "../components/BlockOutForm";
+import { formatISODateToAMPM } from "../utils/utils";
 
 const MyTimetable = () => {
   const [person, setPerson] = useLocalStorage<LocalStorage_Me>(
@@ -47,32 +48,7 @@ const MyTimetable = () => {
     setPerson(updatedPerson);
   };
 
-  function formatISODateToAMPM(isoDate: string): string {
-    const date = new Date(isoDate);
-
-    // Get hours and minutes
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-
-    // Determine if it's AM or PM
-    const ampm = hours >= 12 ? "pm" : "am";
-
-    // Convert hours to 12-hour format
-    const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
-
-    // Add leading zero to minutes if needed
-    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes.toString();
-
-    // Construct the formatted time string
-    const formattedTime = `${formattedHours}:${formattedMinutes} ${ampm}`;
-
-    return formattedTime;
-  }
-
   const parsedBlockout = person.blockout ? person.blockout : [];
-
-  console.log(person);
-
   
   return (
     <Box sx={{ width: "100%", maxWidth: 1200, mx: "auto", my: 4 }}>
@@ -93,11 +69,15 @@ const MyTimetable = () => {
             id="filled-search"
             type="search"
             variant="filled"
-            sx ={{ width: "60%"}}
+            sx={{ width: "60%" }}
             value={linkForm}
             onChange={(e) => setLinkForm(e.target.value)}
           />
-          <CustomButton label="Import" onClick={() => find(linkForm)} disabled={linkForm === link}/>
+          <CustomButton
+            label="Import"
+            onClick={() => find(linkForm)}
+            disabled={linkForm === link}
+          />
         </Box>
         {link.length > 0 ? <Timetable person={person} peopleId={0} link={link} /> : <></>}
         <Box sx={{ margin: "16px p", padding: "64px" }}>

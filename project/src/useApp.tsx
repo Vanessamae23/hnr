@@ -7,149 +7,187 @@ import { Channel, Program, useEpg } from "planby";
 import { theme } from "./helpers/theme";
 import useLocalStorage from "./helpers/useLocalStorage";
 import { LocalStorage_Friends, LocalStorage_Me, Person } from "./types/types";
-import { convertProgramToClass } from "./utils/transform";
+// import { convertProgramToClass } from "./utils/transform";
 import { programsToClasses } from "./utils/data";
-import { default_LocalStorage_Friends, default_LocalStorage_Me } from "./defaults/default";
+import {
+  default_LocalStorage_Friends,
+  default_LocalStorage_Me,
+} from "./defaults/default";
 import { LOCALSTORAGE_KEY_FRIENDS } from "./constants/constants";
 
 export function useApp(epgList: Program[]) {
-    const [channels, setChannels] = React.useState<Channel[]>([]);
-    const [epg, setEpg] = React.useState<Program[]>(epgList);
-    const [isLoading, setIsLoading] = React.useState<boolean>(false);
-    const [person, setPerson] = useLocalStorage<LocalStorage_Me>(
-        "me",
-        default_LocalStorage_Me
+  const [channels, setChannels] = React.useState<Channel[]>([]);
+  const [epg, setEpg] = React.useState<Program[]>(epgList);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [person, setPerson] = useLocalStorage<LocalStorage_Me>(
+    "me",
+    default_LocalStorage_Me
+  );
+  const channelsData = React.useMemo(() => channels, [channels]);
+  const epgData = React.useMemo(() => epg, [epg]);
+
+  const { getEpgProps, getLayoutProps } = useEpg({
+    channels: channelsData,
+    epg: epgData,
+    dayWidth: 3000,
+    sidebarWidth: 100,
+    itemHeight: 100,
+    isSidebar: true,
+    isTimeline: true,
+    isLine: true,
+    startDate: "2024-01-20T07:00:00",
+    endDate: "2024-01-20T21:00:00",
+    isBaseTimeFormat: true,
+    theme,
+  });
+
+  const toggleLock = (programId, peopleId) => {
+    setEpg((prevEpg) =>
+      prevEpg.map((program) =>
+        program.id === programId
+          ? { ...program, locked: !program.locked }
+          : program
+      )
     );
-    const channelsData = React.useMemo(() => channels, [channels]);
-    const epgData = React.useMemo(() => epg, [epg]);
+  };
 
-
-    const { getEpgProps, getLayoutProps } = useEpg({
-        channels: channelsData,
-        epg: epgData,
-        dayWidth: 3000,
-        sidebarWidth: 100,
-        itemHeight: 100,
-        isSidebar: true,
-        isTimeline: true,
-        isLine: true,
-        startDate: "2024-01-20T07:00:00",
-        endDate: "2024-01-20T21:00:00",
-        isBaseTimeFormat: true,
-        theme
+  React.useEffect(() => {
+    setPerson((prevFriend) => {
+      if (prevFriend) {
+        const updatedFriend = {
+          ...prevFriend,
+          classes: programsToClasses(epg),
+        };
+        return updatedFriend;
+      }
+      return prevFriend;
     });
+  }, [epg]);
+  const handleFetchResources = React.useCallback(async () => {
+    setIsLoading(true);
+    const channels = await fetchChannels();
+    setChannels(channels as Channel[]);
+    setIsLoading(false);
+  }, []);
 
-    const toggleLock = (programId, peopleId) => {
-        setEpg((prevEpg) =>
-            prevEpg.map((program) =>
-                program.id === programId
-                    ? { ...program, locked: !program.locked }
-                    : program
-            )
-        );
+  React.useEffect(() => {
+    handleFetchResources();
+  }, [handleFetchResources]);
 
-    };
-
-    React.useEffect(() => {
-        setPerson((prevFriend) => {
-            if (prevFriend) {
-                const updatedFriend = {
-                    ...prevFriend,
-                    classes: programsToClasses(epg),
-                };
-                return updatedFriend
-            }
-            return prevFriend;
-        });
-    }, [epg]);
-    const handleFetchResources = React.useCallback(async () => {
-        setIsLoading(true);
-        const channels = await fetchChannels();
-        setChannels(channels as Channel[]);
-        setIsLoading(false);
-    }, []);
-
-    React.useEffect(() => {
-        handleFetchResources();
-    }, [handleFetchResources]);
-
-    return { getEpgProps, getLayoutProps, toggleLock, isLoading };
+  return { getEpgProps, getLayoutProps, toggleLock, isLoading };
 }
 
 export function useFriendApp(epgList: Program[], personName) {
-    const [channels, setChannels] = React.useState<Channel[]>([]);
-    const [epg, setEpg] = React.useState<Program[]>(epgList);
-    const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [channels, setChannels] = React.useState<Channel[]>([]);
+  const [epg, setEpg] = React.useState<Program[]>(epgList);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
-    const channelsData = React.useMemo(() => channels, [channels]);
-    const epgData = React.useMemo(() => epg, [epg]);
+  const channelsData = React.useMemo(() => channels, [channels]);
+  const epgData = React.useMemo(() => epg, [epg]);
 
-    const [friends, setFriends] = useLocalStorage<LocalStorage_Friends>(
-        LOCALSTORAGE_KEY_FRIENDS,
-        default_LocalStorage_Friends
+  const [friends, setFriends] = useLocalStorage<LocalStorage_Friends>(
+    LOCALSTORAGE_KEY_FRIENDS,
+    default_LocalStorage_Friends
+  );
+  const findFriendByName = (friendName: string) => {
+    return friends.find((friend) => friend.name === friendName);
+  };
+  const [friend, setFriend] = React.useState<Person | undefined>(
+    findFriendByName(personName)
+  );
+
+  const { getEpgProps, getLayoutProps } = useEpg({
+    channels: channelsData,
+    epg: epgData,
+    dayWidth: 3000,
+    sidebarWidth: 100,
+    itemHeight: 100,
+    isSidebar: true,
+    isTimeline: true,
+    isLine: true,
+    startDate: "2024-01-20T07:00:00",
+    endDate: "2024-01-20T21:00:00",
+    isBaseTimeFormat: true,
+    theme,
+  });
+
+  const toggleLock = (programId) => {
+    setEpg((prevEpg) =>
+      prevEpg.map((program) =>
+        program.id === programId
+          ? { ...program, locked: !program.locked }
+          : program
+      )
     );
-    const findFriendByName = (friendName: string) => {
-        return friends.find((friend) => friend.name === friendName);
-    };
-    const [friend, setFriend] = React.useState<Person | undefined>(findFriendByName(personName))
+  };
 
-    const { getEpgProps, getLayoutProps } = useEpg({
-        channels: channelsData,
-        epg: epgData,
-        dayWidth: 3000,
-        sidebarWidth: 100,
-        itemHeight: 100,
-        isSidebar: true,
-        isTimeline: true,
-        isLine: true,
-        startDate: "2024-01-20T07:00:00",
-        endDate: "2024-01-20T21:00:00",
-        isBaseTimeFormat: true,
-        theme
-    });
+  React.useEffect(() => {
+    setFriend((prevFriend) => {
+      if (prevFriend) {
+        const updatedFriend = {
+          ...prevFriend,
+          classes: programsToClasses(epg),
+        };
 
-    const toggleLock = (programId) => {
-        setEpg((prevEpg) =>
-            prevEpg.map((program) =>
-                program.id === programId
-                    ? { ...program, locked: !program.locked }
-                    : program
-            )
+        // Update the friends state in local storage with the new friend data
+        setFriends((prevFriends) =>
+          prevFriends.map((f) =>
+            f.name === updatedFriend.name ? updatedFriend : f
+          )
         );
-    };
 
-    React.useEffect(() => {
-        setFriend((prevFriend) => {
-          if (prevFriend) {
-            const updatedFriend = {
-              ...prevFriend,
-              classes: programsToClasses(epg),
-            };
-            
-            // Update the friends state in local storage with the new friend data
-            setFriends((prevFriends) =>
-              prevFriends.map((f) =>
-                f.name === updatedFriend.name ? updatedFriend : f
-              )
-            );
-      
-            return updatedFriend;
-          }
-          return prevFriend;
-        });
-      }, [epg, setFriends]); // Include setFriends in the dependency array
+        return updatedFriend;
+      }
+      return prevFriend;
+    });
+  }, [epg]); // Include setFriends in the dependency array
 
+  const handleFetchResources = React.useCallback(async () => {
+    setIsLoading(true);
+    const channels = await fetchChannels();
+    setChannels(channels as Channel[]);
+    setIsLoading(false);
+  }, []);
 
-    const handleFetchResources = React.useCallback(async () => {
-        setIsLoading(true);
-        const channels = await fetchChannels();
-        setChannels(channels as Channel[]);
-        setIsLoading(false);
-    }, []);
+  const handleAddBlockOut = (blockOut: {
+    day: string;
+    startTime: string;
+    endTime: string;
+  }) => {
+    const updatedBlockout = friend
+      ? [...friend?.blockout, blockOut]
+      : [blockOut];
+    const updatedFriend = { ...friend, blockout: updatedBlockout };
+    const newFriends = friends.map((f) =>
+      f.name == updatedFriend.name ? updatedFriend : f
+    );
+    setFriends(newFriends as LocalStorage_Friends);
+  };
 
-    React.useEffect(() => {
-        handleFetchResources();
-    }, [handleFetchResources]);
+  const handleDeleteBlockOut = (index: number) => {
+    const updatedBlockout = friend ? friend.blockout : [];
+    updatedBlockout.splice(index, 1);
+    const updatedFriend = { ...friend, blockout: updatedBlockout };
 
-    return { getEpgProps, getLayoutProps, toggleLock, isLoading };
+    const newFriends = friends.map((f) =>
+      f.name == updatedFriend.name ? updatedFriend : f
+    );
+    setFriends(newFriends as LocalStorage_Friends);
+  };
+
+  const parsedBlockout = friend ? friend.blockout : [];
+
+  React.useEffect(() => {
+    handleFetchResources();
+  }, [handleFetchResources]);
+
+  return {
+    getEpgProps,
+    getLayoutProps,
+    toggleLock,
+    isLoading,
+    handleAddBlockOut,
+    handleDeleteBlockOut,
+    parsedBlockout,
+  };
 }

@@ -1,6 +1,7 @@
 import { Program } from "planby";
 import json from "../data/data.json";
-import { convertClassToProgram, convertProgramToClass } from "./transform";
+// import { convertClassToProgram, convertProgramToClass } from "./transform";
+import { convertClassToProgram } from "./transform";
 import {
   ClassData,
   Class,
@@ -89,7 +90,7 @@ export const modulestoClasses = (modules: Modules): Class[] => {
 
 export const classesToPrograms = (classes: Class[]): Program[] => {
   if (classes.length <= 0) {
-    return []
+    return [];
   }
   const programs: Program[] = classes.map((cl: Class) =>
     convertClassToProgram(cl)
@@ -98,75 +99,84 @@ export const classesToPrograms = (classes: Class[]): Program[] => {
 };
 
 export const programsToClasses = (programs: Program[]): Class[] => {
-  const classes: Class[] = programs.map((pg: Program) =>
-    convertProgramToClass(pg)
-  );
-  return classes;
+  // const classes: Class[] = programs.map((pg: Program) =>
+  //   convertProgramToClass(pg)
+  // );
+  // return classes;
+  return [];
 };
 
 function convertToNameTitleMapping(
-  friends: LocalStorage_Friends
+  friends: LocalStorage_Friends,
+  meLoc: LocalStorage_Me
 ): Record<string, Record<string, { classNo: string; isLock: boolean }>> {
-  const mapping: Record<string, Record<string, { classNo: string; isLock: boolean }>> = {};
+  const mapping: Record<
+    string,
+    Record<string, { classNo: string; isLock: boolean }>
+  > = {};
 
   friends.forEach((person) => {
-    const classesMapping = person.classes.reduce((acc: Record<string, { classNo: string; isLock: boolean }>, cls) => {
-      acc[cls.title] = { classNo: cls.classNumber, isLock: cls.locked } as { classNo: string; isLock: boolean };
-      return acc;
-    }, {});
+    const classesMapping = person.classes.reduce(
+      (acc: Record<string, { classNo: string; isLock: boolean }>, cls) => {
+        acc[cls.title] = { classNo: cls.classNumber, isLock: cls.locked } as {
+          classNo: string;
+          isLock: boolean;
+        };
+        return acc;
+      },
+      {}
+    );
 
     mapping[person.name] = classesMapping;
   });
+
+  mapping["me"] = meLoc.classes.reduce((acc, cls) => {
+    acc[cls.title] = { classNo: cls.classNumber, isLock: cls.locked };
+    return acc;
+  }, {});
 
   return mapping;
 }
 
 function collectClassesWithFriends(
-  me: LocalStorage_Me,
-  friends: LocalStorage_Friends,
   groups: LocalStorage_Groups
-): Array<{ classTitle: string; lessonType: string; friendsNames: string[] }> {
-  const allPersons = [me, ...friends];
-  const groupInfo = groups.map((group) => {
-    const { moduleCode, lessonType, persons } = group;
-    const friendsNames = persons
-      .map(
-        (personUuid) =>
-          allPersons.find((person) => personUuid === person.link)?.name
-      )
-      .filter(Boolean); // Filter out any undefined entries in case a person is not found
-
-    const classTitle = allPersons
-      .flatMap((person) => person.classes)
-      .find((cls) => cls.channelUuid === group.id)?.title;
-
-    return {
-      classTitle,
-      lessonType,
-      friendsNames,
-    };
-  });
-
-  return groupInfo.filter((info) => info.classTitle !== undefined) as {
-    classTitle: string;
-    lessonType: string;
-    friendsNames: string[];
-  }[];
+): Array<{ moduleCode: string; lessonType: string; persons: string[] }> {
+  return groups.map((item) => ({
+    moduleCode: item.moduleCode,
+    lessonType: item.lessonType,
+    persons: [...item.persons, "me"], // Add "me" to the existing persons array
+  }));
 }
 
-export const localStorageToModels = (meLoc: LocalStorage_Me, friendsLoc: LocalStorage_Friends, classes: LocalStorage_Groups) => {
-  const nameTitleMapping = convertToNameTitleMapping(friendsLoc);
-  const classesWithFriends = collectClassesWithFriends(
-    meLoc,
-    friendsLoc,
-    classes
-  );
+function collectAllBlockouts(
+  meLoc: LocalStorage_Me,
+  friendsLoc: LocalStorage_Friends
+): Record<string, string> {
+  const blockouts = {};
 
-  console.log(nameTitleMapping);
-  console.log(classesWithFriends);
+  friendsLoc.forEach((person) => {
+    blockouts[person.name] = person.blockout;
+  });
+
+  blockouts["me"] = meLoc.blockout;
+  console.log("blockout");
+  console.log(blockouts);
+
+  return blockouts;
+}
+
+export const localStorageToModels = (meLoc, friendsLoc, classes) => {
+  const nameTitleMapping = convertToNameTitleMapping(friendsLoc, meLoc);
+  const classesWithFriends = collectClassesWithFriends(classes);
+  const combinedBlockouts = collectAllBlockouts(meLoc, friendsLoc);
+
+  // console.log("nameTitleMapping");
+  // console.log(nameTitleMapping);
+  // console.log("classesWithFriends");
+  // console.log(classesWithFriends);
 };
 
 export const getAllModuleCodes = (): string[] => {
   const modulesData: ModuleDatas = json;
   return Object.keys(modulesData);
-}
+};

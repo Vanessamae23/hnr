@@ -14,7 +14,7 @@ import React, { useState } from "react";
 import AddFriendForm from "../components/AddFriendForm";
 import useLocalStorage from "../helpers/useLocalStorage";
 import { TransitionProps } from "@mui/material/transitions";
-import Slide from '@mui/material/Slide';
+import Slide from "@mui/material/Slide";
 import FriendTimetable from "../components/FriendTimetable";
 import { AddFriendInput, Person } from "../types/types";
 import { linkToClasses } from "../utils/utils";
@@ -23,16 +23,15 @@ const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement<any, any>;
   },
-  ref: React.Ref<unknown>,
+  ref: React.Ref<unknown>
 ) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-
 function AllFriends() {
   const [friends, setFriends] = useLocalStorage<Person[]>("friends", []);
-  const [currentFriend, setCurrentFriend] = useState<Person | null>(null)
-  const [currentFriendId, setCurrentFriendId] = useState<any>(null)
+  const [currentFriend, setCurrentFriend] = useState<Person | null>(null);
+  const [currentFriendId, setCurrentFriendId] = useState<any>(null);
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -70,7 +69,8 @@ function AllFriends() {
         link: friend.link,
         blockout: [],
         classes: linkToClasses(friend.link),
-    }]);
+      },
+    ]);
   };
 
   const deleteFriend = (index: number) => {
@@ -81,9 +81,9 @@ function AllFriends() {
 
   const viewFriend = (index) => {
     setCurrentFriend(friends[index]);
-    setCurrentFriendId(index)
+    setCurrentFriendId(index);
     setOpen(true);
-  }
+  };
 
   return (
     <Box sx={{ width: "100%", maxWidth: 1200, mx: "auto", my: 4 }}>
@@ -91,10 +91,7 @@ function AllFriends() {
       <List>
         {friends.map((friend: Person, index: number) => (
           <ListItem key={index}>
-            <ListItemText
-              primary={friend.name}
-              secondary={friend.link}
-            />
+            <ListItemText primary={friend.name} secondary={friend.link} />
             <Button onClick={() => viewFriend(index)}>View</Button>
             <Button onClick={() => deleteFriend(index)}>Delete</Button>
           </ListItem>
@@ -118,8 +115,6 @@ function AllFriends() {
         </DialogActions>
       </Dialog>
       )}
-
-
     </Box>
   );
 }
