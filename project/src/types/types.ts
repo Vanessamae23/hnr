@@ -129,6 +129,11 @@ export type Lessons = {
   [lessonType: string]: string;
 };
 
+export type UrlOuput = {
+  person: string;
+  url: string;
+}
+
 // Availabilities
 
 export type Availabilities = {

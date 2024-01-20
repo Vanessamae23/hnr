@@ -3,7 +3,6 @@ export const channels = [
     uuid: "0",
     logo:
       "https://w7.pngwing.com/pngs/574/179/png-transparent-day-forecast-sun-sunny-weather-the-weather-is-nice-today-icon.png",
-    
   },
   {
     uuid: "1",
