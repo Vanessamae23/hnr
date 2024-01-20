@@ -47,6 +47,10 @@ export type Group = {
   persons: string[];
 }
 
+export type LocalStorage_Me = Person;
+export type LocalStorage_Friends = Person[];
+export type LocalStorage_Groups = Group[];
+
 
 // LOGIC ----------------------------------------
 
