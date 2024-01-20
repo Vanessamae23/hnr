@@ -1,5 +1,7 @@
 import { Program } from "planby";
 import json from "../data/data.json";
+import moduleListJson from "../data/moduleList.json";
+
 // import { convertClassToProgram, convertProgramToClass } from "./transform";
 import { convertClassToProgram, convertProgramToClass } from "./transform";
 import {
@@ -67,6 +69,18 @@ export const getClasses = (
     (classData) => classData.classNo === classNo
   );
 };
+
+export const getTitle = (
+  moduleCode: string
+): string => {
+  const moduleList = moduleListJson;
+  for (const module of moduleList) {
+    if (module.moduleCode === moduleCode) {
+      return module.title;
+    }
+  }
+  return "";
+}
 
 export const modulestoClasses = (modules: Modules): Class[] => {
   const classes: Class[] = [];
