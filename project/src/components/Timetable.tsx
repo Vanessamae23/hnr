@@ -6,6 +6,8 @@ import { useApp } from "../useApp";
 import { Timeline } from "./Timeline";
 import { ModuleItem } from "./ModuleItem";
 import { DayItem } from "./DayItem";
+import { classesToPrograms, modulestoClasses } from "../utils/data";
+import { linkToClasses } from "../utils/utils";
 
 const epg = [
   {
@@ -50,13 +52,10 @@ const epg = [
   },
 ];
 
-// Add this type definition
-type ExtendedProgramItem = Program & { toggleLock: (programId: string) => void };
-
 
 const Timetable = () => {
 
-  const { isLoading, getEpgProps, getLayoutProps, toggleLock } = useApp(epg);
+  const { isLoading, getEpgProps, getLayoutProps, toggleLock } = useApp(classesToPrograms(linkToClasses("https://nusmods.com/timetable/sem-2/share?BSP1703=TUT:D07,LEC:D2&CS2030S=LAB:12A,REC:02,LEC:1&CS2101=&CS2103T=LEC:G09&CS2109S=TUT:21,LEC:1&CS3230=TUT:02,LEC:1&FIN3701B=SEC:B2")));
   return (
     <div style={{ height: "80vh", width: "100%" }}>
       <Epg isLoading={isLoading} {...getEpgProps()}>
