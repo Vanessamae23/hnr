@@ -89,13 +89,13 @@ export function useFriendApp(epgList: Program[], personName) {
     LOCALSTORAGE_KEY_FRIENDS,
     default_LocalStorage_Friends
   );
-    const findFriendByName = (friendName: string) => {
-        return friends.find((friend) => friend.name === friendName);
-    };
-    const [friend, setFriend] = React.useState<Person | undefined>(
-        findFriendByName(personName)
-    );
-    const { getEpgProps, getLayoutProps } = useEpg({
+  const findFriendByName = (friendName: string) => {
+    return friends.find((friend) => friend.name === friendName);
+  };
+  const [friend, setFriend] = React.useState<Person | undefined>(
+    findFriendByName(personName)
+  );
+  const { getEpgProps, getLayoutProps } = useEpg({
     channels: channelsData,
     epg: epgData,
     dayWidth: 1500,
@@ -110,19 +110,17 @@ export function useFriendApp(epgList: Program[], personName) {
     theme,
   });
 
-    const toggleLock = (programId, classes, setClasses) => {
-        setEpg((prevEpg) => {
-          const updatedEpg = prevEpg.map((program) =>
-            program.id === programId
-              ? { ...program, locked: !program.locked }
-              : program
-          );
-          setClasses(programsToClasses(updatedEpg));
-          return updatedEpg;
-        });
-      };
-      
-   
+  const toggleLock = (programId, classes, setClasses) => {
+    setEpg((prevEpg) => {
+      const updatedEpg = prevEpg.map((program) =>
+        program.id === programId
+          ? { ...program, locked: !program.locked }
+          : program
+      );
+      setClasses(programsToClasses(updatedEpg));
+      return updatedEpg;
+    });
+  };
 
   const handleFetchResources = React.useCallback(async () => {
     setIsLoading(true);
@@ -130,34 +128,6 @@ export function useFriendApp(epgList: Program[], personName) {
     setChannels(channels as Channel[]);
     setIsLoading(false);
   }, []);
-
-  const handleAddBlockOut = (blockOut: {
-    day: string;
-    startTime: string;
-    endTime: string;
-  }) => {
-    const updatedBlockout = friend
-      ? [...friend?.blockout, blockOut]
-      : [blockOut];
-    const updatedFriend = { ...friend, blockout: updatedBlockout };
-    const newFriends = friends.map((f) =>
-      f.name == updatedFriend.name ? updatedFriend : f
-    );
-    setFriends(newFriends as LocalStorage_Friends);
-  };
-
-  const handleDeleteBlockOut = (index: number) => {
-    const updatedBlockout = friend ? friend.blockout : [];
-    updatedBlockout.splice(index, 1);
-    const updatedFriend = { ...friend, blockout: updatedBlockout };
-
-    const newFriends = friends.map((f) =>
-      f.name == updatedFriend.name ? updatedFriend : f
-    );
-    setFriends(newFriends as LocalStorage_Friends);
-  };
-
-  const parsedBlockout = friend ? friend.blockout : [];
 
   React.useEffect(() => {
     handleFetchResources();
@@ -168,8 +138,5 @@ export function useFriendApp(epgList: Program[], personName) {
     getLayoutProps,
     toggleLock,
     isLoading,
-    handleAddBlockOut,
-    handleDeleteBlockOut,
-    parsedBlockout,
   };
 }
