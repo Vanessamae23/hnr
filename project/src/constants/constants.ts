@@ -1,3 +1,8 @@
+// LocalStorage Keys ------------------------------
+export const LOCALSTORAGE_KEY_ME = "me";
+export const LOCALSTORAGE_KEY_FRIENDS = "friends";
+export const LOCALSTORAGE_KEY_GROUPS = "groups";
+
 // Lesson Types ---------------------------------
 export const lessonTypeShorthandMap: { [lessonType: string]: string } = {
   "Design Lecture": "DLEC",
