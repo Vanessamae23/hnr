@@ -50,7 +50,7 @@ const BlockOutForm: React.FC<{
         alignItems: "center",
       }}
     >
-      <Typography>Add Blockout</Typography>
+      <Typography sx={{ typography: "h4", fontWeight: "bold" }}>Blockouts</Typography>
       <Box
         sx={{
           display: "flex",
