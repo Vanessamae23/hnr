@@ -8,13 +8,11 @@ import Icon from '../assets/mchef.png'
 
 export default function Header() {
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ flexDirection: 'row', alignItems: 'flex-start', background: "#fff"}}>
-        <Toolbar>
+      <AppBar position="static" sx={{ flexDirection: 'row', alignItems: 'flex-start', background: "#fff", width: '100%'}}>
+        <Toolbar sx={{ zIndex: 2}}>
           <img src={Icon} width="100%" height="50px" />
           <img src={Icon} width="100%" height="50px" />
         </Toolbar>
       </AppBar>
-    </Box>
   );
 }

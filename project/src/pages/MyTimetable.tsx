@@ -1,8 +1,18 @@
+import { Typography } from '@mui/material'
 import React from 'react'
 
-function MyTimetable() {
+const MyTimetable = () => {
   return (
-    <div>MyTimetable</div>
+    <div>
+      <Typography>JSIAJAS</Typography>
+      <Typography>JSIAJAS</Typography>
+      <Typography>JSIAJAS</Typography>
+
+      <Typography>JSIAJAS</Typography>
+
+      <Typography>JSIAJAS</Typography>
+      <Typography>JSIAJAS</Typography>
+    </div>
   )
 }
 

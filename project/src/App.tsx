@@ -8,11 +8,16 @@ import Matched from './pages/Matched';
 import AllMatched from './pages/AllMatched';
 import MyTimetable from './pages/MyTimetable';
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import Main from './pages/Main';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+  },
+  {
+    path: "/main",
+    element: <Main />,
   },
   {
     path: "/timetable",
