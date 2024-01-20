@@ -10,8 +10,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import Header from '../components/Header';
 import AllMatched from './AllMatched';
 import MyTimetable from './MyTimetable';
@@ -22,6 +20,8 @@ import { useNavigate, Link } from 'react-router-dom';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import PeopleIcon from '@mui/icons-material/People';
 import SettingsIcon from '@mui/icons-material/Settings';
+import BeenhereIcon from '@mui/icons-material/Beenhere';
+import { LOCALSTORAGE_KEY_GENERATED_TIMETABLE } from '../constants/constants';
 
 const drawerWidth = 240;
 
@@ -56,7 +56,7 @@ export default function AppLayout(props: Props) {
       icon: <CalendarTodayIcon />
     },
     {
-      name: 'Friends\' timetables',
+      name: 'Friends\' Timetables',
       component: <AllFriends />,
       path: '/friends',
       icon: <PeopleIcon />
@@ -66,14 +66,21 @@ export default function AppLayout(props: Props) {
       component: <Config />,
       path: '/config',
       icon: <SettingsIcon />
+    },
+    {
+      name: 'Generated Timetables',
+      component: <AllMatched />,
+      path: '/matched',
+      icon: <BeenhereIcon />  
     }
-  ]
+  ];
 
+  const showGeneratedTimetables = localStorage.getItem(LOCALSTORAGE_KEY_GENERATED_TIMETABLE) !== null;
   const drawer = (
     <>
       <Divider />
       <List sx={{ marginY: 10 }}>
-        {pages.map((page) => (
+        {pages.map((page, ix) => ((ix !== 3 || showGeneratedTimetables) &&
           <ListItem key={page.name} disablePadding sx={{ marginY: 3 }}>
             <Link to={page.path} style={{ textDecoration: 'none', color: 'inherit', width: "100%" }}>
               <ListItemButton>
