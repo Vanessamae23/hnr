@@ -16,7 +16,7 @@ const MyTimetable = () => {
           type="search"
           variant="filled"
         />
-        <CustomButton onClick={undefined} />
+        <CustomButton label="Add" onClick={undefined} />
       </Box >
       <Timetable />
     </Box >

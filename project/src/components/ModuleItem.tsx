@@ -19,7 +19,7 @@ import {
       });
   
     const { data } = program;
-    const { image, title, since, till, description } = data;
+    const { locked, title, since, till, description } = data;
   
     const sinceTime = formatTime(since, set12HoursTimeFormat()).toLowerCase();
     const tillTime = formatTime(till, set12HoursTimeFormat()).toLowerCase();
@@ -28,7 +28,6 @@ import {
       <ProgramBox width={styles.width} style={styles.position}>
         <ProgramContent width={styles.width} isLive={isLive}>
           <ProgramFlex>
-            {isLive && isMinWidth && <ProgramImage src={image} alt="Preview" />}
             <ProgramStack>
               <ProgramTitle>{title}</ProgramTitle>
               <ProgramText style={{ whiteSpace: 'normal' }}>
@@ -37,6 +36,9 @@ import {
               <ProgramText>
                 {sinceTime} - {tillTime}
               </ProgramText>
+              <button onClick={() => alert(title)}>
+                {locked ? "LOCKED" : "UNLOCKED"}
+              </button>
             </ProgramStack>
           </ProgramFlex>
         </ProgramContent>

@@ -6,9 +6,9 @@ import { Channel, Program, useEpg } from "planby";
 
 import { theme } from "./helpers/theme";
 
-export function useApp() {
+export function useApp(epgList: Program[]) {
   const [channels, setChannels] = React.useState<Channel[]>([]);
-  const [epg, setEpg] = React.useState<Program[]>([]);
+  const [epg, setEpg] = React.useState<Program[]>(epgList);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   const channelsData = React.useMemo(() => channels, [channels]);
@@ -31,9 +31,7 @@ export function useApp() {
 
   const handleFetchResources = React.useCallback(async () => {
     setIsLoading(true);
-    const epg = await fetchEpg();
     const channels = await fetchChannels();
-    setEpg(epg as Program[]);
     setChannels(channels as Channel[]);
     setIsLoading(false);
   }, []);
