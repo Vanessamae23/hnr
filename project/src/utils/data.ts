@@ -13,6 +13,7 @@ import {
   ModuleInputs,
   Grouping,
   Blockouts,
+  GeneratedTimetable,
 } from "../types/types";
 
 const dayToUuid = {
@@ -135,9 +136,7 @@ function convertToNameTitleMapping(
   return mapping;
 }
 
-function collectClassesWithFriends(
-  groups: LocalStorage_Groups
-): Grouping[] {
+function collectClassesWithFriends(groups: LocalStorage_Groups): Grouping[] {
   return groups.map((item) => ({
     moduleCode: item.moduleCode,
     lessonType: item.lessonType,
@@ -162,10 +161,21 @@ function collectAllBlockouts(
   return blockouts;
 }
 
-export const localStorageToModels = (meLoc: LocalStorage_Me, friendsLoc: LocalStorage_Friends, classes: LocalStorage_Groups) => {
+export const localStorageToModels = (
+  meLoc: LocalStorage_Me,
+  friendsLoc: LocalStorage_Friends,
+  classes: LocalStorage_Groups,
+  generatedTimetable: GeneratedTimetable,
+  setGeneratedTimetable: (
+    value:
+      | GeneratedTimetable
+      | ((val: GeneratedTimetable) => GeneratedTimetable)
+  ) => void
+) => {
   const nameTitleMapping = convertToNameTitleMapping(friendsLoc, meLoc);
   const classesWithFriends = collectClassesWithFriends(classes);
   const combinedBlockouts = collectAllBlockouts(meLoc, friendsLoc);
+  const currentGeneation = generatedTimetable.countGeneration;
 
   console.log("nameTitleMapping");
   console.log(nameTitleMapping);
@@ -173,6 +183,13 @@ export const localStorageToModels = (meLoc: LocalStorage_Me, friendsLoc: LocalSt
   console.log(classesWithFriends);
   console.log("combinedBlockouts");
   console.log(combinedBlockouts);
+  // Get the generated here
+  // generatedTimetable = // can put the data here (me/a user will be the first person)
+  // updateGeneratedTimetable = { ...generatedTimetable, countGeneration: currentGeneation + 1 };
+  // setGeneratedTimetable(updateGeneratedTimetable);
+  // linkToClasses()
+
+  // Navigate to the generation page
 };
 
 export const getAllModuleCodes = (): string[] => {

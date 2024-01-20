@@ -2,6 +2,7 @@
 export const LOCALSTORAGE_KEY_ME = "me";
 export const LOCALSTORAGE_KEY_FRIENDS = "friends";
 export const LOCALSTORAGE_KEY_GROUPS = "groups";
+export const LOCALSTORAGE_KEY_GENERATED_TIMETABLE = "generatedTimetable";
 
 // Lesson Types ---------------------------------
 export const lessonTypeShorthandMap: { [lessonType: string]: string } = {
