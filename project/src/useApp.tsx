@@ -19,7 +19,7 @@ export function useApp(epgList: Program[]) {
     epg: epgData,
     dayWidth: 3000,
     sidebarWidth: 100,
-    itemHeight: 120,
+    itemHeight: 100,
     isSidebar: true,
     isTimeline: true,
     isLine: true,

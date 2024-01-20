@@ -30,9 +30,6 @@ import {
           <ProgramFlex>
             <ProgramStack>
               <ProgramTitle>{title}</ProgramTitle>
-              <ProgramText style={{ whiteSpace: 'normal' }}>
-                {description}
-              </ProgramText>
               <ProgramText>
                 {sinceTime} - {tillTime}
               </ProgramText>

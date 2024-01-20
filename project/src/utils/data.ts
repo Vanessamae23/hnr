@@ -1,5 +1,7 @@
+import { Program } from "planby";
 import json from "../data/data.json";
 import { ClassData, Class, ModuleDatas, Modules } from "../types/types";
+import { convertClassToProgram, convertProgramToClass } from "./transform";
 
 const dayToUuid = {
   "Monday": "0",
@@ -50,4 +52,14 @@ export const modulestoClasses = (modules: Modules): Class[] => {
     }
   }
   return classes;
+}
+
+export const classesToPrograms = (classes: Class[]): Program[] => {
+  const programs: Program[] = classes.map((cl: Class) => convertClassToProgram(cl));
+  return programs; // Add this return statement
+}
+
+export const programsToClasses = (programs: Program[]): Class[] => {
+  const classes: Class[] = programs.map((pg: Program) => convertProgramToClass(pg))
+  return classes
 }
