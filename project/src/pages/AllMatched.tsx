@@ -34,7 +34,7 @@ function AllMatched() {
         <Typography variant="h5" sx={{ mx: 2 }} gutterBottom>
           My Timetable
         </Typography>
-        <Typography variant="body1" sx={{ mx: 2 }} gutterBottom>
+        <Typography variant="body2" sx={{ mx: 2 }} gutterBottom>
           {me?.link}
         </Typography>
         <StaticTimetable classes={me?.classes} />
