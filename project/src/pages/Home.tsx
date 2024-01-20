@@ -10,15 +10,25 @@ import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import useLocalStorage from '../helpers/useLocalStorage';
+import { parseLink } from '../utils/links';
+import { LocalStorage_Me } from '../types/types';
+import { linkToClasses } from '../utils/utils';
 
 function Home() {
+  const initialData : LocalStorage_Me = {
+    name: "↑", // Some untypable character that hopefully nobody uses
+    link: "",
+    blockout: [],
+    classes: [],
+  }
+
   const [link, setLink] = useState("");
-  const [storeLink, setStoreLink] = useLocalStorage("myTimetableLink", "");
+  const [myData, setMyData] = useLocalStorage("myData", initialData);
   const navigate = useNavigate();
 
 //   Go straight to timetable if link is already stored
   useEffect(() => {
-   if (storeLink !== "") navigate("/main");
+   if (myData.link !== "") navigate("/main");
   }, []);
 
   const isValidLink = (link: string) => {
@@ -32,8 +42,10 @@ function Home() {
       return
     }
 
-    setStoreLink(link);
-    navigate("/timetable");
+    myData.link = link;
+    myData.classes = linkToClasses(link);
+    setMyData(myData);
+    navigate("/main");
   }
 
   return (

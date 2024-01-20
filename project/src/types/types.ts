@@ -26,6 +26,7 @@ export type Blockout = {
 
 export type Class = {
   id: string;
+  image: string;
   since: string;
   till: string;
   title: string;
