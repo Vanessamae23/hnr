@@ -25,7 +25,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/friends/:id",
-    element: <Friend />
+    element: <Friend link={undefined} />
   },
   {
     path: "friends",

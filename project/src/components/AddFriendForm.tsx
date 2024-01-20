@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { TextField, Button, Box } from "@mui/material";
+import CustomButton from "./CustomButton";
 
 const AddFriendForm: React.FC<{
   onAddFriend: (Friend: { name: string; nusModsLink: string }) => void;
@@ -34,9 +35,7 @@ const AddFriendForm: React.FC<{
         onChange={(e) => setNusModsLink(e.target.value)}
         sx={{ flexGrow: 1 }}
       />
-      <Button type="submit" variant="contained" color="primary">
-        Add Timetable
-      </Button>
+      <CustomButton onClick={undefined} label="Add Timetable" />
     </Box>
   );
 };

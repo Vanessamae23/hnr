@@ -6,8 +6,11 @@ import { useApp } from "../useApp";
 import { Timeline } from "./Timeline";
 import { ModuleItem } from "./ModuleItem";
 import { DayItem } from "./DayItem";
-import { classesToPrograms, modulestoClasses } from "../utils/data";
+import { classesToPrograms, modulestoClasses, programsToClasses } from "../utils/data";
 import { linkToClasses } from "../utils/utils";
+import useLocalStorage from "../helpers/useLocalStorage";
+import { LocalStorage_Me } from "../types/types";
+import { default_LocalStorage_Me } from "../defaults/default";
 
 const epg = [
   {
@@ -53,9 +56,11 @@ const epg = [
 ];
 
 
-const Timetable = ({link}) => {
+const Timetable = ({link, peopleId}) => {
 
+  
   const { isLoading, getEpgProps, getLayoutProps, toggleLock } = useApp(classesToPrograms(linkToClasses(link)));
+
   return (
     <div style={{ height: "80vh", width: "100%" }}>
       <Epg isLoading={isLoading} {...getEpgProps()}>
@@ -64,7 +69,7 @@ const Timetable = ({link}) => {
           renderTimeline={(props) => <Timeline {...props} />}
           renderProgram={({ program, ...rest }) => {
             return (
-              <div onClick={() => toggleLock(program.data.id)}>
+              <div onClick={() => toggleLock(program.data.id, peopleId)}>
                 <ModuleItem  key={program.data.id} program={program} {...rest} />
               </div>
             )

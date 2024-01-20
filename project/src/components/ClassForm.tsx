@@ -9,6 +9,7 @@ import {
   Box,
 } from "@mui/material";
 import { Group } from "../types/types";
+import CustomButton from "./CustomButton";
 
 const ClassForm: React.FC<{
   onAddClass: (newClass: Group) => void;
@@ -49,9 +50,7 @@ const ClassForm: React.FC<{
           <MenuItem value="Tutorial">Tutorial</MenuItem>
         </Select>
       </FormControl>
-      <Button type="submit" variant="contained" color="primary">
-        Add Class
-      </Button>
+      <CustomButton label="Add Class" onClick={undefined} />
     </Box>
   );
 };

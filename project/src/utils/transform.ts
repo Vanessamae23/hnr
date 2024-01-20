@@ -40,14 +40,16 @@ export function convertProgramToClass(program: Program): Class {
   
   // Create a Class object
   const classObj: Class = {
-    id,
-    since: sinceDate.getHours().toString() + sinceDate.getMinutes().toString(),
-    till: tillDate.getHours().toString() + tillDate.getMinutes().toString(),
-    title,
-    channelUuid,
-    description,
-    locked,
-    image
+      id,
+      since: sinceDate.getHours().toString() + sinceDate.getMinutes().toString(),
+      till: tillDate.getHours().toString() + tillDate.getMinutes().toString(),
+      title,
+      channelUuid,
+      description,
+      locked,
+      image,
+      lessonType: "",
+      classNumber: ""
   };
 
   return classObj;

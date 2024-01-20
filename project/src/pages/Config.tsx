@@ -4,6 +4,7 @@ import ClassList from "../components/ClassList";
 import { Button, Box } from "@mui/material";
 import useLocalStorage from "../helpers/useLocalStorage";
 import { Person, Group, LocalStorage_Groups } from "../types/types";
+import CustomButton from "../components/CustomButton";
 
 function Config() {
   
@@ -65,12 +66,7 @@ function Config() {
           >
             Back
           </Button>
-          <Button
-            variant="contained"
-            sx={{ bgcolor: "orange.500", "&:hover": { bgcolor: "orange.700" } }}
-          >
-            Match!
-          </Button>
+          <CustomButton label="Match" onClick={undefined} />
         </Box>
       </Box>
     </Box>

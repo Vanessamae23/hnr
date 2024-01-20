@@ -66,9 +66,8 @@ const ClassItem: React.FC<ClassItemProps> = ({
       }}
     >
       <Typography
-        fontFamily="monospace"
-        sx={{ opacity: "50%" }}
-      >{`${moduleName} ${classType}`}</Typography>
+        variant="h6"
+      >{`${moduleName.toUpperCase()} ${classType}`}</Typography>
       <FormControl sx={{ m: 1, width: 300 }}>
         <InputLabel id="demo-multiple-name-label">Match with</InputLabel>
         <Select
@@ -88,8 +87,8 @@ const ClassItem: React.FC<ClassItemProps> = ({
         </Select>
       </FormControl>
       <Button
-        variant="outlined"
-        color="secondary"
+        variant="contained"
+        color="error"
         onClick={() => onDelete(id)}
         sx={{ m: 1 }}
       >

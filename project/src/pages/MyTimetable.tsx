@@ -2,9 +2,32 @@ import { Box, TextField, Typography } from "@mui/material";
 import * as React from "react";
 import CustomButton from "../components/CustomButton";
 import Timetable from "../components/Timetable";
+import useLocalStorage from "../helpers/useLocalStorage";
+import { LocalStorage_Me } from "../types/types";
+import { default_LocalStorage_Me } from "../defaults/default";
+import { programsToClasses } from "../utils/data";
 
 const MyTimetable = () => {
-  const link = "https://nusmods.com/timetable/sem-2/share?BSP1703=TUT:D07,LEC:D2&CS2030S=LAB:12A,REC:02,LEC:1&CS2101=&CS2103T=LEC:G09&CS2109S=TUT:21,LEC:1&CS3230=TUT:02,LEC:1&FIN3701B=SEC:B2"
+  const [person, setPerson] = useLocalStorage<LocalStorage_Me>(
+    "me",
+    default_LocalStorage_Me
+  );
+
+    
+  const [linkForm, setLinkForm] = React.useState(person.link)
+  const [link, setLink] = React.useState(person.link)
+
+  const find = (linkForm) => {
+    setLink(linkForm)
+    person.link = linkForm
+    setPerson(person)
+  }
+
+  React.useEffect(() => {
+    person.link = link
+    setPerson(person)
+  }, [link])
+
   return (
     <Box sx={{ width: "100%", maxWidth: 1200, mx: "auto", my: 4 }}>
       <Box sx={{ display: "flex", flexDirection: "column" }}>
@@ -24,10 +47,13 @@ const MyTimetable = () => {
             label="Search field"
             type="search"
             variant="filled"
+            sx ={{ width: "60%"}}
+            onChange={(e) => setLinkForm(e.target.value)}
           />
-          <CustomButton label="Add" onClick={undefined} />
+          <CustomButton label="Add" onClick={() => find(linkForm)} />
         </Box>
-        <Timetable link={link}/>
+        {link.length > 0 ? <Timetable peopleId={0} link={link}/> : <></>}
+        
       </Box>
     </Box>
   );
