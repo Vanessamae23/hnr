@@ -103,9 +103,9 @@ function AllFriends() {
 
               </Grid>
               <Grid item xs={4} sx={{ flexDirection: 'row', justifyContent: 'space-evenly', display: 'flex' }}>
-                <a href={friend.link} ><Button variant="contained" color="success">NUSMods</Button></a>
-                <CustomButton label="View" onClick={() => navigate("/friends/" + index)} />
-                <Button variant="contained" color="error" onClick={() => deleteFriend(index)}>Delete</Button>
+                <a href={friend.link} ><Button variant="contained" color="success" style={{ backgroundColor: "#f97316" }}>NUSMods</Button></a>
+                <CustomButton label="View" onClick={() => navigate("/friends/" + index)} style={{ backgroundColor: "#0ea5e9" }} />
+                <Button variant="contained" color="error" onClick={() => deleteFriend(index)} style={{ backgroundColor: "#ef4444" }}>Delete</Button>
               </Grid>
             </Grid>
           </ListItem>
