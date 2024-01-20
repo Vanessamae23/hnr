@@ -6,7 +6,11 @@ import { useApp } from "../useApp";
 import { Timeline } from "./Timeline";
 import { ModuleItem } from "./ModuleItem";
 import { DayItem } from "./DayItem";
-import { classesToPrograms, modulestoClasses, programsToClasses } from "../utils/data";
+import {
+  classesToPrograms,
+  modulestoClasses,
+  programsToClasses,
+} from "../utils/data";
 import { linkToClasses } from "../utils/utils";
 import useLocalStorage from "../helpers/useLocalStorage";
 import { LocalStorage_Me } from "../types/types";
@@ -21,7 +25,7 @@ const epg = [
     channelUuid: "0",
     locked: false,
     image: "",
-    description: "Database Implementation"
+    description: "Database Implementation",
   },
   {
     id: "1",
@@ -31,7 +35,7 @@ const epg = [
     channelUuid: "1",
     locked: false,
     description: "Database Implementation",
-    image: "https://via.placeholder.com/150"
+    image: "https://via.placeholder.com/150",
   },
   {
     id: "2",
@@ -41,7 +45,7 @@ const epg = [
     channelUuid: "2",
     locked: false,
     image: "",
-    description: "Database Implementation"
+    description: "Database Implementation",
   },
   {
     id: "3",
@@ -49,9 +53,9 @@ const epg = [
     till: "2024-01-20T11:00:00",
     title: "CS3233",
     channelUuid: "2",
-  image: "https://via.placeholder.com/150",
+    image: "https://via.placeholder.com/150",
     locked: false,
-    description: "Hard module"
+    description: "Hard module",
   },
 ];
 
@@ -61,7 +65,7 @@ const Timetable = ({person, link, peopleId}) => {
   const { isLoading, getEpgProps, getLayoutProps, toggleLock } = useApp(classesToPrograms(person.classes.length == 0 ? linkToClasses(link) : person.classes));
 
   return (
-    <div style={{ height: "80vh", width: "100%" }}>
+    <div style={{ height: "60vh", width: "100%" }}>
       <Epg isLoading={isLoading} {...getEpgProps()}>
         <Layout
           {...getLayoutProps()}
@@ -69,10 +73,9 @@ const Timetable = ({person, link, peopleId}) => {
           renderProgram={({ program, ...rest }) => {
             return (
               <div onClick={() => toggleLock(program.data.id, peopleId)}>
-                <ModuleItem  key={program.data.id} program={program} {...rest} />
+                <ModuleItem key={program.data.id} program={program} {...rest} />
               </div>
-            )
-            
+            );
           }}
           renderChannel={({ channel }) => (
             <DayItem key={channel.uuid} channel={channel} />
@@ -80,7 +83,7 @@ const Timetable = ({person, link, peopleId}) => {
         />
       </Epg>
     </div>
-  )
-}
+  );
+};
 
-export default Timetable
+export default Timetable;

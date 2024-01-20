@@ -76,7 +76,7 @@ export const modulestoClasses = (modules: Modules): Class[] => {
           since: classData.startTime,
           till: classData.endTime,
           title: moduleCode,
-          channelUuid: dayToUuid[classData.day],
+          channelUuid: dayToUuid[classData.day as keyof typeof dayToUuid],
           locked: true,
           description: "", // TODO: Populate with module name once re-filtered data
         });
@@ -107,11 +107,11 @@ export const programsToClasses = (programs: Program[]): Class[] => {
 function convertToNameTitleMapping(
   friends: LocalStorage_Friends
 ): Record<string, Record<string, { classNo: string; isLock: boolean }>> {
-  const mapping = {};
+  const mapping: Record<string, Record<string, { classNo: string; isLock: boolean }>> = {};
 
   friends.forEach((person) => {
-    const classesMapping = person.classes.reduce((acc, cls) => {
-      acc[cls.title] = { classNo: cls.classNumber, isLock: cls.locked };
+    const classesMapping = person.classes.reduce((acc: Record<string, { classNo: string; isLock: boolean }>, cls) => {
+      acc[cls.title] = { classNo: cls.classNumber, isLock: cls.locked } as { classNo: string; isLock: boolean };
       return acc;
     }, {});
 
@@ -154,7 +154,7 @@ function collectClassesWithFriends(
   }[];
 }
 
-export const localStorageToModels = (meLoc, friendsLoc, classes) => {
+export const localStorageToModels = (meLoc: LocalStorage_Me, friendsLoc: LocalStorage_Friends, classes: LocalStorage_Groups) => {
   const nameTitleMapping = convertToNameTitleMapping(friendsLoc);
   const classesWithFriends = collectClassesWithFriends(
     meLoc,
@@ -165,3 +165,8 @@ export const localStorageToModels = (meLoc, friendsLoc, classes) => {
   console.log(nameTitleMapping);
   console.log(classesWithFriends);
 };
+
+export const getAllModuleCodes = (): string[] => {
+  const modulesData: ModuleDatas = json;
+  return Object.keys(modulesData);
+}

@@ -11,7 +11,6 @@ import {
   LocalStorage_Me,
   LocalStorage_Friends,
 } from "../types/types";
-import { localStorageToModels } from "../utils/data";
 import {
   LOCALSTORAGE_KEY_FRIENDS,
   LOCALSTORAGE_KEY_ME,
@@ -22,6 +21,7 @@ import {
   default_LocalStorage_Groups,
   default_LocalStorage_Friends,
 } from "../defaults/default";
+import { getAllModuleCodes } from "../utils/data";
 
 function Config() {
   const [classes, setClasses] = useLocalStorage<LocalStorage_Groups>(
@@ -38,6 +38,14 @@ function Config() {
   );
 
   const handleAddClass = (newClass: Group) => {
+    for (let i = 0; i < classes.length; i++) {
+        if (
+            classes[i].moduleCode === newClass.moduleCode &&
+            classes[i].lessonType === newClass.lessonType
+        ) {
+            return;
+        }
+    }
     setClasses([...classes, newClass]);
   };
 
@@ -101,7 +109,7 @@ function Config() {
           >
             Back
           </Button>
-          <CustomButton label="Match" onClick={handleSubmit} />
+          <CustomButton label="Match" onClick={handleSubmit} disabled={classes.length == 0} />
         </Box>
       </Box>
     </Box>
