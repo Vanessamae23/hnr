@@ -8,7 +8,7 @@ import Matched from './pages/Matched';
 import AllMatched from './pages/AllMatched';
 import MyTimetable from './pages/MyTimetable';
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
-import Main from './pages/Main';
+import AppLayout from './pages/AppLayout';
 
 const router = createBrowserRouter([
   {
@@ -16,32 +16,28 @@ const router = createBrowserRouter([
     element: <Home />,
   },
   {
-    path: "/main",
-    element: <Main />,
-  },
-  {
     path: "/timetable",
-    element: <MyTimetable />,
+    element: <AppLayout component={<MyTimetable />} />,
   },
   {
     path: "/friends/:id",
-    element: <Friend />
+    element: <AppLayout component={<Friend />} />
   },
   {
     path: "friends",
-    element: <AllFriends />,
+    element: <AppLayout component={<AllFriends />} />,
   },
   {
     path: "config",
-    element: <Config />,
+    element: <AppLayout component={<Config />} />,
   },
   {
     path: "matched/:id",
-    element: <Matched />
+    element: <AppLayout component={<Matched />} />
   },
   {
     path: "matched",
-    element: <AllMatched />,
+    element: <AppLayout component={<AllMatched />} />,
   },
 ]);
 

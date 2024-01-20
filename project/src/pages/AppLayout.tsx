@@ -18,6 +18,7 @@ import MyTimetable from './MyTimetable';
 import Home from './Home';
 import AllFriends from './AllFriends';
 import Config from './Config';
+import { useNavigate, Link } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -27,18 +28,13 @@ interface Props {
    * Remove this when copying and pasting into your project.
    */
   window?: () => Window;
+  component: React.ReactNode;
 }
 
-export default function Main(props: Props) {
+export default function AppLayout(props: Props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
-  const [page, setPage] = React.useState(0);
-
-  const map = new Map()
-  map.set(0, <MyTimetable />)
-  map.set(1, <AllFriends />)
-  map.set(2, <Config />)
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -49,24 +45,38 @@ export default function Main(props: Props) {
     setIsClosing(false);
   };
 
-  const handleDrawerToggle = () => {
-    if (!isClosing) {
-      setMobileOpen(!mobileOpen);
+  const pages = [
+    {
+      name: 'My Timetable',
+      component: <MyTimetable />,
+      path: '/timetable',
+    },
+    {
+      name: 'Friends\' timetables',
+      component: <AllFriends />,
+      path: '/friends',
+    },
+    {
+      name: 'Configurations',
+      component: <Config />,
+      path: '/config',
     }
-  };
+  ]
 
   const drawer = (
     <div>
       <Toolbar />
       <Divider />
       <List>
-        {['My Timetable', 'Friends\' timetables', 'Configurations'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton onClick={() => setPage(index)}>
-              <ListItemIcon>
-              </ListItemIcon>
-              <ListItemText primary={text} />
+        {pages.map((page) => (
+            <ListItem key={page.name} disablePadding>
+              <Link to={page.path} style={{ textDecoration: 'none', color: 'inherit' }}>
+              <ListItemButton>
+                <ListItemIcon>
+                </ListItemIcon>
+              <ListItemText primary={page.name} />
             </ListItemButton>
+            </Link>
           </ListItem>
         ))}
       </List>
@@ -84,7 +94,7 @@ export default function Main(props: Props) {
       <Box sx={{ display: 'flex' }}>
         <Box
           component="nav"
-          sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 }, height: '100vh', overflow: 'auto', zIndex:0 }}
+          sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 }, height: '90vh', overflow: 'auto', zIndex:0 }}
           aria-label="mailbox folders"
         >
           {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
@@ -120,7 +130,7 @@ export default function Main(props: Props) {
           component="main"
           sx={{ flexGrow: 1, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
         >
-          {map.get(page)}
+          {props.component}
         </Box>
       </Box>
     </Box>

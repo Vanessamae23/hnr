@@ -24,7 +24,7 @@ function Home() {
 
   //   Go straight to timetable if link is already stored
   useEffect(() => {
-    if (myData.link !== "") navigate("/main");
+    if (myData.link !== "") navigate("/timetable");
   }, []);
 
   const isValidLink = (link: string) => {

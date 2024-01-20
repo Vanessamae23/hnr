@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import BlockOutForm from "../components/BlockOutForm";
 import { formatISODateToAMPM } from "../utils/utils";
+import LayoutWrapper from "./AppLayout";
 
 function Friend() {
   const [friends, setFriends] = useLocalStorage<Person[]>(
