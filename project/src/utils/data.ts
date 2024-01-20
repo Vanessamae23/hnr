@@ -162,3 +162,8 @@ export const localStorageToModels = (meLoc, friendsLoc, classes) => {
   console.log(nameTitleMapping);
   console.log(classesWithFriends);
 };
+
+export const getAllModuleCodes = (): string[] => {
+  const modulesData: ModuleDatas = json;
+  return Object.keys(modulesData);
+}
