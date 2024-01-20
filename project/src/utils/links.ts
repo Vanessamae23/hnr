@@ -1,4 +1,8 @@
-import { NUS_MODS_URL, lessonTypeShorthandMap, shorthandLessonTypeMap } from "../constants/constants";
+import {
+  NUS_MODS_URL,
+  lessonTypeShorthandMap,
+  shorthandLessonTypeMap,
+} from "../constants/constants";
 import { Lessons, Modules } from "../types/types";
 
 // TODO: Add validation and error handling
@@ -23,7 +27,7 @@ export const parseLink = (link: string): Modules => {
     modules[moduleCode] = lessons;
   }
   return modules;
-}
+};
 
 export const encodeLink = (modules: Modules): string => {
   const searchParams: { [key: string]: string | "" } = {};
@@ -34,7 +38,9 @@ export const encodeLink = (modules: Modules): string => {
     }
     const classDataStrings: string[] = [];
     for (const [lessonType, classNo] of Object.entries(lessons)) {
-      classDataStrings.push([lessonTypeShorthandMap[lessonType], classNo].join(":"));
+      classDataStrings.push(
+        [lessonTypeShorthandMap[lessonType], classNo].join(":")
+      );
     }
     searchParams[moduleCode] = classDataStrings.join(",");
   }
@@ -42,4 +48,4 @@ export const encodeLink = (modules: Modules): string => {
   const urlSearch = new URLSearchParams(searchParams).toString();
 
   return [NUS_MODS_URL, urlSearch].join("");
-}
+};

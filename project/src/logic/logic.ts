@@ -1,15 +1,14 @@
-import Module from "module";
 import { N_DAYS, N_TIME_BLOCKS } from "../constants/constants";
-import { Availabilities, Availability, CandidateLessons, CandidateModules, CandidateTimetables, Grouping, Lessons, ModuleDatas, Modules, TimetableInputs, Timetables, UnlockedModules, UnlockedTimetables } from "../types/types";
+import { Availabilities, Availability, Blockout, Blockouts, CandidateLessons, CandidateModules, CandidateTimetables, Grouping, Lessons, ModuleDatas, Modules, TimetableInputs, Timetables, UnlockedModules, UnlockedTimetables } from "../types/types";
 import { getAllClassNos, getAllClasses, getClasses, getLessonTypes } from "../utils/data";
 import { parseLink } from "../utils/links";
 
-export const findValidTimetables = (timetableInputs: TimetableInputs, groupings: Grouping[]) => {
+export const findValidTimetables = (timetableInputs: TimetableInputs, groupings: Grouping[], blockouts: Blockouts) => {
   // Step 1: Separate locked and unlocked classes
   const [lockedTimetables, unlockedTimetables] = processData(timetableInputs, groupings);
 
   // Step 2: Find each person's availabilities
-  const availabilities = findAvailabilities(lockedTimetables);
+  const availabilities = findAvailabilities(lockedTimetables, blockouts);
 
   // Step 3: Find initial set of candidates classes based on individual availability
   const candidateTimetables = findCandidateTimetables(unlockedTimetables, availabilities);
@@ -84,10 +83,12 @@ const processData = (timetableInputs: TimetableInputs, groupings: Grouping[]): [
   return [lockedTimetables, unlockedTimetables];
 }
 
-const findAvailabilities = (lockedTimetables: Timetables) => {
+const findAvailabilities = (lockedTimetables: Timetables, blockouts: Blockouts) => {
   const availabilities: Availabilities = {};
   for (const [person, lockedModules] of Object.entries(lockedTimetables)) {
-    const availability: Availability = getInitialAvailability();
+    availabilities[person] = getInitialAvailability();
+    const availability: Availability = availabilities[person];
+    // account for locked classes
     for (const [moduleCode, lockedLessons] of Object.entries(lockedModules)) {
       for (const [lessonType, classNo] of Object.entries(lockedLessons)) {
         const classDatas = getClasses(moduleCode, lessonType, classNo);
@@ -102,7 +103,16 @@ const findAvailabilities = (lockedTimetables: Timetables) => {
         }
       }
     }
-    availabilities[person] = availability;
+    // acount for blockouts
+    for (const blockout of blockouts[person]) {
+      const { startTime, endTime, day } = blockout;
+      const startIndex = timeToIndex(startTime);
+      const endIndex = timeToIndex(endTime);
+      const dayIndex = dayToIndex(day);
+      for (let i = startIndex; i < endIndex; i++) {
+        availability[dayIndex][i] = false;
+      }
+    }
   }
   return availabilities;
 }

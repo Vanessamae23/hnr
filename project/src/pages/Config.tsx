@@ -3,14 +3,38 @@ import ClassForm from "../components/ClassForm";
 import ClassList from "../components/ClassList";
 import { Button, Box } from "@mui/material";
 import useLocalStorage from "../helpers/useLocalStorage";
-import { Person, Group, LocalStorage_Groups } from "../types/types";
 import CustomButton from "../components/CustomButton";
+import {
+  Person,
+  Group,
+  LocalStorage_Groups,
+  LocalStorage_Me,
+  LocalStorage_Friends,
+} from "../types/types";
+import { localStorageToModels } from "../utils/data";
+import {
+  LOCALSTORAGE_KEY_FRIENDS,
+  LOCALSTORAGE_KEY_ME,
+  LOCALSTORAGE_KEY_GROUPS,
+} from "../constants/constants";
+import {
+  default_LocalStorage_Me,
+  default_LocalStorage_Groups,
+  default_LocalStorage_Friends,
+} from "../defaults/default";
 
 function Config() {
-  
   const [classes, setClasses] = useLocalStorage<LocalStorage_Groups>(
-    "groups",
-    []
+    LOCALSTORAGE_KEY_GROUPS,
+    default_LocalStorage_Groups
+  );
+  const [meLoc, setMeLoc] = useLocalStorage<LocalStorage_Me>(
+    LOCALSTORAGE_KEY_ME,
+    default_LocalStorage_Me
+  );
+  const [friendsLoc, _] = useLocalStorage<LocalStorage_Friends>(
+    LOCALSTORAGE_KEY_FRIENDS,
+    default_LocalStorage_Friends
   );
 
   const handleAddClass = (newClass: Group) => {
@@ -26,7 +50,7 @@ function Config() {
     const index = updatedClasses.findIndex((classInfo) => classInfo.id === id);
     updatedClasses[index].persons = friends;
     setClasses(updatedClasses);
-  }
+  };
 
   const getFriendNames = (): string[] => {
     const friendsData = localStorage.getItem("friends");
@@ -38,6 +62,12 @@ function Config() {
   };
 
   const friendNames = getFriendNames();
+
+  const handleSubmit = () => {
+    console.log(meLoc);
+    console.log(friendsLoc);
+    console.log(classes);
+  };
 
   return (
     <Box sx={{ width: "100%", maxWidth: 1200, mx: "auto", my: 4 }}>
@@ -57,7 +87,12 @@ function Config() {
           <ClassForm onAddClass={handleAddClass} />
         </Box>
 
-        <ClassList classes={classes} onDelete={handleDeleteClass} friendNames={friendNames} handleEditFriends={handleEditFriends}/>
+        <ClassList
+          classes={classes}
+          onDelete={handleDeleteClass}
+          friendNames={friendNames}
+          handleEditFriends={handleEditFriends}
+        />
 
         <Box sx={{ display: "flex", justifyContent: "end", gap: 2, mt: 4 }}>
           <Button
@@ -66,7 +101,7 @@ function Config() {
           >
             Back
           </Button>
-          <CustomButton label="Match" onClick={undefined} />
+          <CustomButton label="Match" onClick={handleSubmit} />
         </Box>
       </Box>
     </Box>

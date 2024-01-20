@@ -17,11 +17,6 @@ export type ClassData = {
 };
 
 // LOCAL STORAGE ---------------------------------
-export type Blockout = {
-  day: string;
-  startTime: string;
-  endTime: string;
-};
 
 export type Class = {
   id: string;
@@ -80,6 +75,17 @@ export type Grouping = {
   moduleCode: string;
   lessonType: string;
   persons: string[];
+};
+
+// Blockout Input
+export type Blockouts = {
+  [person: string]: Blockout[];
+}
+
+export type Blockout = {
+  day: string;
+  startTime: string;
+  endTime: string;
 };
 
 // Unlocked Timetables
