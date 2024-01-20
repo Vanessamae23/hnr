@@ -13,7 +13,11 @@ import {
   ModuleInputs,
   Grouping,
   Blockouts,
+  TimetableInputs,
+  LessonInputs,
+  ClassInput,
 } from "../types/types";
+import { findValidTimetables } from "../logic/logic";
 
 const dayToUuid = {
   Monday: "0",
@@ -135,9 +139,7 @@ function convertToNameTitleMapping(
   return mapping;
 }
 
-function collectClassesWithFriends(
-  groups: LocalStorage_Groups
-): Grouping[] {
+function collectClassesWithFriends(groups: LocalStorage_Groups): Grouping[] {
   return groups.map((item) => ({
     moduleCode: item.moduleCode,
     lessonType: item.lessonType,
@@ -156,23 +158,58 @@ function collectAllBlockouts(
   });
 
   blockouts["me"] = meLoc.blockout;
-  console.log("blockout");
-  console.log(blockouts);
-
   return blockouts;
 }
 
-export const localStorageToModels = (meLoc: LocalStorage_Me, friendsLoc: LocalStorage_Friends, classes: LocalStorage_Groups) => {
+export const convertToTimetableInputs = (
+  nameTitleMapping: ModuleInputs
+): TimetableInputs => {
+  const timetableInputs: TimetableInputs = {};
+
+  Object.keys(nameTitleMapping).forEach((person) => {
+    const moduleInputs: ModuleInputs = {};
+
+    Object.keys(nameTitleMapping[person]).forEach((moduleCode) => {
+      const lessonInputs: LessonInputs = {};
+
+      Object.keys(nameTitleMapping[person][moduleCode]).forEach(
+        (lessonType) => {
+          const classInput: ClassInput = {
+            classNo: nameTitleMapping[person][moduleCode][lessonType],
+            isLocked: false,
+          };
+
+          lessonInputs[lessonType] = classInput;
+        }
+      );
+
+      moduleInputs[moduleCode] = lessonInputs;
+    });
+
+    timetableInputs[person] = moduleInputs;
+  });
+
+  return timetableInputs;
+};
+
+export const localStorageToModels = (
+  meLoc: LocalStorage_Me,
+  friendsLoc: LocalStorage_Friends,
+  classes: LocalStorage_Groups
+) => {
   const nameTitleMapping = convertToNameTitleMapping(friendsLoc, meLoc);
   const classesWithFriends = collectClassesWithFriends(classes);
   const combinedBlockouts = collectAllBlockouts(meLoc, friendsLoc);
-
-  console.log("nameTitleMapping");
-  console.log(nameTitleMapping);
-  console.log("classesWithFriends");
+  console.log(convertToTimetableInputs(nameTitleMapping));
   console.log(classesWithFriends);
-  console.log("combinedBlockouts");
   console.log(combinedBlockouts);
+  const timetableOutputs = findValidTimetables(
+    convertToTimetableInputs(nameTitleMapping),
+    classesWithFriends,
+    combinedBlockouts
+  );
+  console.log("End");
+  console.log(timetableOutputs);
 };
 
 export const getAllModuleCodes = (): string[] => {
