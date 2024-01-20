@@ -16,11 +16,8 @@ import useLocalStorage from "../helpers/useLocalStorage";
 import { TransitionProps } from "@mui/material/transitions";
 import Slide from '@mui/material/Slide';
 import FriendTimetable from "../components/FriendTimetable";
-
-interface Friend {
-  name: string;
-  nusModsLink: string;
-}
+import { AddFriendInput, Person } from "../types/types";
+import { linkToClasses } from "../utils/utils";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -33,8 +30,8 @@ const Transition = React.forwardRef(function Transition(
 
 
 function AllFriends() {
-  const [friends, setFriends] = useLocalStorage<Friend[]>("friends", []);
-  const [currentFriend, setCurrentFriend] = useState<Friend | null>(null)
+  const [friends, setFriends] = useLocalStorage<Person[]>("friends", []);
+  const [currentFriend, setCurrentFriend] = useState<Person | null>(null)
   const [currentFriendId, setCurrentFriendId] = useState<any>(null)
   const [open, setOpen] = React.useState(false);
 
@@ -46,59 +43,59 @@ function AllFriends() {
     setOpen(false);
   };
 
-  const addFriend = (friend: Friend) => {
-    setFriends([...friends, friend]);
-    localStorage.setItem("friends", JSON.stringify([...friends, friend]));
+  const addFriend = (friend: AddFriendInput) => {
+    setFriends([...friends, {
+        name: friend.name,
+        link: friend.link,
+        blockout: [],
+        classes: linkToClasses(friend.link),
+    }]);
   };
 
   const deleteFriend = (index: number) => {
     const updatedFriends = [...friends];
     updatedFriends.splice(index, 1);
     setFriends(updatedFriends);
-    localStorage.setItem("friends", JSON.stringify(updatedFriends));
   };
 
-  const viewFriend = (friend: Friend, index) => {
-    setCurrentFriend(friend);
+  const viewFriend = (index) => {
+    setCurrentFriend(friends[index]);
     setCurrentFriendId(index)
     setOpen(true);
   }
-
-  const storedFriends = localStorage.getItem("friends");
-  const parsedFriends = storedFriends ? JSON.parse(storedFriends) : [];
 
   return (
     <Box sx={{ width: "100%", maxWidth: 1200, mx: "auto", my: 4 }}>
       <AddFriendForm onAddFriend={addFriend} />
       <List>
-        {parsedFriends.map((friend: Friend, index: number) => (
+        {friends.map((friend: Person, index: number) => (
           <ListItem key={index}>
             <ListItemText
               primary={friend.name}
-              secondary={friend.nusModsLink}
+              secondary={friend.link}
             />
-            <Button onClick={() => viewFriend(friend, index)}>View</Button>
+            <Button onClick={() => viewFriend(index)}>View</Button>
             <Button onClick={() => deleteFriend(index)}>Delete</Button>
           </ListItem>
         ))}
       </List>
       {open && currentFriend != null && (
         <Dialog
-          open={open}
-          fullScreen
-          TransitionComponent={Transition}
-          keepMounted
-          onClose={handleClose}
-          aria-describedby="alert-dialog-slide-description"
-        >
-          <DialogTitle>Friend timetable</DialogTitle>
-          <DialogContent>
-            <FriendTimetable person={curre} />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Close</Button>
-          </DialogActions>
-        </Dialog>
+        open={open}
+        fullScreen
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClose}
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle>Friend timetable</DialogTitle>
+        <DialogContent>
+          <FriendTimetable link={currentFriend.link} person={currentFriend} name={currentFriend.name} />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Close</Button>
+        </DialogActions>
+      </Dialog>
       )}
 
 

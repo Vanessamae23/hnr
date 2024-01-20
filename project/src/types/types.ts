@@ -1,3 +1,9 @@
+// FORM INPUT ------------------------------------
+export type AddFriendInput = {
+  name: string;
+  link: string;
+};
+
 // DATA -----------------------------------------
 export type ModuleDatas = {
   [moduleCode: string]: LessonDatas;

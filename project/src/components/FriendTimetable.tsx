@@ -11,9 +11,9 @@ import { linkToClasses } from "../utils/utils";
 import { Person } from "../types/types";
 
 
-const FriendTimetable = (person: Person) => {
-
-  const { isLoading, getEpgProps, getLayoutProps, toggleLock } = useFriendApp(classesToPrograms(linkToClasses(person.link)), person.name);
+const FriendTimetable = ({link, name, person}) => {
+    console.log(classesToPrograms(person.classes))
+  const { isLoading, getEpgProps, getLayoutProps, toggleLock } = useFriendApp(classesToPrograms(person.classes), name);
   return (
     <div style={{ height: "80vh", width: "100%" }}>
       <Epg isLoading={isLoading} {...getEpgProps()}>
@@ -22,7 +22,7 @@ const FriendTimetable = (person: Person) => {
           renderTimeline={(props) => <Timeline {...props} />}
           renderProgram={({ program, ...rest }) => {
             return (
-              <div onClick={() => toggleLock(program.data.id, peopleId)}>
+              <div onClick={() => toggleLock(program.data.id)}>
                 <ModuleItem  key={program.data.id} program={program} {...rest} />
               </div>
             )
