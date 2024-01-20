@@ -16,3 +16,12 @@ export type ClassData = {
   venue: string;
   day: string;
 }
+
+// LOGIC ----------------------------------------
+export type Modules = {
+  [moduleCode: string]: Lessons;
+}
+
+export type Lessons = {
+  [lessonType: string]: string;
+}
