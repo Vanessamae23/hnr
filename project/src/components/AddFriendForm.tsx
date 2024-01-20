@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 import { TextField, Button, Box } from "@mui/material";
 import CustomButton from "./CustomButton";
+import { AddFriendInput } from "../types/types";
 
 const AddFriendForm: React.FC<{
-  onAddFriend: (Friend: { name: string; nusModsLink: string }) => void;
+  onAddFriend: (Friend: AddFriendInput) => void;
 }> = ({ onAddFriend }) => {
   const [name, setName] = useState("");
-  const [nusModsLink, setNusModsLink] = useState("");
+  const [link, setLink] = useState("");
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onAddFriend({ name, nusModsLink });
+    onAddFriend({ name, link });
     setName("");
-    setNusModsLink("");
+    setLink("");
   };
 
   return (
@@ -31,8 +32,8 @@ const AddFriendForm: React.FC<{
       <TextField
         label="NUSMods Link"
         variant="outlined"
-        value={nusModsLink}
-        onChange={(e) => setNusModsLink(e.target.value)}
+        value={link}
+        onChange={(e) => setLink(e.target.value)}
         sx={{ flexGrow: 1 }}
       />
       <CustomButton onClick={undefined} label="Add Timetable" />
