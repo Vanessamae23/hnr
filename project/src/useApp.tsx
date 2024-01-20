@@ -8,7 +8,7 @@ import { theme } from "./helpers/theme";
 import useLocalStorage from "./helpers/useLocalStorage";
 import { LocalStorage_Friends, LocalStorage_Me, Person } from "./types/types";
 import { convertProgramToClass } from "./utils/transform";
-import { programsToClasses } from "./utils/data";
+import { classesToPrograms, programsToClasses } from "./utils/data";
 import {
   default_LocalStorage_Friends,
   default_LocalStorage_Me,
@@ -62,7 +62,8 @@ export function useApp(epgList: Program[]) {
       }
       return prevFriend;
     });
-  }, [epg]);
+  }, [epg, person.classes]);
+
   const handleFetchResources = React.useCallback(async () => {
     setIsLoading(true);
     const channels = await fetchChannels();

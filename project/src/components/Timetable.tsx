@@ -18,8 +18,10 @@ import { default_LocalStorage_Me } from "../defaults/default";
 
 
 const Timetable = ({ person, link, peopleId }) => {
+  console.log(person.classes)
+  let { isLoading, getEpgProps, getLayoutProps, toggleLock } = useApp(classesToPrograms(person.classes.length === 0 ? linkToClasses(link) : person.classes));
 
-  const { isLoading, getEpgProps, getLayoutProps, toggleLock } = useApp(classesToPrograms(person.classes.length === 0 ? linkToClasses(link) : person.classes));
+ 
 
   return (
     <div style={{ height: "60vh", width: "100%" }}>
