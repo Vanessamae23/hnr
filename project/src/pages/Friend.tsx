@@ -16,8 +16,11 @@ import { formatISODateToAMPM } from "../utils/utils";
 import { default_LocalStorage_Friends } from "../defaults/default";
 import { linkToClasses } from "../utils/utils";
 import ImportTimetableForm from "../components/ImportTimetableForm";
+import CustomButton from "../components/CustomButton";
+import { useNavigate } from "react-router-dom";
 
 function Friend() {
+  const navigate = useNavigate();
   const [friends, setFriends] = useLocalStorage<Person[]>(
     LOCALSTORAGE_KEY_FRIENDS,
     default_LocalStorage_Friends
@@ -94,6 +97,15 @@ function Friend() {
             ))}
           </List>
         </Box>
+      </Box>
+      <Box sx={{ display: "flex", justifyContent: "start", gap: 2, mt: 4 }}>
+        <Button
+          variant="outlined"
+          sx={{ borderColor: "grey.300", "&:hover": { bgcolor: "grey.100" } }}
+          onClick={() => navigate("/friends")}
+        >
+          Back to Friends
+        </Button>
       </Box>
     </Box>
   );

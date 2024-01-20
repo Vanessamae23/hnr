@@ -16,8 +16,11 @@ import { linkToClasses } from "../utils/utils";
 import TimeTable from "../components/Timetable";
 import {Class} from "../types/types";
 import ImportTimetableForm from "../components/ImportTimetableForm";
+import CustomButton from "../components/CustomButton";
+import { useNavigate } from "react-router-dom";
 
 const MyTimetable = () => {
+  const navigate = useNavigate();
   const [person, setPerson] = useLocalStorage<LocalStorage_Me>(
     LOCALSTORAGE_KEY_ME,
     default_LocalStorage_Me
@@ -80,6 +83,12 @@ const MyTimetable = () => {
             ))}
           </List>
         </Box>
+      </Box>
+      <Box sx={{ display: "flex", justifyContent: "end", gap: 2, mt: 4 }}>
+        <CustomButton
+          label="Next"
+          onClick={() => navigate("/friends")}
+        />
       </Box>
     </Box>
   );

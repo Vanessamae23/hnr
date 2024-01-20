@@ -129,6 +129,19 @@ function AllFriends() {
           </React.Fragment>
         }
       />
+        <Box sx={{ display: "flex", justifyContent: "end", gap: 2, mt: 4 }}>
+          <Button
+            variant="outlined"
+            sx={{ borderColor: "grey.300", "&:hover": { bgcolor: "grey.100" } }}
+            onClick={() => navigate("/timetable")}
+          >
+            Back
+          </Button>
+          <CustomButton
+            label="Next"
+            onClick={() => navigate("/config")}
+          />
+        </Box>
     </Box>
 
   );

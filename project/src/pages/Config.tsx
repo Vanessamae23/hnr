@@ -123,6 +123,7 @@ function Config() {
           <Button
             variant="outlined"
             sx={{ borderColor: "grey.300", "&:hover": { bgcolor: "grey.100" } }}
+            onClick={() => navigate("/friends")}
           >
             Back
           </Button>
