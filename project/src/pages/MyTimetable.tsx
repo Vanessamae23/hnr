@@ -29,7 +29,6 @@ const MyTimetable = () => {
     setPerson(updatedPerson);
   }
 
-  console.log(person);
   const [linkForm, setLinkForm] = React.useState(person.link)
   const [link, setLink] = React.useState(person.link)
 

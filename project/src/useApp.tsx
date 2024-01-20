@@ -2,11 +2,12 @@ import React from "react";
 import { fetchChannels } from "./helpers";
 import { Channel, Program, useEpg } from "planby";
 import { theme } from "./helpers/theme";
-import { programsToClasses } from "./utils/data";
+import { classesToPrograms, programsToClasses } from "./utils/data";
+import { Class } from "./types/types";
 
-export function useApp(epgList: Program[], personName) {
+export function useApp(classList: Class[], personName) {
   const [channels, setChannels] = React.useState<Channel[]>([]);
-  const [epg, setEpg] = React.useState<Program[]>(epgList);
+  const [epg, setEpg] = React.useState<Program[]>(classesToPrograms(classList));
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   const channelsData = React.useMemo(() => channels, [channels]);
@@ -29,12 +30,17 @@ export function useApp(epgList: Program[], personName) {
 
   const toggleLock = (programId, classes, setClasses) => {
     setEpg((prevEpg) => {
-      const updatedEpg = prevEpg.map((program) =>
-        program.id === programId
-          ? { ...program, locked: !program.locked }
-          : program
+      const updatedClasses = classes;
+      const updatedEpg = prevEpg.map((program, index) => {
+        if (program.id === programId) {
+          updatedClasses[index].locked = !updatedClasses[index].locked;
+          return { ...program, locked: !program.locked };
+        } else {
+          return program;
+        }
+      }
       );
-      setClasses(programsToClasses(updatedEpg));
+      setClasses(updatedClasses);
       return updatedEpg;
     });
   };

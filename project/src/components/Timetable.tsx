@@ -1,16 +1,15 @@
 import React from "react";
-import { Epg, Layout, Program, ProgramItem } from "planby";
+import { Epg, Layout } from "planby";
 
 // Import hooks
 import { useApp } from "../useApp";
 import { Timeline } from "./Timeline";
 import { ModuleItem } from "./ModuleItem";
 import { DayItem } from "./DayItem";
-import { classesToPrograms, modulestoClasses } from "../utils/data";
 
 const TimeTable = ({ classes, setClasses, name }) => {
   const { isLoading, getEpgProps, getLayoutProps, toggleLock } = useApp(
-    classesToPrograms(classes),
+    classes,
     name
   );
   return (
