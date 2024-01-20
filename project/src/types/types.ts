@@ -28,6 +28,8 @@ export type Class = {
   image: string;
   since: string;
   till: string;
+  lessonType: string;
+  classNumber: string;
   title: string;
   channelUuid: string;
   locked: boolean;

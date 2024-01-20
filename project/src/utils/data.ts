@@ -34,12 +34,15 @@ export const getClasses = (moduleCode: string, lessonType: string, classNo: stri
 
 export const modulestoClasses = (modules: Modules): Class[] => {
   const classes: Class[] = [];
+  var ix = 0;
   for (const [moduleCode, lessons] of Object.entries(modules)) {
     for (const [lessonType, classNo] of Object.entries(lessons)) {
       const classDatas = getClasses(moduleCode, lessonType, classNo);
       for (const classData of classDatas) {
         classes.push({
-          id: classes.length.toString(),
+          id: ix.toString(),
+          lessonType: lessonType,
+          classNumber: classNo,
           image: "", // Blank, Required for Vanessa's use
           since: classData.startTime,
           till: classData.endTime,
@@ -49,6 +52,7 @@ export const modulestoClasses = (modules: Modules): Class[] => {
           description: "", // TODO: Populate with module name once re-filtered data
         });
       }
+      ix++;
     }
   }
   return classes;
