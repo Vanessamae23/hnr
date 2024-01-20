@@ -29,3 +29,7 @@ export const shorthandLessonTypeMap: { [lessonTypeShorthand: string]: string } =
 
 // URL config
 export const NUS_MODS_URL = "https://nusmods.com/timetable/sem-2/share?";
+
+// Availability
+export const N_TIME_BLOCKS = 34;
+export const N_DAYS = 6;

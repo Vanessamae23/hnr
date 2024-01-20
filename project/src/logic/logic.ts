@@ -1,13 +1,14 @@
-import { Grouping, ModuleDatas, Modules, TimetableInputs, Timetables, UnlockedModules, UnlockedTimetables } from "../types/types";
-import { getLessonTypes } from "../utils/data";
+import { N_DAYS, N_TIME_BLOCKS } from "../constants/constants";
+import { Availabilities, Availability, Grouping, ModuleDatas, Modules, TimetableInputs, Timetables, UnlockedModules, UnlockedTimetables } from "../types/types";
+import { getClasses, getLessonTypes } from "../utils/data";
 import { parseLink } from "../utils/links";
 
 export const findValidTimetables = (timetableInputs: TimetableInputs, groupings: Grouping[]) => {
   // Step 1: Separate locked and unlocked classes
   const [lockedTimetables, unlockedTimetables] = processData(timetableInputs, groupings);
-  console.log(lockedTimetables, unlockedTimetables);
 
   // Step 2: Find each person's availabilities
+  const availabilities = findAvailabilities(lockedTimetables);
 
   // Step 3: Find initial set of candidates classes based on individual availability
 
@@ -75,3 +76,57 @@ const processData = (timetableInputs: TimetableInputs, groupings: Grouping[]): [
   return [lockedTimetables, unlockedTimetables];
 }
 
+const findAvailabilities = (lockedTimetables: Timetables) => {
+  const availabilities: Availabilities = {};
+  for (const [person, lockedModules] of Object.entries(lockedTimetables)) {
+    const availability: Availability = getInitialAvailability();
+    for (const [moduleCode, lockedLessons] of Object.entries(lockedModules)) {
+      for (const [lessonType, classNo] of Object.entries(lockedLessons)) {
+        const classDatas = getClasses(moduleCode, lessonType, classNo);
+        for (const classData of classDatas) {
+          const { startTime, endTime, day } = classData;
+          const startIndex = timeToIndex(startTime);
+          const endIndex = timeToIndex(endTime);
+          const dayIndex = dayToIndex(day);
+          for (let i = startIndex; i < endIndex; i++) {
+            availability[dayIndex][i] = false;
+          }
+        }
+      }
+    }
+    availabilities[person] = availability;
+  }
+  return availabilities;
+}
+
+
+
+// Utils
+const timeToIndex = (time: string): number => {
+  const hours = parseInt(time.substring(0, 2));
+  const minutes = parseInt(time.substring(2, 4));
+
+  return (hours - 6) * 2 + (minutes / 30);
+}
+
+const dayToIndex = (day: string): number => {
+  return {
+    Monday: 0,
+    Tuesday: 1,
+    Wednesday: 2,
+    Thursday: 3,
+    Friday: 4,
+    Saturday: 5
+  }[day]!;
+}
+
+const getInitialAvailability = (): Availability => {
+  const availability: Availability = [];
+  for (let i = 0; i < N_DAYS; i++) {
+    availability.push([]);
+    for (let j = 0; j < N_TIME_BLOCKS; j++) {
+      availability[i].push(true);
+    }
+  }
+  return availability;
+}

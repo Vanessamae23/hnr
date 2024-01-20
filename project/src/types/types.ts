@@ -66,3 +66,11 @@ export type Modules = {
 export type Lessons = {
   [lessonType: string]: string;
 }
+
+// Availabilities
+
+export type Availabilities = {
+  [person: string]: Availability;
+}
+
+export type Availability = boolean[][];
