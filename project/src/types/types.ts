@@ -12,7 +12,7 @@ export type ClassData = {
   classNo: string;
   startTime: string;
   endTime: string;
-  weeks: number[];
+  weeks: number[] | { start: string; end: string };
   venue: string;
   day: string;
 }
@@ -55,6 +55,10 @@ export type UnlockedModules = {
 }
 
 // Output / Candidates
+export type Timetables = {
+  [person: string]: Modules;
+}
+
 export type Modules = {
   [moduleCode: string]: Lessons;
 }
@@ -62,3 +66,11 @@ export type Modules = {
 export type Lessons = {
   [lessonType: string]: string;
 }
+
+// Availabilities
+
+export type Availabilities = {
+  [person: string]: Availability;
+}
+
+export type Availability = boolean[][];

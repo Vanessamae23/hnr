@@ -1,4 +1,4 @@
-import { NUS_MODS_URL } from "../constants/constants";
+import { NUS_MODS_URL, lessonTypeShorthandMap, shorthandLessonTypeMap } from "../constants/constants";
 import { Lessons, Modules } from "../types/types";
 
 // TODO: Add validation and error handling
@@ -17,8 +17,8 @@ export const parseLink = (link: string): Modules => {
     }
 
     for (const lessonDataString of moduleDataString.split(",")) {
-      const [lessonType, classNo] = lessonDataString.split(":");
-      lessons[lessonType] = classNo;
+      const [lessonTypeShorthand, classNo] = lessonDataString.split(":");
+      lessons[shorthandLessonTypeMap[lessonTypeShorthand]] = classNo;
     }
     modules[moduleCode] = lessons;
   }
@@ -34,7 +34,7 @@ export const encodeLink = (modules: Modules): string => {
     }
     const classDataStrings: string[] = [];
     for (const [lessonType, classNo] of Object.entries(lessons)) {
-      classDataStrings.push([lessonType, classNo].join(":"));
+      classDataStrings.push([lessonTypeShorthandMap[lessonType], classNo].join(":"));
     }
     searchParams[moduleCode] = classDataStrings.join(",");
   }
