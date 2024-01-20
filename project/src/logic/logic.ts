@@ -1,7 +1,7 @@
 import { N_DAYS, N_TIME_BLOCKS } from "../constants/constants";
 import { Availabilities, Availability, Blockouts, CandidateLessons, CandidateModules, CandidateTimetables, Grouping, Lessons, Modules, TimetableInputs, Timetables, UnlockedModules, UnlockedTimetables, UrlOuput } from "../types/types";
 import { getAllClassNos, getAllClasses, getClasses, getLessonTypes } from "../utils/data";
-import { encodeLink } from "../utils/links";
+import { encodeLink, parseLink } from "../utils/links";
 
 export const findValidTimetables = (timetableInputs: TimetableInputs, groupings: Grouping[], blockouts: Blockouts, iterations: number = 0): Timetables => {
   // Step 1: Separate locked and unlocked classes
@@ -316,11 +316,11 @@ export const getUrlOutputs = (timetables: Timetables): UrlOuput[] => {
   const urlOutputs = Object.entries(timetables).map(([person, modules]) => ({ person, url: encodeLink(modules) }));
 
   for (let i = 0; i < urlOutputs.length; i++) {
-    const urlOutput = urlOutputs[i];
+    const urlOutput: UrlOuput = urlOutputs[i];
 
     if (urlOutput.person === "me") {
-      urlOutputs[i] = urlOutput[0];
-      urlOutput[0] = urlOutput;
+      urlOutputs[i] = urlOutputs[0];
+      urlOutputs[0] = urlOutput;
       break;
     }
   }
