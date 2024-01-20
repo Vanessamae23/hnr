@@ -13,6 +13,6 @@ export const default_LocalStorage_Friends: LocalStorage_Me[] = [];
 export const default_LocalStorage_Groups: Group[] = [];
 
 export const default_GeneratedTimetable = {
-  generatedPeople: [] as GeneratedPerson[],
+  generatedPeople: [],
   countGeneration: 0,
 };

@@ -20,9 +20,11 @@ function AllMatched() {
       LOCALSTORAGE_KEY_GENERATED_TIMETABLE,
       default_GeneratedTimetable
     );
-
-  const me = generatedTimetable.generatedPeople[0];
-  const friends = generatedTimetable.generatedPeople.slice(1);
+  console.log(generatedTimetable.generatedPeople);
+  // const me = generatedTimetable.generatedPeople.find(
+  //   (person) => person.name === "me"
+  // );
+  const friends = generatedTimetable.generatedPeople;
 
   return (
     <Box sx={{ width: "100%", maxWidth: 1200, mx: "auto", my: 4 }}>
@@ -31,9 +33,9 @@ function AllMatched() {
           My Timetable
         </Typography>
         <Typography variant="body1" sx={{ mx: 2 }} gutterBottom>
-          {me.link}
+          {/* {me?.link} */}
         </Typography>
-        <StaticTimetable classes={me.classes} />
+        {/* <StaticTimetable classes={me?.classes} /> */}
       </Box>
       <Box sx={{ width: "100%", maxWidth: 1200, mx: "auto", my: 4 }}>
         <Typography variant="h5" sx={{ mx: 2 }} gutterBottom>
