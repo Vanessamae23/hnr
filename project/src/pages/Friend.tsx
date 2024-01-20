@@ -1,5 +1,5 @@
 import React from "react";
-import FriendTimetable from "../components/FriendTimetable";
+import TimeTable from "../components/Timetable";
 import useLocalStorage from "../helpers/useLocalStorage";
 import { LOCALSTORAGE_KEY_FRIENDS } from "../constants/constants";
 import { Blockout, Class, Person } from "../types/types";
@@ -58,8 +58,8 @@ function Friend() {
 
   return (
     <Box sx={{ width: "100%", maxWidth: 1200, mx: "auto", my: 4 }}>
-      <FriendTimetable
-        friendName={friend.name}
+      <TimeTable
+        name={friend.name}
         classes={friend.classes}
         setClasses={setClasses}
       />

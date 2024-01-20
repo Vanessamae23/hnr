@@ -6,30 +6,22 @@ import { useApp } from "../useApp";
 import { Timeline } from "./Timeline";
 import { ModuleItem } from "./ModuleItem";
 import { DayItem } from "./DayItem";
-import {
-  classesToPrograms,
-  modulestoClasses,
-  programsToClasses,
-} from "../utils/data";
-import { linkToClasses } from "../utils/utils";
-import useLocalStorage from "../helpers/useLocalStorage";
-import { LocalStorage_Me } from "../types/types";
-import { default_LocalStorage_Me } from "../defaults/default";
+import { classesToPrograms, modulestoClasses } from "../utils/data";
 
-
-const Timetable = ({ person, link, peopleId }) => {
-
-  const { isLoading, getEpgProps, getLayoutProps, toggleLock } = useApp(classesToPrograms(person.classes.length === 0 ? linkToClasses(link) : person.classes));
-
+const TimeTable = ({ classes, setClasses, name }) => {
+  const { isLoading, getEpgProps, getLayoutProps, toggleLock } = useApp(
+    classesToPrograms(classes),
+    name
+  );
   return (
-    <div style={{ height: "60vh", width: "100%" }}>
+    <div style={{ height: "80vh", width: "100%" }}>
       <Epg isLoading={isLoading} {...getEpgProps()}>
         <Layout
           {...getLayoutProps()}
           renderTimeline={(props) => <Timeline {...props} />}
           renderProgram={({ program, ...rest }) => {
             return (
-              <div onClick={() => toggleLock(program.data.id, peopleId)}>
+              <div onClick={() => toggleLock(program.data.id, classes, setClasses)}>
                 <ModuleItem key={program.data.id} program={program} {...rest} />
               </div>
             );
@@ -43,4 +35,4 @@ const Timetable = ({ person, link, peopleId }) => {
   );
 };
 
-export default Timetable;
+export default TimeTable;

@@ -9,25 +9,34 @@ import {
 } from "@mui/material";
 import * as React from "react";
 import CustomButton from "../components/CustomButton";
-import Timetable from "../components/Timetable";
 import useLocalStorage from "../helpers/useLocalStorage";
 import { Blockout, LocalStorage_Me } from "../types/types";
 import { default_LocalStorage_Me } from "../defaults/default";
 import { LOCALSTORAGE_KEY_ME } from "../constants/constants";
 import BlockOutForm from "../components/BlockOutForm";
 import { formatISODateToAMPM } from "../utils/utils";
+import { linkToClasses } from "../utils/utils";
+import TimeTable from "../components/Timetable";
+import {Class} from "../types/types";
 
 const MyTimetable = () => {
   const [person, setPerson] = useLocalStorage<LocalStorage_Me>(
     LOCALSTORAGE_KEY_ME,
     default_LocalStorage_Me
   );
+  const setClasses = (classes: Class[]) : void => {
+    const updatedPerson = { ...person, classes: classes };
+    setPerson(updatedPerson);
+  }
+
+  console.log(person);
   const [linkForm, setLinkForm] = React.useState(person.link)
   const [link, setLink] = React.useState(person.link)
 
   const find = (linkForm) => {
     setLink(linkForm);
     person.link = linkForm;
+    person.classes = linkToClasses(linkForm);
     setPerson(person);
   };
 
@@ -47,8 +56,6 @@ const MyTimetable = () => {
     const updatedPerson = { ...person, blockout: updatedBlockout };
     setPerson(updatedPerson);
   };
-
-  const parsedBlockout = person.blockout ? person.blockout : [];
   
   return (
     <Box sx={{ width: "100%", maxWidth: 1200, mx: "auto", my: 4 }}>
@@ -79,11 +86,11 @@ const MyTimetable = () => {
             disabled={linkForm === link}
           />
         </Box>
-        {link.length > 0 ? <Timetable person={person} peopleId={0} link={link} /> : <></>}
+        <TimeTable classes={person.classes} setClasses={setClasses} name={""}/>
         <Box sx={{ margin: "16px p", padding: "64px" }}>
           <BlockOutForm onBlockOut={handleAddBlockOut} />
           <List>
-            {parsedBlockout.map((blockout: Blockout, index: number) => (
+            {person.blockout.map((blockout: Blockout, index: number) => (
               <ListItem key={index}>
                 <ListItemText
                   primary={blockout.day}
