@@ -44,6 +44,27 @@ function AllFriends() {
   };
 
   const addFriend = (friend: AddFriendInput) => {
+    const usedNames = friends.map((friend) => friend.name);
+    if (friend.name === "") {
+        let friendIx = 1;
+        do {
+            friend.name = `Friend ${friendIx++}`;
+        } while (usedNames.includes(friend.name))
+    }
+
+    const newFriend = {
+        name: friend.name,
+        link: friend.link,
+        blockout: [],
+        classes: linkToClasses(friend.link),
+    }
+
+    for (let i = 0; i < friends.length; i++) {
+        if (friends[i].name === friend.name) {
+            friends[i] = newFriend;
+            return;
+        }
+    }
     setFriends([...friends, {
         name: friend.name,
         link: friend.link,
