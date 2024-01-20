@@ -17,6 +17,41 @@ export type ClassData = {
   day: string;
 }
 
+// LOCAL STORAGE ---------------------------------
+export type Blockout = {
+  day: string;
+  startTime: string;
+  endTime: string;
+}
+
+export type Class = {
+  id: string;
+  since: string;
+  till: string;
+  title: string;
+  channelUuid: string;
+  locked: boolean;
+  description: string;
+}
+
+export type Person = {
+  name: string;
+  link: string;
+  blockout: Blockout[];
+  classes: Class[];
+}
+
+export type Group = {
+  moduleCode: string;
+  lessonType: string;
+  persons: string[];
+}
+
+export type LocalStorage_Me = Person;
+export type LocalStorage_Friends = Person[];
+export type LocalStorage_Groups = Group[];
+
+
 // LOGIC ----------------------------------------
 
 // Timetable Input
