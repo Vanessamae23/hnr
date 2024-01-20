@@ -120,23 +120,24 @@ export function useFriendApp(epgList: Program[], personName) {
 
     React.useEffect(() => {
         setFriend((prevFriend) => {
-            console.log(epg)
-            if (prevFriend) {
-                const updatedFriend = {
-                    ...prevFriend,
-                    classes: programsToClasses(epg),
-                };
-                // Update the friends state in local storage with the new friend data
-                setFriends((prevFriends) =>
-                    prevFriends.map((f) =>
-                        f.name === updatedFriend.name ? updatedFriend : f
-                    )
-                );
-                return updatedFriend;
-            }
-            return prevFriend;
+          if (prevFriend) {
+            const updatedFriend = {
+              ...prevFriend,
+              classes: programsToClasses(epg),
+            };
+            
+            // Update the friends state in local storage with the new friend data
+            setFriends((prevFriends) =>
+              prevFriends.map((f) =>
+                f.name === updatedFriend.name ? updatedFriend : f
+              )
+            );
+      
+            return updatedFriend;
+          }
+          return prevFriend;
         });
-    }, [epg]);
+      }, [epg, setFriends]); // Include setFriends in the dependency array
 
 
     const handleFetchResources = React.useCallback(async () => {
