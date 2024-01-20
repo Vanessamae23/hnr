@@ -10,12 +10,12 @@ interface ChannelItemProps {
 
 export const DayItem = ({ channel }: ChannelItemProps) => {
   const numericToDayMap: Map<string, string> = new Map([
-    ['0', 'Monday'],
-    ['1', 'Tuesday'],
-    ['2', 'Wednesday'],
-    ['3', 'Thursday'],
-    ['4', 'Friday'],
-    ['5', 'Saturday'],
+    ['0', 'Mon'],
+    ['1', 'Tue'],
+    ['2', 'Wed'],
+    ['3', 'Thurs'],
+    ['4', 'Fri'],
+    ['5', 'Sat'],
   ]);
   const { position, logo } = channel;
   return (

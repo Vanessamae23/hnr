@@ -68,8 +68,8 @@ const MyTimetable = () => {
           <TextField
             id="filled-search"
             type="search"
-            variant="filled"
-            sx={{ width: "60%" }}
+            variant="outlined"
+            sx={{ width: "60%", borderRadius: 20 }}
             value={linkForm}
             onChange={(e) => setLinkForm(e.target.value)}
           />
