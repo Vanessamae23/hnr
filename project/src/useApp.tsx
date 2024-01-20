@@ -7,7 +7,7 @@ import { Channel, Program, useEpg } from "planby";
 import { theme } from "./helpers/theme";
 import useLocalStorage from "./helpers/useLocalStorage";
 import { LocalStorage_Friends, LocalStorage_Me, Person } from "./types/types";
-// import { convertProgramToClass } from "./utils/transform";
+import { convertProgramToClass } from "./utils/transform";
 import { programsToClasses } from "./utils/data";
 import {
   default_LocalStorage_Friends,
@@ -89,14 +89,13 @@ export function useFriendApp(epgList: Program[], personName) {
     LOCALSTORAGE_KEY_FRIENDS,
     default_LocalStorage_Friends
   );
-  const findFriendByName = (friendName: string) => {
-    return friends.find((friend) => friend.name === friendName);
-  };
-  const [friend, setFriend] = React.useState<Person | undefined>(
-    findFriendByName(personName)
-  );
-
-  const { getEpgProps, getLayoutProps } = useEpg({
+    const findFriendByName = (friendName: string) => {
+        return friends.find((friend) => friend.name === friendName);
+    };
+    const [friend, setFriend] = React.useState<Person | undefined>(
+        findFriendByName(personName)
+    );
+    const { getEpgProps, getLayoutProps } = useEpg({
     channels: channelsData,
     epg: epgData,
     dayWidth: 3000,
@@ -111,36 +110,19 @@ export function useFriendApp(epgList: Program[], personName) {
     theme,
   });
 
-  const toggleLock = (programId) => {
-    setEpg((prevEpg) =>
-      prevEpg.map((program) =>
-        program.id === programId
-          ? { ...program, locked: !program.locked }
-          : program
-      )
-    );
-  };
-
-  React.useEffect(() => {
-    setFriend((prevFriend) => {
-      if (prevFriend) {
-        const updatedFriend = {
-          ...prevFriend,
-          classes: programsToClasses(epg),
-        };
-
-        // Update the friends state in local storage with the new friend data
-        setFriends((prevFriends) =>
-          prevFriends.map((f) =>
-            f.name === updatedFriend.name ? updatedFriend : f
-          )
-        );
-
-        return updatedFriend;
-      }
-      return prevFriend;
-    });
-  }, [epg]); // Include setFriends in the dependency array
+    const toggleLock = (programId, classes, setClasses) => {
+        setEpg((prevEpg) => {
+          const updatedEpg = prevEpg.map((program) =>
+            program.id === programId
+              ? { ...program, locked: !program.locked }
+              : program
+          );
+          setClasses(programsToClasses(updatedEpg));
+          return updatedEpg;
+        });
+      };
+      
+   
 
   const handleFetchResources = React.useCallback(async () => {
     setIsLoading(true);

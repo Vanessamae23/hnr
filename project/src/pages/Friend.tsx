@@ -1,15 +1,31 @@
 import React from 'react'
-import { classesToPrograms } from '../utils/data';
-import { linkToClasses } from '../utils/utils';
-import { useApp } from '../useApp';
 import FriendTimetable from '../components/FriendTimetable';
+import useLocalStorage from '../helpers/useLocalStorage';
+import { LOCALSTORAGE_KEY_FRIENDS } from '../constants/constants';
+import { Class, Person } from '../types/types';
+import { useParams, redirect } from 'react-router-dom';
 
-function Friend({link}) {
-  
-  const { isLoading, getEpgProps, getLayoutProps, toggleLock } = useApp(classesToPrograms(linkToClasses(link)));
+function Friend() {
+  const [friends, setFriends] = useLocalStorage<Person[]>(LOCALSTORAGE_KEY_FRIENDS, []);
+  const idParam = useParams().id;
+
+  if (idParam === undefined || idParam === "") {
+    redirect("/friends");
+  }
+  const id = parseInt(idParam as string);
+  if (id >= friends.length) {
+    redirect("/friends");
+  }
+
+  const friend = friends[id];
+  const setClasses = (classes: Class[]) => {
+    const updatedFriends = [...friends];
+    updatedFriends[id].classes = classes;
+    setFriends(updatedFriends);
+  }
+
   return (
-    <div>
-    </div>
+    <FriendTimetable friendName={friend.name} classes={friend.classes} setClasses={setClasses} />
   )
 }
 

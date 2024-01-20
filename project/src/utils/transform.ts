@@ -31,57 +31,29 @@ function parseDateString(dateString: string): string {
   )}:00`;
 }
 
-// export function convertProgramToClass(program: Program): Class {
-//     const { id, since, till, title, channelUuid, description, locked, image } = program;
-
-//     // Assuming you have a function to format Date objects to string
-//     const sinceDate = new Date(since);
-//     const tillDate = new Date(till);
-
-//     // Helper function to ensure two digits with leading zero
-//     const formatTime = (value: number) => value.toString().padStart(2, '0');
-
-//     // Create a Class object
-//     const classObj: Class = {
-//       id,
-//       since: `${formatTime(sinceDate.getHours())}${formatTime(sinceDate.getMinutes())}`,
-//       till: `${formatTime(tillDate.getHours())}${formatTime(tillDate.getMinutes())}`,
-//       title,
-//       channelUuid,
-//       description,
-//       locked,
-//       image,
-//       lessonType: "",
-//       classNumber: ""
-//     };
-
-//     return classObj;
-//   }
-
-//   // Assuming you have a function to format Date objects to string
-//   const sinceDate = new Date(since);
-//   const tillDate = new Date(till);
-
-//   // Helper function to ensure two digits with leading zero
-//   const formatTime = (value: number) => value.toString().padStart(2, "0");
-
-//   // Create a Class object
-//   const classObj: Class = {
-//     id,
-//     since: `${formatTime(sinceDate.getHours())}:${formatTime(
-//       sinceDate.getMinutes()
-//     )}`,
-//     till: `${formatTime(tillDate.getHours())}:${formatTime(
-//       tillDate.getMinutes()
-//     )}`,
-//     title,
-//     channelUuid,
-//     description,
-//     locked,
-//     image,
-//     lessonType: "",
-//     classNumber: "",
-//   };
-
-//   return classObj;
-// }
+export function convertProgramToClass(program: Program): Class {
+    const { id, since, till, title, channelUuid, description, locked, image } = program;
+  
+    // Assuming you have a function to format Date objects to string
+    const sinceDate = new Date(since);
+    const tillDate = new Date(till);
+  
+    // Helper function to ensure two digits with leading zero
+    const formatTime = (value: number) => value.toString().padStart(2, '0');
+  
+    // Create a Class object
+    const classObj: Class = {
+      id,
+      since: `${formatTime(sinceDate.getHours())}${formatTime(sinceDate.getMinutes())}`,
+      till: `${formatTime(tillDate.getHours())}${formatTime(tillDate.getMinutes())}`,
+      title,
+      channelUuid,
+      description,
+      locked,
+      image,
+      lessonType: "",
+      classNumber: ""
+    };
+    
+    return classObj;
+  }

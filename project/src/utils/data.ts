@@ -1,7 +1,7 @@
 import { Program } from "planby";
 import json from "../data/data.json";
 // import { convertClassToProgram, convertProgramToClass } from "./transform";
-import { convertClassToProgram } from "./transform";
+import { convertClassToProgram, convertProgramToClass } from "./transform";
 import {
   ClassData,
   Class,
@@ -99,11 +99,10 @@ export const classesToPrograms = (classes: Class[]): Program[] => {
 };
 
 export const programsToClasses = (programs: Program[]): Class[] => {
-  // const classes: Class[] = programs.map((pg: Program) =>
-  //   convertProgramToClass(pg)
-  // );
-  // return classes;
-  return [];
+  const classes: Class[] = programs.map((pg: Program) =>
+    convertProgramToClass(pg)
+  );
+  return classes;
 };
 
 function convertToNameTitleMapping(
