@@ -56,7 +56,7 @@ const ClassForm: React.FC<{
           })}
         </Select>
       </FormControl>
-      <CustomButton label="Add Class" onClick={undefined} />
+      <CustomButton label="Add Class" onClick={undefined} disabled={moduleCode == "" || lessonType == ""}/>
     </Box>
   );
 };
