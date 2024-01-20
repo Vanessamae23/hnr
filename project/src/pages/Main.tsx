@@ -79,9 +79,8 @@ export default function Main(props: Props) {
   const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box>
+    <Box >
       <Header />
-      
       <Box sx={{ display: 'flex' }}>
         <Box
           component="nav"
@@ -119,7 +118,7 @@ export default function Main(props: Props) {
         </Box>
         <Box
           component="main"
-          sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+          sx={{ flexGrow: 1, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
         >
           {map.get(page)}
         </Box>
