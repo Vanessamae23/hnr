@@ -9,7 +9,6 @@ function Friend({link}) {
   const { isLoading, getEpgProps, getLayoutProps, toggleLock } = useApp(classesToPrograms(linkToClasses(link)));
   return (
     <div>
-      <FriendTimetable link={link} peopleId={undefined} />
     </div>
   )
 }

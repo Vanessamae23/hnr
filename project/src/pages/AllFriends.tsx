@@ -81,21 +81,21 @@ function AllFriends() {
       </List>
       {open && currentFriend != null && (
         <Dialog
-          open={open}
-          fullScreen
-          TransitionComponent={Transition}
-          keepMounted
-          onClose={handleClose}
-          aria-describedby="alert-dialog-slide-description"
-        >
-          <DialogTitle>Friend timetable</DialogTitle>
-          <DialogContent>
-            <FriendTimetable person={currentFriend} />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Close</Button>
-          </DialogActions>
-        </Dialog>
+        open={open}
+        fullScreen
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClose}
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle>Friend timetable</DialogTitle>
+        <DialogContent>
+          <FriendTimetable link={currentFriend.link} person={currentFriend} name={currentFriend.name} />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Close</Button>
+        </DialogActions>
+      </Dialog>
       )}
 
 
