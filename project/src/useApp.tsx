@@ -60,13 +60,15 @@ export function useApp(epgList: Program[]) {
   return { getEpgProps, getLayoutProps, toggleLock, isLoading };
 }
 
-export function useFriendApp(epgList: Program[], peopleId) {
+export function useFriendApp(epgList: Program[], personName) {
     const [channels, setChannels] = React.useState<Channel[]>([]);
     const [epg, setEpg] = React.useState<Program[]>(epgList);
     const [isLoading, setIsLoading] = React.useState<boolean>(false);
   
     const channelsData = React.useMemo(() => channels, [channels]);
     const epgData = React.useMemo(() => epg, [epg]);
+
+    
   
     const { getEpgProps, getLayoutProps } = useEpg({
       channels: channelsData,
@@ -83,7 +85,16 @@ export function useFriendApp(epgList: Program[], peopleId) {
       theme
     });
   
-
+    const toggleLock = (programId, peopleId) => {
+        setEpg((prevEpg) =>
+          prevEpg.map((program) =>
+            program.id === programId
+              ? { ...program, locked: !program.locked }
+              : program
+          )
+        );
+        
+    };
     
   
     const handleFetchResources = React.useCallback(async () => {
@@ -97,5 +108,5 @@ export function useFriendApp(epgList: Program[], peopleId) {
       handleFetchResources();
     }, [handleFetchResources]);
   
-    return { getEpgProps, getLayoutProps, isLoading };
+    return { getEpgProps, getLayoutProps, toggleLock, isLoading };
   }

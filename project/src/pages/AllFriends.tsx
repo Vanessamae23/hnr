@@ -93,7 +93,7 @@ function AllFriends() {
         >
           <DialogTitle>Friend timetable</DialogTitle>
           <DialogContent>
-            <FriendTimetable link={currentFriend.nusModsLink} peopleId={currentFriendId} />
+            <FriendTimetable person={curre} />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Close</Button>
