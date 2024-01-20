@@ -7,14 +7,11 @@ import { Timeline } from "./Timeline";
 import { ModuleItem } from "./ModuleItem";
 import { DayItem } from "./DayItem";
 import { classesToPrograms, modulestoClasses } from "../utils/data";
-import { linkToClasses } from "../utils/utils";
-import { Person } from "../types/types";
 
-const FriendTimetable = ({ link, name, person }) => {
-  console.log(classesToPrograms(person.classes));
+const FriendTimetable = ({ classes, setClasses }) => {
   const { isLoading, getEpgProps, getLayoutProps, toggleLock } = useFriendApp(
-    classesToPrograms(person.classes),
-    name
+    classesToPrograms(classes),
+    
   );
   return (
     <div style={{ height: "80vh", width: "100%" }}>
@@ -24,7 +21,7 @@ const FriendTimetable = ({ link, name, person }) => {
           renderTimeline={(props) => <Timeline {...props} />}
           renderProgram={({ program, ...rest }) => {
             return (
-              <div onClick={() => toggleLock(program.data.id)}>
+              <div onClick={() => toggleLock(program.data.id, classes, setClasses)}>
                 <ModuleItem key={program.data.id} program={program} {...rest} />
               </div>
             );

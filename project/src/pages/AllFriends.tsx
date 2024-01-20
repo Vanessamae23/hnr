@@ -100,7 +100,7 @@ function AllFriends() {
           </ListItem>
         ))}
       </List>
-      {open && currentFriend != null && (
+      {/* {open && currentFriend != null && (
         <Dialog
         open={open}
         fullScreen
@@ -117,7 +117,7 @@ function AllFriends() {
           <Button onClick={handleClose}>Close</Button>
         </DialogActions>
       </Dialog>
-      )}
+      )} */}
 
 
     </Box>
