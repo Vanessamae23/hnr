@@ -1,14 +1,11 @@
 import {
   Box,
-  TextField,
-  Typography,
   List,
   ListItem,
   ListItemText,
   Button,
 } from "@mui/material";
 import * as React from "react";
-import CustomButton from "../components/CustomButton";
 import useLocalStorage from "../helpers/useLocalStorage";
 import { Blockout, LocalStorage_Me } from "../types/types";
 import { default_LocalStorage_Me } from "../defaults/default";
@@ -18,6 +15,7 @@ import { formatISODateToAMPM } from "../utils/utils";
 import { linkToClasses } from "../utils/utils";
 import TimeTable from "../components/Timetable";
 import {Class} from "../types/types";
+import ImportTimetableForm from "../components/ImportTimetableForm";
 
 const MyTimetable = () => {
   const [person, setPerson] = useLocalStorage<LocalStorage_Me>(
@@ -29,13 +27,12 @@ const MyTimetable = () => {
     setPerson(updatedPerson);
   }
 
-  const [linkForm, setLinkForm] = React.useState(person.link)
   const [link, setLink] = React.useState(person.link)
 
-  const find = (linkForm) => {
-    setLink(linkForm);
-    person.link = linkForm;
-    person.classes = linkToClasses(linkForm);
+  const find = (link: string) => {
+    setLink(link);
+    person.link = link;
+    person.classes = linkToClasses(link);
     setPerson(person);
   };
 
@@ -59,32 +56,7 @@ const MyTimetable = () => {
   return (
     <Box sx={{ width: "100%", maxWidth: 1200, mx: "auto", my: 4 }}>
       <Box sx={{ display: "flex", flexDirection: "column" }}>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "flex-end",
-            alignItems: "center",
-            gap: (theme) => theme.spacing(2),
-            p: (theme) => theme.spacing(2),
-          }}
-        >
-          <Typography>NUSMods Link: </Typography>
-
-          <TextField
-            id="filled-search"
-            type="search"
-            variant="outlined"
-            sx={{ width: "60%", borderRadius: 20 }}
-            value={linkForm}
-            onChange={(e) => setLinkForm(e.target.value)}
-          />
-          <CustomButton
-            label="Import"
-            onClick={() => find(linkForm)}
-            disabled={linkForm === link}
-          />
-        </Box>
+        <ImportTimetableForm onImport={find} initialValue={link}/>
         <TimeTable classes={person.classes} setClasses={setClasses} name={""}/>
         <Box sx={{ margin: "16px p", padding: "64px" }}>
           <BlockOutForm onBlockOut={handleAddBlockOut} />
