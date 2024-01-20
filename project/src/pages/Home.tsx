@@ -41,7 +41,7 @@ function Home() {
     myData.link = link;
     myData.classes = linkToClasses(link);
     setMyData(myData);
-    navigate("/main");
+    navigate("/timetable");
   }
 
   return (
