@@ -10,6 +10,9 @@ import {
   LocalStorage_Friends,
   LocalStorage_Me,
   LocalStorage_Groups,
+  ModuleInputs,
+  Grouping,
+  Blockouts,
 } from "../types/types";
 
 const dayToUuid = {
@@ -103,18 +106,18 @@ export const programsToClasses = (programs: Program[]): Class[] => {
 function convertToNameTitleMapping(
   friends: LocalStorage_Friends,
   meLoc: LocalStorage_Me
-): Record<string, Record<string, { classNo: string; isLock: boolean }>> {
+): ModuleInputs {
   const mapping: Record<
     string,
-    Record<string, { classNo: string; isLock: boolean }>
+    Record<string, { classNo: string; isLocked: boolean }>
   > = {};
 
   friends.forEach((person) => {
     const classesMapping = person.classes.reduce(
-      (acc: Record<string, { classNo: string; isLock: boolean }>, cls) => {
-        acc[cls.title] = { classNo: cls.classNumber, isLock: cls.locked } as {
+      (acc: Record<string, { classNo: string; isLocked: boolean }>, cls) => {
+        acc[cls.title] = { classNo: cls.classNumber, isLocked: cls.locked } as {
           classNo: string;
-          isLock: boolean;
+          isLocked: boolean;
         };
         return acc;
       },
@@ -125,7 +128,7 @@ function convertToNameTitleMapping(
   });
 
   mapping["me"] = meLoc.classes.reduce((acc, cls) => {
-    acc[cls.title] = { classNo: cls.classNumber, isLock: cls.locked };
+    acc[cls.title] = { classNo: cls.classNumber, isLocked: cls.locked };
     return acc;
   }, {});
 
@@ -134,7 +137,7 @@ function convertToNameTitleMapping(
 
 function collectClassesWithFriends(
   groups: LocalStorage_Groups
-): Array<{ moduleCode: string; lessonType: string; persons: string[] }> {
+): Grouping[] {
   return groups.map((item) => ({
     moduleCode: item.moduleCode,
     lessonType: item.lessonType,
@@ -145,7 +148,7 @@ function collectClassesWithFriends(
 function collectAllBlockouts(
   meLoc: LocalStorage_Me,
   friendsLoc: LocalStorage_Friends
-): Record<string, string> {
+): Blockouts {
   const blockouts = {};
 
   friendsLoc.forEach((person) => {
@@ -159,15 +162,17 @@ function collectAllBlockouts(
   return blockouts;
 }
 
-export const localStorageToModels = (meLoc, friendsLoc, classes) => {
+export const localStorageToModels = (meLoc: LocalStorage_Me, friendsLoc: LocalStorage_Friends, classes: LocalStorage_Groups) => {
   const nameTitleMapping = convertToNameTitleMapping(friendsLoc, meLoc);
   const classesWithFriends = collectClassesWithFriends(classes);
   const combinedBlockouts = collectAllBlockouts(meLoc, friendsLoc);
 
-  // console.log("nameTitleMapping");
-  // console.log(nameTitleMapping);
-  // console.log("classesWithFriends");
-  // console.log(classesWithFriends);
+  console.log("nameTitleMapping");
+  console.log(nameTitleMapping);
+  console.log("classesWithFriends");
+  console.log(classesWithFriends);
+  console.log("combinedBlockouts");
+  console.log(combinedBlockouts);
 };
 
 export const getAllModuleCodes = (): string[] => {
