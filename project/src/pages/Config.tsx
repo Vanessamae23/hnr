@@ -22,6 +22,9 @@ import {
   default_LocalStorage_Friends,
 } from "../defaults/default";
 import { getAllModuleCodes, localStorageToModels } from "../utils/data";
+import { LOCALSTORAGE_KEY_GENERATED_TIMETABLE } from "../constants/constants";
+import { default_GeneratedTimetable } from "../defaults/default";
+import { GeneratedTimetable } from "../types/types";
 
 function Config() {
   const [classes, setClasses] = useLocalStorage<LocalStorage_Groups>(
@@ -32,19 +35,25 @@ function Config() {
     LOCALSTORAGE_KEY_ME,
     default_LocalStorage_Me
   );
-  const [friendsLoc, _] = useLocalStorage<LocalStorage_Friends>(
+  const [friendsLoc, setFriendsLoc] = useLocalStorage<LocalStorage_Friends>(
     LOCALSTORAGE_KEY_FRIENDS,
     default_LocalStorage_Friends
   );
 
+  const [generatedTimetable, setGeneratedTimetable] =
+    useLocalStorage<GeneratedTimetable>(
+      LOCALSTORAGE_KEY_GENERATED_TIMETABLE,
+      default_GeneratedTimetable
+    );
+
   const handleAddClass = (newClass: Group) => {
     for (let i = 0; i < classes.length; i++) {
-        if (
-            classes[i].moduleCode === newClass.moduleCode &&
-            classes[i].lessonType === newClass.lessonType
-        ) {
-            return;
-        }
+      if (
+        classes[i].moduleCode === newClass.moduleCode &&
+        classes[i].lessonType === newClass.lessonType
+      ) {
+        return;
+      }
     }
     setClasses([...classes, newClass]);
   };
@@ -72,7 +81,13 @@ function Config() {
   const friendNames = getFriendNames();
 
   const handleSubmit = () => {
-    localStorageToModels(meLoc, friendsLoc, classes);
+    localStorageToModels(
+      meLoc,
+      friendsLoc,
+      classes,
+      generatedTimetable,
+      setGeneratedTimetable
+    );
   };
 
   return (

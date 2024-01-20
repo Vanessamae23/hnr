@@ -327,3 +327,25 @@ export const getUrlOutputs = (timetables: Timetables): UrlOuput[] => {
 
   return Object.entries(timetables).map(([person, modules]) => ({ person, url: encodeLink(modules) }));
 }
+
+
+const main = () => {
+  const timetableInputs = Object.fromEntries([
+    ["A", "https://nusmods.com/timetable/sem-2/share?BSP1703=TUT:D07,LEC:D2&CS2030S=LAB:12A,REC:02,LEC:1&CS2101=&CS2103T=LEC:G09&CS2109S=TUT:21,LEC:1&CS3230=TUT:02,LEC:1&FIN3701B=SEC:B2"],
+    ["B", "https://nusmods.com/timetable/sem-2/share?CS2105=LEC:1,TUT:12&CS2106=LAB:11,TUT:13,LEC:2&CS3233=LEC:1&CS4231=LEC:1,TUT:1&IS1128=LEC:1&IS2218=LEC:1&IS2238=LEC:1"],
+    ["me", "https://nusmods.com/timetable/sem-2/share?CS2105=LEC:1,TUT:01&CS2106=LAB:07,TUT:14,LEC:2&CS3217=TUT:1,LEC:1&CS3223=TUT:14,LEC:1&ST2334=LEC:2,TUT:6"],
+  ].map(([a, b]) => ([a, Object.fromEntries(Object.entries(parseLink(b)).map(([moduleCode, lessons]) => [moduleCode, Object.fromEntries(Object.entries(lessons).map(([lessonType, classNo]) => ([lessonType, { classNo, isLocked: true }])))]))])));
+  const groupings: Grouping[] = [
+    { moduleCode: "GEA1000", lessonType: "Tutorial", persons: ["A", "B", "me"] }
+  ];
+  const blockouts: Blockouts = {
+    "A": [],
+    "B": [{ startTime: "0600", endTime: "2300", day: "Thursday" }],
+    "C": [],
+  };
+  const timetableOutputs = findValidTimetables(timetableInputs, groupings, blockouts);
+  console.log(timetableOutputs);
+  console.log(getUrlOutputs(timetableOutputs));
+}
+
+main();

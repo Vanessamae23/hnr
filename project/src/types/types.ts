@@ -44,6 +44,13 @@ export type Person = {
   classes: Class[];
 };
 
+export type GeneratedPerson = Omit<Person, "blockout">;
+ 
+export type GeneratedTimetable = {
+  generatedPeople: GeneratedPerson[];
+  countGeneration: number;
+}
+
 export type Group = {
   id: string;
   moduleCode: string;
