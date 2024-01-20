@@ -16,7 +16,7 @@ export const theme = {
   },
   primary: {
     600: "#1a202c",
-    900: "#d3d3d3"
+    900: "#f9fafb"
   },
   grey: { 300: "#d1d1d1" },
   white: "#fff",

@@ -19,7 +19,7 @@ export const DayItem = ({ channel }: ChannelItemProps) => {
   ]);
   const { position, logo } = channel;
   return (
-    <ChannelBox style={{ display: 'flex', flexDirection: 'column'}} {...position}>
+    <ChannelBox style={{ display: 'flex', flexDirection: 'column' }} {...position}>
       <ChannelLogo
         src={Icon}
         alt="Logo"

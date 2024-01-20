@@ -6,6 +6,7 @@ import { useApp } from "../useApp";
 import { Timeline } from "./Timeline";
 import { ModuleItem } from "./ModuleItem";
 import { DayItem } from "./DayItem";
+import { Box } from "@mui/material";
 
 const TimeTable = ({ classes, setClasses, name }) => {
   const { isLoading, getEpgProps, getLayoutProps, toggleLock } = useApp(
@@ -20,9 +21,9 @@ const TimeTable = ({ classes, setClasses, name }) => {
           renderTimeline={(props) => <Timeline {...props} />}
           renderProgram={({ program, ...rest }) => {
             return (
-              <div onClick={() => toggleLock(program.data.id, classes, setClasses)}>
+              <Box onClick={() => toggleLock(program.data.id, classes, setClasses)}>
                 <ModuleItem key={program.data.id} program={program} {...rest} />
-              </div>
+              </Box>
             );
           }}
           renderChannel={({ channel }) => (
