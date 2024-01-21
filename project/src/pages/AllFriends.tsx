@@ -143,7 +143,6 @@ function AllFriends() {
           />
         </Box>
     </Box>
-
   );
 }
 

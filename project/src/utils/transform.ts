@@ -2,7 +2,7 @@ import { Program } from "planby";
 import { Class } from "../types/types";
 
 export function convertClassToProgram(classObj: Class): Program {
-  const { id, since, till, title, channelUuid, description, locked, image } =
+  const { id, since, till, title, channelUuid, description, locked, image, lessonType } =
     classObj;
   // Assuming you have a function to parse the date strings to Date objects
   const sinceDate = parseDateString(since);
@@ -15,7 +15,7 @@ export function convertClassToProgram(classObj: Class): Program {
     till: tillDate,
     title,
     channelUuid,
-    description,
+    description: lessonType,
     locked,
     image,
   };
