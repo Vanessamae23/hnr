@@ -88,7 +88,10 @@ export const findValidTimetables = (
     {},
     persons,
     0,
-    iterations
+    0,
+    0,
+    iterations,
+    [0]
   );
   if (timetables === null) {
     return {};
@@ -297,11 +300,12 @@ const searchCandidateTimetables = (
   moduleIndex: number = 0,
   lessonIndex: number = 0,
   iteration = 0,
-  count = [0]
+  count: number[],
 ): Timetables | null => {
   if (personIndex >= persons.length) {
     if (validateTimetables(timetables, availabilities, groupings)) {
       if (count[0] < iteration) {
+        console.log("REACHED");
         count[0] += 1;
         return null;
       }
@@ -499,5 +503,3 @@ export const getUrlOutputs = (timetables: Timetables): UrlOuput[] => {
     url: encodeLink(modules),
   }));
 };
-
-
