@@ -5,7 +5,6 @@ import {
   IconButton,
   List,
   ListItem,
-  ListItemText,
   Snackbar,
   Typography,
 } from "@mui/material";
