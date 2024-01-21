@@ -69,16 +69,17 @@ export default function AppLayout(props: Props) {
       icon: <SettingsIcon />
     },
     {
-      name: 'Saved Timetable',
-      component: <SavedTimetable />,
-      path: '/saved-timetable',
-      icon: <SettingsIcon />
-    },{
       name: 'Generated Timetables',
       component: <AllMatched />,
       path: '/matched',
       icon: <BeenhereIcon />  
-    }
+    },
+    {
+      name: 'Saved Timetable',
+      component: <SavedTimetable />,
+      path: '/saved-timetable',
+      icon: <SettingsIcon />
+    },
   ];
 
   const showGeneratedTimetables = localStorage.getItem(LOCALSTORAGE_KEY_GENERATED_TIMETABLE) !== null;

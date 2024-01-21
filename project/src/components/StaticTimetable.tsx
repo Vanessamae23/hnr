@@ -11,7 +11,7 @@ import {
 } from "../utils/data";
 
 const StaticTimetable = ({ classes }) => {
-  const { isLoading, getEpgProps, getLayoutProps } = useStaticApp(classesToPrograms(classes));
+  const { isLoading, getEpgProps, getLayoutProps } = useStaticApp(classesToPrograms(classes == undefined ? [] : classes));
 
   return (
     <div style={{ height: "60vh", width: "100%" }}>

@@ -109,6 +109,9 @@ export const modulestoClasses = (modules: Modules): Class[] => {
 };
 
 export const classesToPrograms = (classes: Class[]): Program[] => {
+  if (classes == undefined || classes == null) {
+    return [];
+  }
   if (classes.length <= 0) {
     return [];
   }
