@@ -45,7 +45,7 @@ function Matched() {
         </Box>
       </Box>
     </>
-  )
+  );
 }
 
-export default Matched
+export default Matched;
