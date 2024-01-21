@@ -39,7 +39,7 @@ export const ModuleItem = ({ program, ...rest }: ProgramItem) => {
         <ProgramFlex>
           <ProgramStack style={{ width: "100%" }}>
             <ProgramFlex style={{ justifyContent: "space-between" }}>
-              <ProgramTitle style={{ color: '#1e293b', fontWeight: '700', fontSize: '0.6rem' }}>{title}</ProgramTitle>
+              <ProgramTitle style={{ color: '#1e293b', fontWeight: '700', fontSize: '0.6rem' }}>{title} - {description}</ProgramTitle>
               {locked && <ProgramImage src={iconLocked} style={{ height: 12, width: 12 }}></ProgramImage>}
             </ProgramFlex>
             <ProgramText style={{ color: '#64748b', fontSize: '0.5rem' }}>
