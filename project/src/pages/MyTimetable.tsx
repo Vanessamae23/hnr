@@ -21,7 +21,8 @@ const MyTimetable = () => {
     LOCALSTORAGE_KEY_ME,
     default_LocalStorage_Me
   );
-  const setClasses = (classes: Class[]): void => {
+  
+  const setClasses = (classes: Class[]) : void => {
     const updatedPerson = { ...person, classes: classes };
     setPerson(updatedPerson);
   };

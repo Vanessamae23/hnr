@@ -13,6 +13,7 @@ const TimeTable = ({ classes, setClasses, name }) => {
     classes,
     name
   );
+  
   return (
     <Box style={{ width: "100%", height: "60vh" }}>
       <Epg isLoading={isLoading} {...getEpgProps()}>
