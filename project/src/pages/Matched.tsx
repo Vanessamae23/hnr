@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Box, Button } from '@mui/material'
 import { useNavigate, useParams } from 'react-router-dom'
 import StaticTimeTable from '../components/StaticTimetable'
@@ -7,29 +7,25 @@ import { LOCALSTORAGE_KEY_GENERATED_TIMETABLE } from '../constants/constants'
 import { default_GeneratedTimetable } from '../defaults/default'
 import { GeneratedTimetable } from '../types/types'
 import LinkExport from '../components/LinkExport'
-
+import { default_Person } from '../defaults/default'
 
 function Matched() {
   const navigate = useNavigate();
   const idParam = useParams().id;
-
-  if (idParam === undefined || idParam === null) {
-    navigate("/friends")
-  }
-  const id = parseInt(idParam as string)
-
   const [generatedTimetable, setGeneratedTimetable] =
-    useLocalStorage<GeneratedTimetable>(
-      LOCALSTORAGE_KEY_GENERATED_TIMETABLE,
-      default_GeneratedTimetable
-    );
+  useLocalStorage<GeneratedTimetable>(
+    LOCALSTORAGE_KEY_GENERATED_TIMETABLE,
+    default_GeneratedTimetable
+  );
 
-  if (id >= generatedTimetable.generatedPeople.length) {
-    // Consider throwing some error
-    navigate("/config")
-  }
-
-  const person = generatedTimetable.generatedPeople[id];
+  const id = parseInt(idParam as string)
+  useEffect(() => {
+    console.log(id)
+    if (!id || id >= generatedTimetable.generatedPeople.length) {
+      navigate("/config")
+    }
+  }, [])
+  const person = id < generatedTimetable.generatedPeople.length ? generatedTimetable.generatedPeople[id] : default_Person;
 
   return (
     <>

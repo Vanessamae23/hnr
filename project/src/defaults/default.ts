@@ -16,3 +16,9 @@ export const default_GeneratedTimetable = {
   generatedPeople: [],
   countGeneration: 0,
 };
+
+export const default_Person: GeneratedPerson = {
+  name: "",
+  link: "",
+  classes: [],
+};
