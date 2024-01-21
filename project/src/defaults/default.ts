@@ -63,4 +63,10 @@ export const sample_LocalStorage_Groups: Group[] = [
     lessonType: "Tutorial",
     persons: ["Daniel (Computer Science)", "Darrell (Computer Science)", "me"],
   },
+  {
+    id: "1",
+    moduleCode: "GESS1025",
+    lessonType: "Tutorial",
+    persons: ["Jerome (Business)", "Lee Shin (Business)"]
+  }
 ];
