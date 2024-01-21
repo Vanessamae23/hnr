@@ -249,6 +249,7 @@ export const localStorageToModels = (
     classesWithFriends,
     combinedBlockouts
   );
+  console.log(timetableOutputs)
 
   const result = convertArrayToObjectWithClasses(
     convertUrlOutputToArray(getUrlOutputs(timetableOutputs)),
