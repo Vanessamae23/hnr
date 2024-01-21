@@ -129,17 +129,7 @@ function Home() {
               },
             }}
           />
-          <Button
-            variant="contained"
-            sx={{ marginY: 2 }}
-            size="large"
-            style={{
-              backgroundColor: "#FF963F",
-              color: "#000000",
-              fontWeight: "bold",
-            }}
-            type="submit"
-          >
+          <Button variant="contained" sx={{ marginY: 2 }} size="large" style={{ backgroundColor: !link ? "#ffc896" : "#FF963F", color: !link ? "gray" : "black", fontWeight: "bold" }} disabled={!link} type="submit">
             Start Matching
           </Button>
           <Typography variant="body2" color="#CFCFCF" align="center">
