@@ -45,9 +45,6 @@ export const ModuleItem = ({ program, ...rest }: ProgramItem) => {
             <ProgramText style={{ color: '#64748b', fontSize: '0.5rem' }}>
               {sinceTime} - {tillTime}
             </ProgramText>
-            <ProgramText style={{ color: '#64748b', fontSize: '0.5rem' }}>
-              {sinceTime} - {tillTime}
-            </ProgramText>
             <p style={{ color: '#1e293b', fontSize: '0.6rem', marginTop: 5, marginBottom: 0 }}>
               {locked ? "Locked" : "Unlocked"}
             </p>
