@@ -20,7 +20,6 @@ function AllMatched() {
       LOCALSTORAGE_KEY_GENERATED_TIMETABLE,
       default_GeneratedTimetable
     );
-  console.log(generatedTimetable.generatedPeople);
   const me = generatedTimetable.generatedPeople.find(
     (person) => person.name === "me"
   );

@@ -130,7 +130,6 @@ function Config() {
           <CustomButton
             label="Match"
             onClick={handleSubmit}
-            disabled={classes.length == 0}
           />
         </Box>
       </Box>

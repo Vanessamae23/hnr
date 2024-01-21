@@ -42209,8 +42209,7 @@
           13
         ],
         "venue": "COM2-0108",
-        "day": "Wednesday",
-        "lessonType": "Tutorial"
+        "day": "Wednesday"
       },
       {
         "classNo": "10",
@@ -42230,8 +42229,7 @@
           13
         ],
         "venue": "COM1-0203",
-        "day": "Thursday",
-        "lessonType": "Tutorial"
+        "day": "Thursday"
       },
       {
         "classNo": "6",
@@ -42251,8 +42249,7 @@
           13
         ],
         "venue": "COM2-0108",
-        "day": "Wednesday",
-        "lessonType": "Tutorial"
+        "day": "Wednesday"
       },
       {
         "classNo": "12",
@@ -42272,8 +42269,7 @@
           13
         ],
         "venue": "COM1-0203",
-        "day": "Thursday",
-        "lessonType": "Tutorial"
+        "day": "Thursday"
       },
       {
         "classNo": "8",
@@ -42293,8 +42289,7 @@
           13
         ],
         "venue": "COM1-0203",
-        "day": "Thursday",
-        "lessonType": "Tutorial"
+        "day": "Thursday"
       },
       {
         "classNo": "4",
@@ -42314,8 +42309,7 @@
           13
         ],
         "venue": "COM2-0108",
-        "day": "Wednesday",
-        "lessonType": "Tutorial"
+        "day": "Wednesday"
       },
       {
         "classNo": "9",
@@ -42335,8 +42329,7 @@
           13
         ],
         "venue": "COM1-0203",
-        "day": "Thursday",
-        "lessonType": "Tutorial"
+        "day": "Thursday"
       },
       {
         "classNo": "13",
@@ -42356,8 +42349,7 @@
           13
         ],
         "venue": "COM1-0203",
-        "day": "Thursday",
-        "lessonType": "Tutorial"
+        "day": "Thursday"
       },
       {
         "classNo": "14",
@@ -42377,8 +42369,7 @@
           13
         ],
         "venue": "COM1-0203",
-        "day": "Thursday",
-        "lessonType": "Tutorial"
+        "day": "Thursday"
       },
       {
         "classNo": "3",
@@ -42398,9 +42389,130 @@
           13
         ],
         "venue": "COM2-0108",
-        "day": "Wednesday",
-        "lessonType": "Tutorial"
+        "day": "Wednesday"
       },
+      {
+        "classNo": "7",
+        "startTime": "0900",
+        "endTime": "1000",
+        "weeks": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "venue": "COM1-0203",
+        "day": "Thursday"
+      },
+      {
+        "classNo": "11",
+        "startTime": "1300",
+        "endTime": "1400",
+        "weeks": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "venue": "COM1-0203",
+        "day": "Thursday"
+      },
+      {
+        "classNo": "5",
+        "startTime": "1300",
+        "endTime": "1400",
+        "weeks": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "venue": "COM2-0108",
+        "day": "Wednesday"
+      },
+      {
+        "classNo": "16",
+        "startTime": "1500",
+        "endTime": "1600",
+        "weeks": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "venue": "COM1-0203",
+        "day": "Friday"
+      },
+      {
+        "classNo": "2",
+        "startTime": "1000",
+        "endTime": "1100",
+        "weeks": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "venue": "COM2-0108",
+        "day": "Wednesday"
+      },
+      {
+        "classNo": "15",
+        "startTime": "1400",
+        "endTime": "1500",
+        "weeks": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "venue": "COM1-0203",
+        "day": "Friday"
+      }
+    ],
+    "Lecture": [
       {
         "classNo": "1",
         "startTime": "1000",
@@ -42421,134 +42533,7 @@
           13
         ],
         "venue": "LT16",
-        "day": "Friday",
-        "lessonType": "Lecture"
-      },
-      {
-        "classNo": "7",
-        "startTime": "0900",
-        "endTime": "1000",
-        "weeks": [
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9,
-          10,
-          11,
-          12,
-          13
-        ],
-        "venue": "COM1-0203",
-        "day": "Thursday",
-        "lessonType": "Tutorial"
-      },
-      {
-        "classNo": "11",
-        "startTime": "1300",
-        "endTime": "1400",
-        "weeks": [
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9,
-          10,
-          11,
-          12,
-          13
-        ],
-        "venue": "COM1-0203",
-        "day": "Thursday",
-        "lessonType": "Tutorial"
-      },
-      {
-        "classNo": "5",
-        "startTime": "1300",
-        "endTime": "1400",
-        "weeks": [
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9,
-          10,
-          11,
-          12,
-          13
-        ],
-        "venue": "COM2-0108",
-        "day": "Wednesday",
-        "lessonType": "Tutorial"
-      },
-      {
-        "classNo": "16",
-        "startTime": "1500",
-        "endTime": "1600",
-        "weeks": [
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9,
-          10,
-          11,
-          12,
-          13
-        ],
-        "venue": "COM1-0203",
-        "day": "Friday",
-        "lessonType": "Tutorial"
-      },
-      {
-        "classNo": "2",
-        "startTime": "1000",
-        "endTime": "1100",
-        "weeks": [
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9,
-          10,
-          11,
-          12,
-          13
-        ],
-        "venue": "COM2-0108",
-        "day": "Wednesday",
-        "lessonType": "Tutorial"
-      },
-      {
-        "classNo": "15",
-        "startTime": "1400",
-        "endTime": "1500",
-        "weeks": [
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9,
-          10,
-          11,
-          12,
-          13
-        ],
-        "venue": "COM1-0203",
-        "day": "Friday",
-        "lessonType": "Tutorial"
+        "day": "Friday"
       }
     ]
   },

@@ -20,6 +20,7 @@ import {
 // import { getAllClassNos, getAllClasses, getClasses } from "../utils/data";
 import { encodeLink, parseLink } from "../utils/links";
 import json from "../data/data.json";
+import _ from "lodash";
 
 const getAllClassNos = (moduleCode: string, lessonType: string): string[] => {
   const modulesData: ModuleDatas = json;
@@ -286,16 +287,18 @@ const filterCandidateTimetables = (
 };
 
 // TODO: prune when reaching a grouping-related class
-function searchCandidateTimetables(
+const searchCandidateTimetables = (
   candidateTimetables: CandidateTimetables,
   availabilities: Availabilities,
   groupings: Grouping[],
   timetables: Timetables,
   persons: string[],
   personIndex: number = 0,
+  moduleIndex: number = 0,
+  lessonIndex: number = 0,
   iteration = 0,
   count = [0]
-): Timetables | null {
+): Timetables | null => {
   if (personIndex >= persons.length) {
     if (validateTimetables(timetables, availabilities, groupings)) {
       if (count[0] < iteration) {
@@ -313,33 +316,61 @@ function searchCandidateTimetables(
     timetables[person] = {};
   }
   const modules: Modules = timetables[person];
-  for (const [moduleCode, candidateLessons] of Object.entries(
-    candidateModules
-  )) {
-    if (!Object.keys(modules).includes(moduleCode)) {
-      modules[moduleCode] = {};
-    }
-    const lessons: Lessons = modules[moduleCode];
-    for (const [lessonType, candidateClasses] of Object.entries(
-      candidateLessons
-    )) {
-      for (const candidateClass of candidateClasses) {
-        lessons[lessonType] = candidateClass;
-        const result = searchCandidateTimetables(
-          candidateTimetables,
-          availabilities,
-          groupings,
-          timetables,
-          persons,
-          personIndex + 1,
-          iteration,
-          count
-        );
-        if (result !== null) {
-          return result;
-        }
-        delete lessons[lessonType];
-      }
+  const moduleCodes: string[] = Object.keys(candidateModules).sort((a, b) => a.localeCompare(b));
+  if (moduleIndex >= moduleCodes.length) {
+    return searchCandidateTimetables(
+      candidateTimetables,
+      availabilities,
+      groupings,
+      _.cloneDeep(timetables),
+      persons,
+      personIndex + 1,
+      0,
+      0,
+      iteration,
+      count
+    );
+  }
+  const moduleCode = moduleCodes[moduleIndex];
+
+  if (!Object.keys(modules).includes(moduleCode)) {
+    modules[moduleCode] = {};
+  }
+  const candidateLessons = candidateModules[moduleCode];
+  const lessons: Lessons = modules[moduleCode];
+  const lessonTypes: string[] = Object.keys(candidateModules[moduleCode]).sort((a, b) => a.localeCompare(b));
+  if (lessonIndex >= lessonTypes.length) {
+    return searchCandidateTimetables(
+      candidateTimetables,
+      availabilities,
+      groupings,
+      _.cloneDeep(timetables),
+      persons,
+      personIndex,
+      moduleIndex + 1,
+      0,
+      iteration,
+      count
+    );
+  }
+  const lessonType = lessonTypes[lessonIndex];
+  const candidateClasses = candidateLessons[lessonType];
+  for (const candidateClass of candidateClasses) {
+    lessons[lessonType] = candidateClass;
+    const result = searchCandidateTimetables(
+      candidateTimetables,
+      availabilities,
+      groupings,
+      _.cloneDeep(timetables),
+      persons,
+      personIndex,
+      moduleIndex,
+      lessonIndex + 1,
+      iteration,
+      count
+    );
+    if (result !== null) {
+      return result;
     }
   }
   return null;
@@ -468,3 +499,5 @@ export const getUrlOutputs = (timetables: Timetables): UrlOuput[] => {
     url: encodeLink(modules),
   }));
 };
+
+
