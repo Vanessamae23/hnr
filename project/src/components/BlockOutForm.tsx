@@ -28,10 +28,18 @@ const BlockOutForm: React.FC<{
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    const startMinutes = startTime!.minute();
+    const startRemainder = startMinutes % 30;
+    const endMinutes = endTime!.minute();
+    const endRemainder = endMinutes % 30;
+    const roundedStartTime = startRemainder === 0 ? startTime : startTime!.subtract(startMinutes, 'minute');
+    const roundedEndTime = endRemainder === 0 ? endTime : endTime!.add(30 - endRemainder, 'minute');
+
     onBlockOut({
       day,
-      startTime: startTime!.toISOString(),
-      endTime: endTime!.toISOString()
+      startTime: roundedStartTime!.toISOString(),
+      endTime: roundedEndTime!.toISOString()
     });
     setDay("");
     setStartTime(null);
