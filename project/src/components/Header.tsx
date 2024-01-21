@@ -72,6 +72,7 @@ export default function Header() {
   );
 
   const handleDelete = () => {
+    setMeLoc(default_LocalStorage_Me);
     window.localStorage.clear();
     navigate("/");
   };
@@ -90,7 +91,7 @@ export default function Header() {
         classes: linkToClasses(friend.link),
       }))
     );
-    navigate("/timetable");
+    window.location.reload();
   };
 
 

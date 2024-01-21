@@ -18,7 +18,7 @@ import {
   UrlOuput,
 } from "../types/types";
 // import { getAllClassNos, getAllClasses, getClasses } from "../utils/data";
-import { encodeLink, parseLink } from "../utils/links";
+import { encodeLink } from "../utils/links";
 import json from "../data/data.json";
 import _ from "lodash";
 
@@ -278,8 +278,8 @@ const filterCandidateTimetables = (
     const candidateClasses = candidateTimetables[grouping.persons[0]][
       grouping.moduleCode
     ][grouping.lessonType].filter((classNo) =>
-      Object.values(candidateTimetables).every((modules) =>
-        modules[grouping.moduleCode][grouping.lessonType].includes(classNo)
+      Object.entries(candidateTimetables).every(([person, modules]) =>
+        !grouping.persons.includes(person) || modules[grouping.moduleCode][grouping.lessonType].includes(classNo)
       )
     );
     for (const person of grouping.persons) {
