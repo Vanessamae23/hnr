@@ -51,11 +51,11 @@ function Home() {
   };
 
   //   Go straight to timetable if link is already stored
-  useEffect(() => {
-    console.log("checking");
-    console.log(myData.link);
-    if (myData.link !== "") navigate("/timetable");
-  }, []);
+  // useEffect(() => {
+  //   console.log("checking");
+  //   console.log(myData.link);
+  //   if (myData.link !== "") navigate("/timetable");
+  // }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
