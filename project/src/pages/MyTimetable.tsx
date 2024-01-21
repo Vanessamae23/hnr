@@ -44,6 +44,7 @@ const MyTimetable = () => {
     })
   }
 
+  
 
   const handleAddBlockOut = (blockOut: {
     day: string;
@@ -63,10 +64,16 @@ const MyTimetable = () => {
     setPerson(updatedPerson);
   };
 
+  React.useEffect(() => {
+    getCurrentUser().then((res) => {
+      setUser(res)
+    })
+  }, [user])
+
   return (
     <Box sx={{ width: "100%", maxWidth: 1200, mx: "auto", my: 4 }}>
       <Box sx={{ display: "flex", flexDirection: "column" }}>
-        <ImportTimetableForm  onSave={save} onImport={find} initialValue={link}/>
+        {user == null ? (<ImportTimetableForm  onImport={find} initialValue={link}/>) : (<ImportTimetableForm  onSave={save} onImport={find} initialValue={link}/>)}
         <TimeTable classes={person.classes} setClasses={setClasses} name={""}/>
         <Box sx={{ margin: "16px p", padding: "64px" }}>
           <BlockOutForm onBlockOut={handleAddBlockOut} />
