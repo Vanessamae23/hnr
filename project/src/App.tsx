@@ -47,7 +47,6 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  localStorage.setItem('myKey', 'myValue');
   return (
     <RouterProvider router={router} />
   );

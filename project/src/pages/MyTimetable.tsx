@@ -1,13 +1,6 @@
-import CustomButton from "../components/CustomButton";
 import { getClassesDatabase, getCurrentUser, writeClass } from "../backend/commands";
 import { User } from "firebase/auth";
-import {
-  Box,
-  List,
-  ListItem,
-  ListItemText,
-  Button,
-} from "@mui/material";
+import { Box, List, ListItem, ListItemText, Button } from "@mui/material";
 import * as React from "react";
 import useLocalStorage from "../helpers/useLocalStorage";
 import { Blockout, LocalStorage_Me } from "../types/types";
@@ -17,21 +10,24 @@ import BlockOutForm from "../components/BlockOutForm";
 import { formatISODateToAMPM } from "../utils/utils";
 import { linkToClasses } from "../utils/utils";
 import TimeTable from "../components/Timetable";
-import {Class} from "../types/types";
-import ImportTimetableForm from "../components/ImportedTimetableForm";
+import { Class } from "../types/types";
+import ImportTimetableForm from "../components/ImportTimetableForm";
+import CustomButton from "../components/CustomButton";
+import { useNavigate } from "react-router-dom";
 
 const MyTimetable = () => {
+  const navigate = useNavigate();
   const [person, setPerson] = useLocalStorage<LocalStorage_Me>(
     LOCALSTORAGE_KEY_ME,
     default_LocalStorage_Me
   );
-  const setClasses = (classes: Class[]) : void => {
+  const setClasses = (classes: Class[]): void => {
     const updatedPerson = { ...person, classes: classes };
     setPerson(updatedPerson);
-  }
+  };
 
-  const [link, setLink] = React.useState(person.link)
   const [user, setUser] = React.useState<User | null>(null)
+  const [link, setLink] = React.useState(person.link);
 
   const find = (link: string) => {
     setLink(link);
@@ -53,6 +49,7 @@ const MyTimetable = () => {
     startTime: string;
     endTime: string;
   }) => {
+    console.log(blockOut.startTime);
     const updatedBlockout = [...person.blockout, blockOut];
     const updatedPerson = { ...person, blockout: updatedBlockout };
     setPerson(updatedPerson);
@@ -64,7 +61,7 @@ const MyTimetable = () => {
     const updatedPerson = { ...person, blockout: updatedBlockout };
     setPerson(updatedPerson);
   };
-  
+
   return (
     <Box sx={{ width: "100%", maxWidth: 1200, mx: "auto", my: 4 }}>
       <Box sx={{ display: "flex", flexDirection: "column" }}>
@@ -92,6 +89,12 @@ const MyTimetable = () => {
             ))}
           </List>
         </Box>
+      </Box>
+      <Box sx={{ display: "flex", justifyContent: "end", gap: 2, mt: 4 }}>
+        <CustomButton
+          label="Next"
+          onClick={() => navigate("/friends")}
+        />
       </Box>
     </Box>
   );

@@ -103,9 +103,9 @@ function AllFriends() {
 
               </Grid>
               <Grid item xs={4} sx={{ flexDirection: 'row', justifyContent: 'space-evenly', display: 'flex' }}>
-                <a href={friend.link} ><Button variant="contained" color="success">NUSMods</Button></a>
-                <CustomButton label="View" onClick={() => navigate("/friends/" + index)} />
-                <Button variant="contained" color="error" onClick={() => deleteFriend(index)}>Delete</Button>
+                <a href={friend.link} ><Button variant="contained" color="success" style={{ backgroundColor: "#f97316" }}>NUSMods</Button></a>
+                <CustomButton label="View" onClick={() => navigate("/friends/" + index)} style={{ backgroundColor: "#0ea5e9" }} />
+                <Button variant="contained" color="error" onClick={() => deleteFriend(index)} style={{ backgroundColor: "#ef4444" }}>Delete</Button>
               </Grid>
             </Grid>
           </ListItem>
@@ -129,6 +129,19 @@ function AllFriends() {
           </React.Fragment>
         }
       />
+        <Box sx={{ display: "flex", justifyContent: "end", gap: 2, mt: 4 }}>
+          <Button
+            variant="outlined"
+            sx={{ borderColor: "grey.300", "&:hover": { bgcolor: "grey.100" } }}
+            onClick={() => navigate("/timetable")}
+          >
+            Back
+          </Button>
+          <CustomButton
+            label="Next"
+            onClick={() => navigate("/config")}
+          />
+        </Box>
     </Box>
 
   );

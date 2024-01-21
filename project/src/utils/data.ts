@@ -1,5 +1,7 @@
 import { Program } from "planby";
 import json from "../data/data.json";
+import moduleListJson from "../data/moduleList.json";
+
 // import { convertClassToProgram, convertProgramToClass } from "./transform";
 import { convertClassToProgram, convertProgramToClass } from "./transform";
 import {
@@ -14,7 +16,13 @@ import {
   Grouping,
   Blockouts,
   GeneratedTimetable,
+  TimetableInputs,
+  LessonInputs,
+  UrlOuput,
 } from "../types/types";
+import { linkToClasses } from "./utils";
+import { findValidTimetables, getUrlOutputs } from "../logic/logic";
+import { parseLink } from "./links";
 
 const dayToUuid = {
   Monday: "0",
@@ -50,6 +58,7 @@ export const getAllClassNos = (
     ),
   ];
 };
+
 export const getClasses = (
   moduleCode: string,
   lessonType: string,
@@ -60,6 +69,18 @@ export const getClasses = (
     (classData) => classData.classNo === classNo
   );
 };
+
+export const getTitle = (
+  moduleCode: string
+): string => {
+  const moduleList = moduleListJson;
+  for (const module of moduleList) {
+    if (module.moduleCode === moduleCode) {
+      return module.title;
+    }
+  }
+  return "";
+}
 
 export const modulestoClasses = (modules: Modules): Class[] => {
   const classes: Class[] = [];
@@ -107,32 +128,34 @@ export const programsToClasses = (programs: Program[]): Class[] => {
 function convertToNameTitleMapping(
   friends: LocalStorage_Friends,
   meLoc: LocalStorage_Me
-): ModuleInputs {
-  const mapping: Record<
-    string,
-    Record<string, { classNo: string; isLocked: boolean }>
-  > = {};
+): TimetableInputs {
+  const mapping: Record<string, Record<string, LessonInputs>> = {};
 
   friends.forEach((person) => {
-    const classesMapping = person.classes.reduce(
-      (acc: Record<string, { classNo: string; isLocked: boolean }>, cls) => {
-        acc[cls.title] = { classNo: cls.classNumber, isLocked: cls.locked } as {
-          classNo: string;
-          isLocked: boolean;
-        };
-        return acc;
-      },
-      {}
-    );
+    const classesMapping = person.classes.reduce((acc, cls) => {
+      if (!acc[cls.title]) {
+        acc[cls.title] = {};
+      }
+      acc[cls.title][cls.lessonType] = {
+        classNo: cls.classNumber,
+        isLocked: cls.locked,
+      };
+      return acc;
+    }, {});
 
     mapping[person.name] = classesMapping;
   });
 
   mapping["me"] = meLoc.classes.reduce((acc, cls) => {
-    acc[cls.title] = { classNo: cls.classNumber, isLocked: cls.locked };
+    if (!acc[cls.title]) {
+      acc[cls.title] = {};
+    }
+    acc[cls.title][cls.lessonType] = {
+      classNo: cls.classNumber,
+      isLocked: cls.locked,
+    };
     return acc;
   }, {});
-
   return mapping;
 }
 
@@ -151,14 +174,62 @@ function collectAllBlockouts(
   const blockouts = {};
 
   friendsLoc.forEach((person) => {
-    blockouts[person.name] = person.blockout;
+    blockouts[person.name] = person.blockout.map((blockout) => ({
+      ...blockout,
+      startTime: new Date(blockout.startTime)
+        .toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        })
+        .replace(/\s|:/g, ""),
+      endTime: new Date(blockout.endTime)
+        .toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        })
+        .replace(/\s|:/g, ""),
+    }));
   });
 
-  blockouts["me"] = meLoc.blockout;
-  console.log("blockout");
-  console.log(blockouts);
+  blockouts["me"] = meLoc.blockout.map((blockout) => ({
+    ...blockout,
+    startTime: new Date(blockout.startTime)
+      .toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      })
+      .replace(/\s|:/g, ""),
+    endTime: new Date(blockout.endTime)
+      .toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      })
+      .replace(/\s|:/g, ""),
+  }));
 
+  console.log(blockouts);
   return blockouts;
+}
+
+function convertUrlOutputToArray(
+  urlOutputs: UrlOuput[]
+): { name: string; link: string }[] {
+  return urlOutputs.map(({ person, url }) => ({ name: person, link: url }));
+}
+
+function convertArrayToObjectWithClasses(
+  array: { name: string; link: string }[],
+  linkToClasses: (link: string) => Class[]
+): { name: string; link: string; classes: Class[] }[] {
+  return array.map(({ name, link }) => ({
+    name,
+    link,
+    classes: linkToClasses(link),
+  }));
 }
 
 export const localStorageToModels = (
@@ -166,28 +237,30 @@ export const localStorageToModels = (
   friendsLoc: LocalStorage_Friends,
   classes: LocalStorage_Groups,
   generatedTimetable: GeneratedTimetable,
-  setGeneratedTimetable: (
-    value:
-      | GeneratedTimetable
-      | ((val: GeneratedTimetable) => GeneratedTimetable)
-  ) => void
+  setGeneratedTimetable: (GeneratedTimetable) => void
 ) => {
   const nameTitleMapping = convertToNameTitleMapping(friendsLoc, meLoc);
   const classesWithFriends = collectClassesWithFriends(classes);
   const combinedBlockouts = collectAllBlockouts(meLoc, friendsLoc);
   const currentGeneation = generatedTimetable.countGeneration;
 
-  console.log("nameTitleMapping");
-  console.log(nameTitleMapping);
-  console.log("classesWithFriends");
-  console.log(classesWithFriends);
-  console.log("combinedBlockouts");
-  console.log(combinedBlockouts);
+  const timetableOutputs = findValidTimetables(
+    nameTitleMapping,
+    classesWithFriends,
+    combinedBlockouts
+  );
+
+  const result = convertArrayToObjectWithClasses(
+    convertUrlOutputToArray(getUrlOutputs(timetableOutputs)),
+    linkToClasses
+  );
+
   // Get the generated here
   // generatedTimetable = // can put the data here (me/a user will be the first person)
-  // updateGeneratedTimetable = { ...generatedTimetable, countGeneration: currentGeneation + 1 };
-  // setGeneratedTimetable(updateGeneratedTimetable);
-  // linkToClasses()
+  setGeneratedTimetable({
+    generatedPeople: result,
+    countGeneration: currentGeneation + 1,
+  });
 
   // Navigate to the generation page
 };

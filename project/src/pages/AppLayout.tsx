@@ -10,8 +10,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import Header from '../components/Header';
 import AllMatched from './AllMatched';
 import MyTimetable from './MyTimetable';
@@ -23,6 +21,8 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import PeopleIcon from '@mui/icons-material/People';
 import SettingsIcon from '@mui/icons-material/Settings';
 import SavedTimetable from './SavedTimetable';
+import BeenhereIcon from '@mui/icons-material/Beenhere';
+import { LOCALSTORAGE_KEY_GENERATED_TIMETABLE } from '../constants/constants';
 
 const drawerWidth = 240;
 
@@ -57,7 +57,7 @@ export default function AppLayout(props: Props) {
       icon: <CalendarTodayIcon />
     },
     {
-      name: 'Friends\' timetables',
+      name: 'Friends\' Timetables',
       component: <AllFriends />,
       path: '/friends',
       icon: <PeopleIcon />
@@ -73,22 +73,28 @@ export default function AppLayout(props: Props) {
       component: <SavedTimetable />,
       path: '/saved-timetable',
       icon: <SettingsIcon />
+    },{
+      name: 'Generated Timetables',
+      component: <AllMatched />,
+      path: '/matched',
+      icon: <BeenhereIcon />  
     }
-  ]
+  ];
 
+  const showGeneratedTimetables = localStorage.getItem(LOCALSTORAGE_KEY_GENERATED_TIMETABLE) !== null;
   const drawer = (
     <>
       <Divider />
-      <List sx={{marginY: 10}}>
-        {pages.map((page) => (
-            <ListItem key={page.name} disablePadding sx={{marginY: 3}}>
-              <Link to={page.path} style={{ textDecoration: 'none', color: 'inherit' }}>
+      <List sx={{ marginY: 10 }}>
+        {pages.map((page, ix) => ((ix !== 3 || showGeneratedTimetables) &&
+          <ListItem key={page.name} disablePadding sx={{ marginY: 3 }}>
+            <Link to={page.path} style={{ textDecoration: 'none', color: 'inherit', width: "100%" }}>
               <ListItemButton>
                 <ListItemIcon>
-                    {page.icon}
+                  {page.icon}
                 </ListItemIcon>
-              <ListItemText primary={page.name} />
-            </ListItemButton>
+                <ListItemText primary={page.name} />
+              </ListItemButton>
             </Link>
           </ListItem>
         ))}
@@ -105,7 +111,7 @@ export default function AppLayout(props: Props) {
       <Box sx={{ display: 'flex' }} marginTop={10}>
         <Box
           component="nav"
-          sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 }, height: '90vh', overflow: 'auto', zIndex:0 }}
+          sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 }, height: '90vh', overflow: 'auto', zIndex: 0 }}
           aria-label="mailbox folders"
         >
           {/* The implementation can be swapped with js to avoid SEO duplication of links. */}

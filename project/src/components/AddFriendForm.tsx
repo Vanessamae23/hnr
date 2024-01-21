@@ -36,7 +36,7 @@ const AddFriendForm: React.FC<{
         onChange={(e) => setLink(e.target.value)}
         sx={{ flexGrow: 1 }}
       />
-      <CustomButton onClick={undefined} label="Add Timetable" disabled={link.length == 0}/>
+      <CustomButton onClick={undefined} label="Add Timetable" disabled={link.length === 0} />
     </Box>
   );
 };

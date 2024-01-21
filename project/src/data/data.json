@@ -42192,56 +42192,10 @@
   "CS3223": {
     "Tutorial": [
       {
-        "classNo": "14",
-        "startTime": "1500",
-        "endTime": "1600",
-        "weeks": [
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9,
-          10,
-          11,
-          12,
-          13
-        ],
-        "venue": "COM1-0203",
-        "day": "Friday"
-      },
-      {
-        "classNo": "13",
-        "startTime": "1400",
-        "endTime": "1500",
-        "weeks": [
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9,
-          10,
-          11,
-          12,
-          13
-        ],
-        "venue": "COM1-0203",
-        "day": "Friday"
-      },
-      {
         "classNo": "1",
         "startTime": "0900",
         "endTime": "1000",
         "weeks": [
-          1,
-          2,
           3,
           4,
           5,
@@ -42254,148 +42208,14 @@
           12,
           13
         ],
-        "venue": "COM1-0203",
-        "day": "Wednesday"
-      },
-      {
-        "classNo": "2",
-        "startTime": "1000",
-        "endTime": "1100",
-        "weeks": [
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9,
-          10,
-          11,
-          12,
-          13
-        ],
-        "venue": "COM1-0203",
-        "day": "Wednesday"
-      },
-      {
-        "classNo": "3",
-        "startTime": "1200",
-        "endTime": "1300",
-        "weeks": [
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9,
-          10,
-          11,
-          12,
-          13
-        ],
-        "venue": "COM1-0203",
+        "venue": "COM2-0108",
         "day": "Wednesday"
       },
       {
         "classNo": "10",
-        "startTime": "1400",
-        "endTime": "1500",
+        "startTime": "1200",
+        "endTime": "1300",
         "weeks": [
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9,
-          10,
-          11,
-          12,
-          13
-        ],
-        "venue": "COM1-0203",
-        "day": "Thursday"
-      },
-      {
-        "classNo": "11",
-        "startTime": "1500",
-        "endTime": "1600",
-        "weeks": [
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9,
-          10,
-          11,
-          12,
-          13
-        ],
-        "venue": "COM1-0203",
-        "day": "Thursday"
-      },
-      {
-        "classNo": "9",
-        "startTime": "1300",
-        "endTime": "1400",
-        "weeks": [
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9,
-          10,
-          11,
-          12,
-          13
-        ],
-        "venue": "COM1-0203",
-        "day": "Thursday"
-      },
-      {
-        "classNo": "4",
-        "startTime": "1300",
-        "endTime": "1400",
-        "weeks": [
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9,
-          10,
-          11,
-          12,
-          13
-        ],
-        "venue": "COM1-0203",
-        "day": "Wednesday"
-      },
-      {
-        "classNo": "5",
-        "startTime": "0900",
-        "endTime": "1000",
-        "weeks": [
-          1,
-          2,
           3,
           4,
           5,
@@ -42413,11 +42233,29 @@
       },
       {
         "classNo": "6",
-        "startTime": "1000",
-        "endTime": "1100",
+        "startTime": "1400",
+        "endTime": "1500",
         "weeks": [
-          1,
-          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "venue": "COM2-0108",
+        "day": "Wednesday"
+      },
+      {
+        "classNo": "12",
+        "startTime": "1400",
+        "endTime": "1500",
+        "weeks": [
           3,
           4,
           5,
@@ -42435,11 +42273,29 @@
       },
       {
         "classNo": "8",
+        "startTime": "1000",
+        "endTime": "1100",
+        "weeks": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "venue": "COM1-0203",
+        "day": "Thursday"
+      },
+      {
+        "classNo": "4",
         "startTime": "1200",
         "endTime": "1300",
         "weeks": [
-          1,
-          2,
           3,
           4,
           5,
@@ -42452,16 +42308,14 @@
           12,
           13
         ],
-        "venue": "COM1-0203",
-        "day": "Thursday"
+        "venue": "COM2-0108",
+        "day": "Wednesday"
       },
       {
-        "classNo": "7",
+        "classNo": "9",
         "startTime": "1100",
         "endTime": "1200",
         "weeks": [
-          1,
-          2,
           3,
           4,
           5,
@@ -42478,12 +42332,10 @@
         "day": "Thursday"
       },
       {
-        "classNo": "12",
-        "startTime": "1600",
-        "endTime": "1700",
+        "classNo": "13",
+        "startTime": "1500",
+        "endTime": "1600",
         "weeks": [
-          1,
-          2,
           3,
           4,
           5,
@@ -42498,14 +42350,152 @@
         ],
         "venue": "COM1-0203",
         "day": "Thursday"
+      },
+      {
+        "classNo": "14",
+        "startTime": "1600",
+        "endTime": "1700",
+        "weeks": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "venue": "COM1-0203",
+        "day": "Thursday"
+      },
+      {
+        "classNo": "3",
+        "startTime": "1100",
+        "endTime": "1200",
+        "weeks": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "venue": "COM2-0108",
+        "day": "Wednesday"
+      },
+      {
+        "classNo": "7",
+        "startTime": "0900",
+        "endTime": "1000",
+        "weeks": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "venue": "COM1-0203",
+        "day": "Thursday"
+      },
+      {
+        "classNo": "11",
+        "startTime": "1300",
+        "endTime": "1400",
+        "weeks": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "venue": "COM1-0203",
+        "day": "Thursday"
+      },
+      {
+        "classNo": "5",
+        "startTime": "1300",
+        "endTime": "1400",
+        "weeks": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "venue": "COM2-0108",
+        "day": "Wednesday"
+      },
+      {
+        "classNo": "16",
+        "startTime": "1500",
+        "endTime": "1600",
+        "weeks": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "venue": "COM1-0203",
+        "day": "Friday"
+      },
+      {
+        "classNo": "2",
+        "startTime": "1000",
+        "endTime": "1100",
+        "weeks": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "venue": "COM2-0108",
+        "day": "Wednesday"
       },
       {
         "classNo": "15",
-        "startTime": "1600",
-        "endTime": "1700",
+        "startTime": "1400",
+        "endTime": "1500",
         "weeks": [
-          1,
-          2,
           3,
           4,
           5,
@@ -42542,7 +42532,7 @@
           12,
           13
         ],
-        "venue": "LT11",
+        "venue": "LT16",
         "day": "Friday"
       }
     ]

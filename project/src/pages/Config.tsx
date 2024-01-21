@@ -25,8 +25,11 @@ import { getAllModuleCodes, localStorageToModels } from "../utils/data";
 import { LOCALSTORAGE_KEY_GENERATED_TIMETABLE } from "../constants/constants";
 import { default_GeneratedTimetable } from "../defaults/default";
 import { GeneratedTimetable } from "../types/types";
+import { useNavigate } from "react-router-dom";
 
 function Config() {
+  const navigate = useNavigate();
+
   const [classes, setClasses] = useLocalStorage<LocalStorage_Groups>(
     LOCALSTORAGE_KEY_GROUPS,
     default_LocalStorage_Groups
@@ -88,6 +91,7 @@ function Config() {
       generatedTimetable,
       setGeneratedTimetable
     );
+    navigate("/matched");
   };
 
   return (
@@ -119,13 +123,13 @@ function Config() {
           <Button
             variant="outlined"
             sx={{ borderColor: "grey.300", "&:hover": { bgcolor: "grey.100" } }}
+            onClick={() => navigate("/friends")}
           >
             Back
           </Button>
           <CustomButton
             label="Match"
             onClick={handleSubmit}
-            disabled={classes.length == 0}
           />
         </Box>
       </Box>
