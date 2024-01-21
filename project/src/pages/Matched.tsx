@@ -26,27 +26,29 @@ function Matched() {
 
   if (id >= generatedTimetable.generatedPeople.length) {
     // Consider throwing some error
-    return navigate("/")
+    navigate("/config")
   }
 
   const person = generatedTimetable.generatedPeople[id];
 
   return (
-    <Box sx={{ width: "100%", maxWidth: 1200, mx: "auto", my: 4 }}>
-      <LinkExport timetableLink={person.link} />
-      <Box sx={{ display: "flex", flexDirection: "column" }}>
-        <StaticTimeTable classes={person.classes} />
+    <>
+      <Box sx={{ width: "100%", maxWidth: 1200, mx: "auto", my: 4 }}>
+        <LinkExport timetableLink={person.link} />
+        <Box sx={{ display: "flex", flexDirection: "column" }}>
+          <StaticTimeTable classes={person.classes} />
+        </Box>
+        <Box sx={{ display: "flex", justifyContent: "start", gap: 2, mt: 4 }}>
+          <Button
+            variant="outlined"
+            sx={{ borderColor: "grey.300", "&:hover": { bgcolor: "grey.100" } }}
+            onClick={() => navigate("/matched")}
+          >
+            Back to Generated Timetables
+          </Button>
+        </Box>
       </Box>
-      <Box sx={{ display: "flex", justifyContent: "start", gap: 2, mt: 4 }}>
-        <Button
-          variant="outlined"
-          sx={{ borderColor: "grey.300", "&:hover": { bgcolor: "grey.100" } }}
-          onClick={() => navigate("/matched")}
-        >
-          Back to Generated Timetables
-        </Button>
-      </Box>
-    </Box>
+    </>
   )
 }
 
