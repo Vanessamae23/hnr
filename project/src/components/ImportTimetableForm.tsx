@@ -5,14 +5,19 @@ import {Typography} from "@mui/material";
 
 const ImportTimetableForm: React.FC<{
   onImport: (link: string) => void;
+  onSave: () => void;
   initialValue: string;
-}> = ({ onImport, initialValue="" }) => {
+}> = ({ onImport, initialValue="", onSave }) => {
   const [link, setLink] = useState(initialValue);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     onImport(link);
   };
+
+  const handleSubmitSave = () => {
+    onSave()
+  }
 
   return (
     <FormControl>
@@ -39,6 +44,11 @@ const ImportTimetableForm: React.FC<{
             <CustomButton
             label="Import"
             onClick={handleSubmit}
+            disabled={link === initialValue}
+            />
+            <CustomButton
+            label="Import"
+            onClick={handleSubmitSave}
             disabled={link === initialValue}
             />
         </Box>
