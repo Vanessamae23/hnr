@@ -9,8 +9,7 @@ import AllMatched from './pages/AllMatched';
 import MyTimetable from './pages/MyTimetable';
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import AppLayout from './pages/AppLayout';
-import Login from './pages/Login';
-import Register from './pages/Register';
+import SavedTimetable from './pages/SavedTimetable';
 
 const router = createBrowserRouter([
   {
@@ -20,14 +19,6 @@ const router = createBrowserRouter([
   {
     path: "/timetable",
     element: <AppLayout component={<MyTimetable />} />,
-  },
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/register",
-    element: <Register />,
   },
   {
     path: "/friends/:id",
@@ -40,6 +31,10 @@ const router = createBrowserRouter([
   {
     path: "config",
     element: <AppLayout component={<Config />} />,
+  },
+  {
+    path: "saved-timetable",
+    element: <AppLayout component={<SavedTimetable />} />,
   },
   {
     path: "matched/:id",

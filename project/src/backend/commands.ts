@@ -40,7 +40,7 @@ export const getCurrentUser = (): Promise<User | null> => {
     });
   };
 
-export const register = (email: string, password: string): Promise<User | any> => {
+export const register = (email: string, password: string, onLoginSuccess?: () => void): Promise<User | any> => {
   return new Promise((res, rej) => {
     const auth = getAuth();
     createUserWithEmailAndPassword(auth, email, password).then(
@@ -56,6 +56,9 @@ export const register = (email: string, password: string): Promise<User | any> =
           classes: [],
           // Add other user data as needed
         });
+        if (onLoginSuccess) {
+          onLoginSuccess();
+        }
         alert("Successfully register")
       }
     );
@@ -84,7 +87,7 @@ export const writeClass = (myClass: Class[]) => {
   });
 };
 
-export const getClasses = (): Promise<Class[] | null> => {
+export const getClassesDatabase = (): Promise<Class[] | null> => {
   return new Promise((resolve, reject) => {
     const auth = getAuth();
 
@@ -113,7 +116,7 @@ export const getClasses = (): Promise<Class[] | null> => {
   });
 };
 
-export const login = (email: string, password: string): Promise<User | any> => {
+export const login = (email: string, password: string, onLoginSuccess?: () => void): Promise<User | any> => {
   return new Promise((resolve, reject) => {
     const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
@@ -132,6 +135,9 @@ export const login = (email: string, password: string): Promise<User | any> => {
       })
       .then((res: any) => {
         alert("Successfully register")
+        if (onLoginSuccess) {
+          onLoginSuccess();
+        }
         resolve("Successfully Logged In");
       })
       .catch((error: any) => {

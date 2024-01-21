@@ -22,6 +22,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import PeopleIcon from '@mui/icons-material/People';
 import SettingsIcon from '@mui/icons-material/Settings';
+import SavedTimetable from './SavedTimetable';
 
 const drawerWidth = 240;
 
@@ -65,6 +66,12 @@ export default function AppLayout(props: Props) {
       name: 'Configurations',
       component: <Config />,
       path: '/config',
+      icon: <SettingsIcon />
+    },
+    {
+      name: 'Saved Timetable',
+      component: <SavedTimetable />,
+      path: '/saved-timetable',
       icon: <SettingsIcon />
     }
   ]

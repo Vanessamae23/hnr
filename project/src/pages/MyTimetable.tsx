@@ -1,14 +1,14 @@
+import CustomButton from "../components/CustomButton";
+import { getClassesDatabase, getCurrentUser, writeClass } from "../backend/commands";
+import { User } from "firebase/auth";
 import {
   Box,
-  TextField,
-  Typography,
   List,
   ListItem,
   ListItemText,
   Button,
 } from "@mui/material";
 import * as React from "react";
-import CustomButton from "../components/CustomButton";
 import useLocalStorage from "../helpers/useLocalStorage";
 import { Blockout, LocalStorage_Me } from "../types/types";
 import { default_LocalStorage_Me } from "../defaults/default";
@@ -18,8 +18,7 @@ import { formatISODateToAMPM } from "../utils/utils";
 import { linkToClasses } from "../utils/utils";
 import TimeTable from "../components/Timetable";
 import {Class} from "../types/types";
-import { getClassesDatabase, getCurrentUser, writeClass } from "../backend/commands";
-import { User } from "firebase/auth";
+import ImportTimetableForm from "../components/ImportedTimetableForm";
 
 const MyTimetable = () => {
   const [person, setPerson] = useLocalStorage<LocalStorage_Me>(
@@ -31,17 +30,15 @@ const MyTimetable = () => {
     setPerson(updatedPerson);
   }
 
-  const [user, setUser] = React.useState<User | null>(null)
-  const [linkForm, setLinkForm] = React.useState(person.link)
   const [link, setLink] = React.useState(person.link)
-  
-  React.useEffect(() => {
-    getCurrentUser().then((res) => {
-      setUser(res)
-      retrieve()
-    })
-    
-  }, [person])
+  const [user, setUser] = React.useState<User | null>(null)
+
+  const find = (link: string) => {
+    setLink(link);
+    person.link = link;
+    person.classes = linkToClasses(link);
+    setPerson(person);
+  };
 
 
   const save = () => {
@@ -50,25 +47,6 @@ const MyTimetable = () => {
     })
   }
 
-  const retrieve = () => {
-    getClassesDatabase().then((res) => {
-      if(res) {
-        setLinkForm("")
-        person.classes = res
-        setPerson(person)
-      }
-      
-    })
-  }
-
-  const find = (linkForm) => {
-    setLink(linkForm);
-    person.link = linkForm;
-    person.classes = linkToClasses(linkForm);
-    setPerson(person);
-  };
-
-  
 
   const handleAddBlockOut = (blockOut: {
     day: string;
@@ -90,42 +68,7 @@ const MyTimetable = () => {
   return (
     <Box sx={{ width: "100%", maxWidth: 1200, mx: "auto", my: 4 }}>
       <Box sx={{ display: "flex", flexDirection: "column" }}>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "flex-end",
-            alignItems: "center",
-            gap: (theme) => theme.spacing(2),
-            p: (theme) => theme.spacing(2),
-          }}
-        >
-          <Typography>NUSMods Link: </Typography>
-
-          <TextField
-            id="filled-search"
-            type="search"
-            variant="outlined"
-            sx={{ width: "60%", borderRadius: 20 }}
-            value={linkForm}
-            onChange={(e) => setLinkForm(e.target.value)}
-          />
-          <CustomButton
-            label="Import"
-            onClick={() => find(linkForm)}
-            //disabled={linkForm === link}
-          />
-          <CustomButton
-            label="Save"
-            onClick={() => save()}
-            disabled={user === null || link === null}
-          />
-          <CustomButton
-            label="Retrieve"
-            onClick={() => retrieve()}
-            disabled={user === null }
-          />
-        </Box>
+        <ImportTimetableForm  onSave={save} onImport={find} initialValue={link}/>
         <TimeTable classes={person.classes} setClasses={setClasses} name={""}/>
         <Box sx={{ margin: "16px p", padding: "64px" }}>
           <BlockOutForm onBlockOut={handleAddBlockOut} />
@@ -137,8 +80,8 @@ const MyTimetable = () => {
                   secondary={
                     blockout.startTime && blockout.endTime
                       ? formatISODateToAMPM(blockout.startTime) +
-                      " - " +
-                      formatISODateToAMPM(blockout.endTime)
+                        " - " +
+                        formatISODateToAMPM(blockout.endTime)
                       : ""
                   }
                 />
